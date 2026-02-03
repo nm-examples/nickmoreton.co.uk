@@ -9,7 +9,7 @@ certifi==2025.1.31
 charset-normalizer==3.4.1
 defusedxml==0.7.1
 dj-database-url==2.3.0
-django==5.1.7
+django==5.1.15
 django-browser-reload==1.18.0
 django-filter==25.1
 django-modelcluster==6.4
@@ -33,7 +33,7 @@ pillow==11.1.0
 pillow-heif==0.22.0
 psycopg2==2.9.10
 python-dateutil==2.9.0.post0
-requests==2.32.2
+requests==2.32.4
 s3transfer==0.11.4
 six==1.17.0
 soupsieve==2.6
@@ -41,7 +41,7 @@ sqlparse==0.5.3
 telepath==0.3.1
 typing-extensions==4.12.2
 tzdata==2025.1 ; sys_platform == 'win32'
-urllib3==2.3.0
-wagtail==6.4.1
+urllib3==2.6.3
+wagtail==7.0.4
 whitenoise==6.9.0
 willow==1.9.0
