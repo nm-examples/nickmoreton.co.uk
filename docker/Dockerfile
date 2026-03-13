@@ -8,6 +8,7 @@ EXPOSE 8000
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
+    UV_PROJECT_ENVIRONMENT=/opt/.venv \
     PORT=8000
 
 RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
@@ -18,13 +19,18 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Requirements.
-COPY requirements.txt /
-RUN pip install -U pip && pip install -r /requirements.txt
+# Install uv.
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app
 
 RUN chown wagtail:wagtail /app
+
+# Install dependencies.
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen
+
+ENV PATH="/opt/.venv/bin:$PATH"
 
 COPY --chown=wagtail:wagtail . .
 
