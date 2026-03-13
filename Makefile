@@ -37,7 +37,6 @@ help:
 	@echo "clean          Clean up generated files and folders (node_modules, static, media, etc.)"
 	@echo "frontend       Build the frontend (npm)"
 	@echo "quickstart     Build and start all (npm & docker)"
-	@echo "requirements   Export requirements.txt (uv)"
 	@echo "start          Build the front end and start local development server (npm)"
 	@echo "make-dokku     Make the dokku machine"
 	@echo ""
@@ -135,10 +134,6 @@ start:
 	@npm run build
 	@npm run start
 
-# Export requirements.txt
-.PHONY: requirements
-requirements:
-	@uv export --no-hashes --no-dev --output-file requirements.txt --locked
 
 # Clean up
 # rm -rf ./webapp/static_compiled; \ add when needed
