@@ -16,8 +16,6 @@ repos:
     rev: 0.6.9
     hooks:
       - id: uv-lock # Locks the uv lockfile
-      - id: uv-export # Exports the uv lockfile to requirements.txt
-        args: [--no-hashes, --no-dev, --output-file, requirements.txt, --locked]
   - repo: https://github.com/adamchainz/django-upgrade
     rev: "1.23.1"  # replace with latest tag on GitHub
     hooks:
