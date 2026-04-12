@@ -1,14 +1,14 @@
 repos:
   - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+    rev: 8.0.1
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: 25.1.0
+    rev: 26.3.1
     hooks:
       - id: black
   - repo: https://github.com/pycqa/flake8
-    rev: 7.1.2
+    rev: 7.3.0
     hooks:
       - id: flake8
   - repo: https://github.com/astral-sh/uv-pre-commit
@@ -17,11 +17,11 @@ repos:
     hooks:
       - id: uv-lock # Locks the uv lockfile
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.23.1"  # replace with latest tag on GitHub
+    rev: "1.30.0"
     hooks:
     -   id: django-upgrade
-        args: [--target-version, "5.1"]   # Replace with Django version
+        args: [--target-version, "6.0"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.1
+    rev: v3.21.2
     hooks:
     -   id: pyupgrade
