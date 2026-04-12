@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_browser_reload",
+    "wagtail_unveil",
 ]
 
 MIDDLEWARE = [
@@ -236,3 +237,19 @@ WAGTAILSEARCH_BACKENDS = {
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = env_vars["BASE_URL"] if "BASE_URL" in env_vars else ""
+
+WAGTAIL_UNVEIL_API_KEY = (
+    env_vars["WAGTAIL_UNVEIL_API_KEY"] if "WAGTAIL_UNVEIL_API_KEY" in env_vars else ""
+)
+WAGTAIL_UNVEIL_ENABLE_PRODUCTION_REPORTS = (
+    env_vars.get("WAGTAIL_UNVEIL_ENABLE_PRODUCTION_REPORTS", "false").lower() == "true"
+)
+WAGTAIL_UNVEIL_PLATFORM_DEPENDENCY_FILE = env_vars.get(
+    "WAGTAIL_UNVEIL_PLATFORM_DEPENDENCY_FILE", "pyproject.toml"
+)
+WAGTAIL_UNVEIL_PAGES_PER_TYPE = env_vars.get("WAGTAIL_UNVEIL_PAGES_PER_TYPE", 1)
+WAGTAIL_UNVEIL_SKIP_URL_PREFIXES = (
+    env_vars.get("WAGTAIL_UNVEIL_SKIP_URL_PREFIXES", "").split(",")
+    if "WAGTAIL_UNVEIL_SKIP_URL_PREFIXES" in env_vars
+    else []
+)

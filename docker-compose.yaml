@@ -21,6 +21,11 @@ services:
       WAGTAILADMIN_BASE_URL: http://localhost:8000
       ENVIRONMENT: development
       PYTHONUNBUFFERED: 1
+      WAGTAIL_UNVEIL_API_KEY: 1234
+      WAGTAIL_UNVEIL_ENABLE_PRODUCTION_REPORTS: true
+      WAGTAIL_UNVEIL_PLATFORM_DEPENDENCY_FILE: pyproject.toml
+      WAGTAIL_UNVEIL_PAGES_PER_TYPE: 1
+      WAGTAIL_UNVEIL_SKIP_URL_PREFIXES: django-admin
 
   db:
     image: postgres:16
