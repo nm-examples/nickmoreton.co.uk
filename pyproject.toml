@@ -12,7 +12,8 @@ dependencies = [
     "gunicorn>=23.0.0",
     "psycopg2>=2.9.10",
     "requests==2.32.2",
-    "wagtail>=6.4,<6.5",
+    "wagtail>=7.2,<7.3",
+    "wagtail-unveil",
     "whitenoise==6.9.0",
 ]
 
@@ -25,3 +26,6 @@ dev = [
     "pre-commit>=4.1.0",
     "pyupgrade>=3.19.1",
 ]
+
+[tool.uv.sources]
+wagtail-unveil = { git = "https://github.com/nm-packages/wagtail-unveil" }
