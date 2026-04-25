@@ -1,7 +1,7 @@
 {
   "name": "nickmoreton.co.uk",
   "description": "Wagtail CMS portfolio site",
-  "repository": "https://github.com/wagtail-examples/nickmoreton.co.uk",
+  "repository": "https://github.com/nm-examples/nickmoreton.co.uk",
   "website": "https://www.nickmoreton.co.uk",
   "keywords": [
     "python",

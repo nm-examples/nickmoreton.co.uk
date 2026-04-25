@@ -169,7 +169,7 @@ Git is used to deploy the app to the server.
 ### Add a Git Remote
 
 ```bash
-git remote add dokku dokku@[server-ip-or-doamin]:nickmoreton-staging
+git remote add dokku dokku@[server-ip-or-domain]:nickmoreton-staging
 ```
 
 ### Deploy to Staging

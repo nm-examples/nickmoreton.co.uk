@@ -16,13 +16,15 @@ Use `make quickstart` for the first local boot: it installs frontend dependencie
 Copy `.env.example` to `.env` before starting work.
 
 ## Coding Style & Naming Conventions
-Target Python `3.13`, Django `5.1`, and Wagtail `6.4`. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `black`, `isort`, `flake8`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
+Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `black`, `isort`, `flake8`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
 
 ## Testing Guidelines
 Tests currently use Django’s built-in test runner (`python manage.py test` via `make test`). Add tests near the app they cover; the current example is `webapp/pages/test.py`, but prefer names like `test_models.py` or `test_views.py` as coverage grows. Name test methods `test_<behavior>` and cover page models, template rendering, and custom template tags when you change them.
 
 ## Commit & Pull Request Guidelines
 Recent history uses short, imperative commit subjects such as `Update commands and documentation for copying media files to dokku`. Keep subjects specific and under roughly 72 characters. PRs should explain the user-facing or maintenance impact, list any migrations or environment changes, link related issues, and include screenshots for template or styling updates.
+
+Before making or committing new changes, check the current branch. If it is `main`, create or switch to a feature branch first. Use the `codex/` branch prefix unless the user requests another branch name.
 
 ## Configuration & Data Handling
 Do not commit real secrets or production dumps. Data sync commands such as `make pull-data` and `make pull-media` depend on `.env` values and external tooling; treat them as local-only operations and clean up generated backups after use.

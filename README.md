@@ -1,7 +1,7 @@
 # Nick Moreton's Wagtail-Powered Website 🚀
 
-[![Wagtail](https://img.shields.io/badge/wagtail-6.4-olive.svg)](https://wagtail.org/)
-[![Django](https://img.shields.io/badge/django-5.1-green.svg)](https://www.djangoproject.com/)
+[![Wagtail](https://img.shields.io/badge/wagtail-7.3.1-olive.svg)](https://wagtail.org/)
+[![Django](https://img.shields.io/badge/django-6.0.4-green.svg)](https://www.djangoproject.com/)
 [![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
 
 Welcome to the source code of [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk) - a modern, Django-based website showcasing:
@@ -32,7 +32,7 @@ Update the `.env` file with the correct value for your Heroku app name.
 make quickstart
 ```
 
-- The quickstart will perform and initial build of the frontend assets.
+- The quickstart will perform an initial build of the frontend assets.
 - You will be prompted for the admin username and password.
 
 ```bash
@@ -61,7 +61,7 @@ First build and run should include the following commands:
 make build
 make up
 make migrate
-make runserver
+make run
 ```
 
 Then you can run the following command to start the development environment:

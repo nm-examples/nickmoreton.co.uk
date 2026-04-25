@@ -178,7 +178,7 @@ Save time with our automated setup script:
 bash ./docs/files/dokku-setup.sh
 ```
 
-## Getting data and media files into the Dooku app
+## Getting data and media files into the Dokku app
 
 There's a few ways to do this, but the easiest is to use the provided Makefile commands.
 
@@ -191,7 +191,7 @@ make import-data
 ```
 This will copy the data from the local development environment into the dokku app.
 
-The `export-data` command will create a dump of the database to `db_backups`. The `import-data` command will copt the dump into the dokku machine and import it into the database.
+The `export-data` command will create a dump of the database to `db_backups`. The `import-data` command will copy the dump into the dokku machine and import it into the database.
 
 ### Copy media files
 
@@ -223,4 +223,3 @@ Then run the following commands:
 from wagtail.images.models import Rendition; Rendition.objects.all().delete()
 ```
 This will delete all renditions and force Wagtail to regenerate them when the images are accessed again.
-

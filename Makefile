@@ -5,7 +5,7 @@ include .env # this will make the .env file variables available to the Makefile
 DC=docker compose -f docker-compose.yaml
 DC_APP=app
 MANAGE=python manage.py
-# upate this if you change the MACHINE_NAME in /docs/dokku-setup.sh
+# update this if you change the MACHINE_NAME in /docs/dokku-setup.sh
 DOKKU_MACHINE_NAME=dokku-machine
 # update this if you change the APP_NAME in /docs/dokku-setup.sh
 DOKKU_APP_NAME=myapp
@@ -121,7 +121,7 @@ test:
 .PHONY: quickstart
 quickstart: frontend build up migrate collectstatic superuser
 
-# Build the fontend
+# Build the frontend
 .PHONY: frontend
 frontend:
 	@npm install
