@@ -15,6 +15,11 @@ Use `make quickstart` for the first local boot: it installs frontend dependencie
 
 Copy `.env.example` to `.env` before starting work.
 
+## Local Development & Staging
+Agents may set up the project for local development using `make quickstart` for the first boot, then `make run` for Django and `npm start` for frontend asset watching during day-to-day work. Local Dokku staging is supported by `make make-dokku` and the detailed workflow in `docs/local.dokku.md`.
+
+Only push to the local Dokku staging instance when explicitly requested. Deploy the current branch to Dokku's `main` with `git push dokku <current-branch>:main`. Data and media helpers for local staging are available through `make export-data`, `make import-data`, and `make push-dokku-data`; production data and media sync commands remain local-only and environment-dependent.
+
 ## Coding Style & Naming Conventions
 Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `black`, `isort`, `flake8`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
 
