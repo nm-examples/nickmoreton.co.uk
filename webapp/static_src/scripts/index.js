@@ -80,20 +80,37 @@ function animate(tagLine, items) {
 const copyButtons = document.querySelectorAll("[data-copy]");
 if (copyButtons) {
   copyButtons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const text = btn.parentElement.nextElementSibling.value;
-      navigator.clipboard.writeText(text);
-      const copyMessageContainer =
-        btn.parentElement.parentElement.querySelector(".copy");
-      const originalMessage = copyMessageContainer.innerHTML;
-      copyMessageContainer.innerHTML = "Copied!";
-      const int = setInterval(() => {
-        copyMessageContainer.innerHTML = originalMessage;
-        clearInterval(int);
-      }, 1000);
+    btn.addEventListener("click", () => {
+      copyCode(btn);
+    });
+    btn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        copyCode(btn);
+      }
     });
   });
+}
+
+async function copyCode(btn) {
+  const codeBlock = btn.closest(".code-block");
+  const codeSource = codeBlock?.querySelector("[data-code-source]");
+  if (!codeSource) {
+    return;
+  }
+
+  const originalMessage = btn.innerHTML;
+  try {
+    await navigator.clipboard.writeText(codeSource.value);
+    btn.innerHTML = "Copied!";
+  } catch {
+    btn.innerHTML = "Copy failed";
+  }
+
+  const int = setInterval(() => {
+    btn.innerHTML = originalMessage;
+    clearInterval(int);
+  }, 1000);
 }
 
 // Toggle mobile nav

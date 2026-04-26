@@ -7,7 +7,6 @@ pre {
 
 .code-block {
     position: relative;
-    cursor: pointer;
     .lang {
         position: absolute;
         top: 0;
@@ -24,6 +23,15 @@ pre {
         color: $not-so-dark;
         padding: .2rem .5rem;
         opacity: 0;
+        cursor: pointer;
+
+        &:focus,
+        &:focus-visible {
+            border-color: transparent;
+            box-shadow: none;
+            outline: none;
+        }
+
         @media screen and (min-width: $desktop-breakpoint) {
             position: absolute;
             top:0;

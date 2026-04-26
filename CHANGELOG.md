@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 - Add Biome checks for frontend JavaScript and JSON files.
+- Make code block copy tabs directly clickable and remove unwanted panel cursor and focus border styling.
 - Upgrade the local Node version and frontend build dependencies.
 
 ## 2026-04-26
