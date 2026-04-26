@@ -5,10 +5,11 @@ include .env # this will make the .env file variables available to the Makefile
 DC=docker compose -f docker-compose.yaml
 DC_APP=app
 MANAGE=python manage.py
-# upate this if you change the MACHINE_NAME in /docs/dokku-setup.sh
+# update this if you change the MACHINE_NAME in scripts/dokku-setup.sh
 DOKKU_MACHINE_NAME=dokku-machine
-# update this if you change the APP_NAME in /docs/dokku-setup.sh
+# update this if you change the APP_NAME in scripts/dokku-setup.sh
 DOKKU_APP_NAME=myapp
+DOKKU_DB_NAME=$(DOKKU_APP_NAME)-db
 
 .PHONY: help
 help:
@@ -58,7 +59,7 @@ help:
 	@echo "                from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
 	@echo "                to clear the cached images"
 	@echo "export-data     Export the data from the postgres database to a file"
-	@echo "import-data     Import the data from the file into the postgres database"
+	@echo "import-data     Import the data from the file into the dokku postgres database"
 	@echo ""
 	
 
@@ -121,7 +122,7 @@ test:
 .PHONY: quickstart
 quickstart: frontend build up migrate collectstatic superuser
 
-# Build the fontend
+# Build the frontend
 .PHONY: frontend
 frontend:
 	@npm install
@@ -154,7 +155,7 @@ clean:
 # Make the dokku machine
 .PHONY: make-dokku
 make-dokku:
-	@bash ./docs/files/dokku-setup.sh
+	@bash ./scripts/dokku-setup.sh
 
 # Pull the data using the Heroku CLI and import it into the local database
 .PHONY: pull-data
@@ -181,8 +182,8 @@ export-data:
 .PHONY: import-data
 import-data:
 	echo "Importing data into the dokku postgres database"
-	orbctl push -m dokku-machine db_backups/backup.dump /root/backup.dump
-	orbctl exec -m dokku-machine bash -c 'dokku postgres:import myapp-db < /root/backup.dump'
+	orbctl push -m $(DOKKU_MACHINE_NAME) db_backups/backup.dump /root/backup.dump
+	orbctl exec -m $(DOKKU_MACHINE_NAME) bash -c 'dokku postgres:import $(DOKKU_DB_NAME) < /root/backup.dump'
 
 # Pull the media from the S3 bucket
 # Not sure why but if you have .s3cfg in your home directory it will use that for the s3cmd command keys etc.
@@ -209,16 +210,14 @@ push-dokku-data:
 	@echo "#!/bin/bash" > copy-media.sh
 	@echo "WORKDIR=$(WORKDIR)" >> copy-media.sh
 	@echo "DOKKU_APP_NAME=$(DOKKU_APP_NAME)" >> copy-media.sh
-	@echo "cp -r $(WORKDIR)/media/original_images/ ." >> copy-media.sh
-	@echo "cp -r $(WORKDIR)/media/original_images/ /var/lib/dokku/data/storage/myapp/media/" >> copy-media.sh
+	@echo "cp -r $(WORKDIR)/media/original_images/ /var/lib/dokku/data/storage/$(DOKKU_APP_NAME)/media/" >> copy-media.sh
 	@echo "dokku storage:ensure-directory $(DOKKU_APP_NAME) --chown herokuish" >> copy-media.sh
 	@orbctl push -m $(DOKKU_MACHINE_NAME) copy-media.sh /root/copy-media.sh
 	@orbctl exec -m $(DOKKU_MACHINE_NAME) bash -c 'chmod +x /root/copy-media.sh'
 	@echo "========================================================="
 	@echo "Now run the following command on the dokku machine:"
-	@echo "./copy-media.sh"
+	@echo "orbctl run -m $(DOKKU_MACHINE_NAME) -u root bash -c '/root/copy-media.sh'"
 	@echo "Enter the dokku machine with: 'dokku enter $(DOKKU_APP_NAME)' and run the following command:"
-	@echo "./manage.py shell to enter the Django shell"
 	@echo "and run: ./manage.py shell"
 	@echo "and run: from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
 	@echo "========================================================="

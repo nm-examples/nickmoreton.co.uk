@@ -34,7 +34,7 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - dbdata:/var/lib/postgresql/data
-      # Mount the local directory ./dbbackups to /backups in the container
+      # Mount the local directory ./db_backups to /db_backups in the container
       # so that the backups can be imported/exported
       - ./db_backups:/db_backups:rw
     healthcheck:

@@ -1,15 +1,36 @@
-# Local Development with Dokku on OrbStack 🛠️
+# Local Dokku Staging with OrbStack
 
-This guide helps you create a production-like environment locally using OrbStack and Dokku.
+This guide helps you create a local staging environment using OrbStack and Dokku for production-like verification before deployment.
 
-⚠️ **Note**: This is for development/testing purposes, not permanent deployment. For production, see our [Linode deployment guide](./linode.dokku.md).
+**Note:** This is for staging/testing deployment behavior, not day-to-day local development or permanent deployment.
+
+The default local machine name is `dokku-machine`. The default local app name is `myapp`. These names match the Makefile defaults and `scripts/dokku-setup.sh`; update both places if you change them.
+
+## Happy Path
+
+1. Install OrbStack.
+2. Create the `dokku-machine` OrbStack machine.
+3. Install Dokku, Postgres, and your SSH key.
+4. Create the `myapp` app and `myapp-db` database.
+5. Configure buildpacks, environment variables, persistent media storage, and nginx media serving.
+6. Add the `dokku` git remote.
+7. Deploy `main` with `git push dokku main`, or deploy a feature branch with `git push dokku <current-branch>:main`.
+8. Create a Wagtail superuser and optionally copy local data/media using the [data and media workflow](./data-and-media.md).
+
+Most of the machine and app setup is wrapped by:
+
+```bash
+make make-dokku
+```
+
+Run it from the project root after copying `.env.example` to `.env`.
 
 ## Key Features
-- 🔄 Heroku-compatible buildpacks
-- 💾 Local storage system
-- 🗄️ PostgreSQL database
-- 🔒 HTTPS with local domain
-- 🚀 Git-push deployments
+- Heroku-compatible buildpacks
+- Local storage system
+- PostgreSQL database
+- HTTPS with local domain
+- Git-push deployments
 
 ## Prerequisites
 - [OrbStack](https://orbstack.dev/) installed
@@ -81,6 +102,9 @@ orbctl run -m dokku-machine -u root bash -c "dokku buildpacks:add myapp https://
 orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp DJANGO_SECRET_KEY=supersecretkey --no-restart"
 orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp DJANGO_ALLOWED_HOSTS=myapp.dokku-machine.orb.local --no-restart"
 orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp DJANGO_CSRF_TRUSTED_ORIGINS=https://myapp.dokku-machine.orb.local --no-restart"
+orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp WAGTAIL_UNVEIL_API_KEY=local-dokku-key --no-restart"
+orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp WAGTAIL_UNVEIL_ENABLE_PRODUCTION_REPORTS=true --no-restart"
+orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp WAGTAIL_UNVEIL_SKIP_URL_PREFIXES=django-admin,__reload__ --no-restart"
 # -----> Setting config vars
 # ...
 
@@ -142,7 +166,19 @@ orbctl run -m dokku-machine -u root bash -c "dokku enter myapp"
 ```
 
 ## Accessing the App
-You should be able to access the app at `https://myapp.dokku-machine.orb.local` and the admin at `https://myapp.dokku-machine.orb.local/admin`.
+The local setup serves the app over HTTP unless you add HTTPS separately:
+
+- Site: `http://myapp.dokku-machine.orb.local`
+- Admin: `http://myapp.dokku-machine.orb.local/admin`
+
+Verify the deployment with:
+
+```bash
+curl -I -L http://myapp.dokku-machine.orb.local
+orbctl run -m dokku-machine -u root bash -c "dokku ps:report myapp"
+```
+
+If running commands from a sandboxed tool such as Codex, OrbStack and Docker socket commands may need elevated host access. A plain terminal session should not need anything extra.
 
 ## Troubleshooting
 
@@ -167,60 +203,29 @@ orbctl run -m dokku-machine -u root bash -c "ls -l /var/lib/dokku/data/storage/m
 
 And try uploading again.
 
-## Quick Setup Script 🚀
+## Quick Setup Script
 
-Save time with our automated setup script:
+Save time with the automated setup script:
 
-[dokku-setup.sh](./files/dokku-setup.sh) Don't forget to modify the SSH key in the script before running it.
-
-```bash
-# Ensure to modify ssh-key in the script first
-bash ./docs/files/dokku-setup.sh
-```
-
-## Getting data and media files into the Dooku app
-
-There's a few ways to do this, but the easiest is to use the provided Makefile commands.
-
-### Copy development data
+[dokku-setup.sh](../scripts/dokku-setup.sh) uses the first available public key from `~/.ssh/id_ed25519.pub`, `~/.ssh/id_rsa.pub`, or `~/.ssh/id_ecdsa.pub`.
 
 ```bash
-# Copy the development data into the dokku app
-make export-data
-make import-data
+bash ./scripts/dokku-setup.sh
 ```
-This will copy the data from the local development environment into the dokku app.
 
-The `export-data` command will create a dump of the database to `db_backups`. The `import-data` command will copt the dump into the dokku machine and import it into the database.
-
-### Copy media files
+To use a different public key, pass it explicitly:
 
 ```bash
-# Copy the media files into the dokku app
-make push-dokku-data
-```
-This will create a script `copy-media.sh` which is pushed over to the dokku machine.
-
-You then need to run the script on the dokku machine to copy the files over.
-
-```bash
-# Run the script on the dokku machine
-./copy-media.sh
-```
-This will copy the media files from the local development environment into the dokku app.
-
-If your images are not showing up, you may need to delete renditions using the Django shell
-
-In a console on the dokku machine, run:
-
-```bash
-./manage.py shell
+SSH_KEY_PATH=~/.ssh/example.pub bash ./scripts/dokku-setup.sh
 ```
 
-Then run the following commands:
+## Getting data and media files into the Dokku app
 
-```python
-from wagtail.images.models import Rendition; Rendition.objects.all().delete()
-```
-This will delete all renditions and force Wagtail to regenerate them when the images are accessed again.
+Use the provided Makefile commands to export local Docker data, import it into local Dokku, and copy local media files. See [Data and media workflows](./data-and-media.md) for the full guide and cleanup notes.
 
+## Troubleshooting Checklist
+
+- If a deploy fails during build, confirm the buildpack order is Node.js first, then Python.
+- If static files are missing, rebuild frontend assets and confirm the deploy ran `collectstatic`.
+- If media uploads fail, check that the mounted media directory is owned by `32767:32767`.
+- If the site returns host or CSRF errors, check `DJANGO_ALLOWED_HOSTS` and `DJANGO_CSRF_TRUSTED_ORIGINS`.
