@@ -20,7 +20,9 @@ Use Docker Compose for normal local development: `make quickstart` for the first
 
 Use Dokku only as a local staging environment for production-like verification before deployment. Local Dokku staging is documented in `docs/local.dokku.md`.
 
-Only push to the local Dokku staging instance when explicitly requested. Deploy the current branch to Dokku's `main` with `git push dokku <current-branch>:main`. Data and media workflows are documented in `docs/data-and-media.md`; production data and media sync commands remain local-only and environment-dependent.
+Feature branches should target the GitHub `staging` branch for integration and local Dokku verification. Deploy `staging` to the local Dokku app with `git push dokku staging:main`; the `main` ref here is Dokku's app deployment target, not the GitHub production branch. Only push to the local Dokku staging instance when explicitly requested. Data and media workflows are documented in `docs/data-and-media.md`; production data and media sync commands remain local-only and environment-dependent.
+
+The GitHub `main` branch is protected because pull requests merged into `main` automatically deploy to production. Never merge `staging` into `main`; production changes must go through deliberate PRs targeting `main`.
 
 ## Coding Style & Naming Conventions
 Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `ruff`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
@@ -35,7 +37,7 @@ Update `CHANGELOG.md` with each commit when the change is user-facing, operation
 
 PRs should explain the user-facing or maintenance impact, list any migrations or environment changes, link related issues, and include screenshots for template or styling updates. When pushing additional code to a branch that already has an open PR, update the PR body so it reflects the latest notable changes and matches the changelog where relevant.
 
-Before making or committing new changes, check the current branch. If it is `main`, create or switch to a feature branch first. Use the `codex/` branch prefix unless the user requests another branch name.
+Before making or committing new changes, check the current branch. If it is `main`, create or switch to a feature branch first. Use the `codex/` branch prefix unless the user requests another branch name. Open PRs for feature work against `staging` unless the user explicitly requests a production PR against protected `main`.
 
 ## Configuration & Data Handling
 Do not commit real secrets or production dumps. Data sync commands such as `make pull-data` and `make pull-media` depend on `.env` values and external tooling; treat them as local-only operations and clean up generated backups after use. See `docs/data-and-media.md` for the full workflow and generated files.

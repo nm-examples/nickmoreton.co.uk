@@ -14,7 +14,7 @@ The default local machine name is `dokku-machine`. The default local app name is
 4. Create the `myapp` app and `myapp-db` database.
 5. Configure buildpacks, environment variables, persistent media storage, and nginx media serving.
 6. Add the `dokku` git remote.
-7. Deploy `main` with `git push dokku main`, or deploy a feature branch with `git push dokku <current-branch>:main`.
+7. Deploy the GitHub `staging` branch with `git push dokku staging:main`.
 8. Create a Wagtail superuser and optionally copy local data/media using the [data and media workflow](./data-and-media.md).
 
 Most of the machine and app setup is wrapped by:
@@ -150,12 +150,11 @@ From the root of the project:
 git remote add dokku dokku@dokku-machine@orb:myapp
 git remote -v # to check (optional)
 
-# On the first deployment the app should be restarted so will capture any of the above changes
-git push dokku main
+# On the first deployment the app should be restarted so will capture any of the above changes.
+# This deploys GitHub's staging branch to Dokku's app main ref.
+git push dokku staging:main
 # =====> Application deployed:
 #        http://myapp.dokku-machine.orb.local
-# and optional command to deploy could be
-git push dokku current_branch_name:main
 
 # now you will need to set an admin user login
 orbctl run -m dokku-machine -u root bash -c "dokku enter myapp"
@@ -163,6 +162,16 @@ orbctl run -m dokku-machine -u root bash -c "dokku enter myapp"
 ./manage.py createsuperuser
 # If need be other commands could be run here
 # Exit the container
+```
+
+Use `staging` as the integration branch for feature work before production. The GitHub `main` branch is protected because PRs merged into `main` automatically deploy to production. Do not merge `staging` into `main`; production changes should go through deliberate PRs targeting `main`.
+
+For local Dokku verification, deploy only `staging`:
+
+```bash
+git switch staging
+git pull --ff-only origin staging
+git push dokku staging:main
 ```
 
 ## Accessing the App
@@ -176,6 +185,9 @@ Verify the deployment with:
 ```bash
 curl -I -L http://myapp.dokku-machine.orb.local
 orbctl run -m dokku-machine -u root bash -c "dokku ps:report myapp"
+orbctl run -m dokku-machine -u root bash -c "dokku run myapp python manage.py check"
+orbctl run -m dokku-machine -u root bash -c "dokku run myapp python manage.py makemigrations --check --dry-run"
+orbctl run -m dokku-machine -u root bash -c "dokku run myapp python manage.py test"
 ```
 
 If running commands from a sandboxed tool such as Codex, OrbStack and Docker socket commands may need elevated host access. A plain terminal session should not need anything extra.
