@@ -1,4 +1,9 @@
 repos:
+  - repo: https://github.com/biomejs/pre-commit
+    rev: v2.4.13
+    hooks:
+      - id: biome-ci
+        additional_dependencies: ["@biomejs/biome@2.4.13"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.10
     hooks:

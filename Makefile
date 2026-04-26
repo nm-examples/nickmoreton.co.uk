@@ -37,6 +37,7 @@ help:
 	@echo "====================="
 	@echo "clean          Clean up generated files and folders (node_modules, static, media, etc.)"
 	@echo "frontend       Build the frontend (npm)"
+	@echo "frontend-check Check frontend formatting and linting (npm)"
 	@echo "quickstart     Build and start all (npm & docker)"
 	@echo "start          Build the front end and start local development server (npm)"
 	@echo "make-dokku     Make the dokku machine"
@@ -127,6 +128,12 @@ quickstart: frontend build up migrate collectstatic superuser
 frontend:
 	@npm install
 	@npm run build
+
+# Check the frontend
+.PHONY: frontend-check
+frontend-check:
+	@npm install
+	@npm run biome:check
 
 # Start the frontend and run the local development server
 .PHONY: start

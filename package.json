@@ -15,9 +15,12 @@
     "images": "node scripts/images.js",
     "clean": "rm -rf static_compiled",
     "build": "concurrently \"npm run styles:prod\" \"npm run scripts:prod\" \"npm run images\"",
-    "start": "concurrently \"npm run clean\" \"npm run styles:watch\" \"npm run scripts:watch\" \"npm run images\""
+    "start": "concurrently \"npm run clean\" \"npm run styles:watch\" \"npm run scripts:watch\" \"npm run images\"",
+    "biome:check": "biome ci .",
+    "biome:write": "biome check --write ."
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.13",
     "@picocss/pico": "^2.1.1",
     "concurrently": "^9.2.1",
     "esbuild": "^0.28.0",
