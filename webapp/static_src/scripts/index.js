@@ -3,7 +3,6 @@
  * It is responsible for:
  * - Highlighting code blocks
  * - Animating the tagline
- * - Making the aside sticky
  * - Copying code snippets
  * - Toggling the mobile nav
  */
@@ -67,7 +66,7 @@ if (animatedTagline) {
 
 function animate(tagLine, items) {
   let count = 0;
-  let interval = setInterval(() => {
+  const interval = setInterval(() => {
     if (count === items.length - 1) {
       tagLine.classList.add("finished");
       clearInterval(interval);
@@ -75,35 +74,6 @@ function animate(tagLine, items) {
     tagLine.innerHTML = items[count];
     count++;
   }, 300);
-}
-
-// Sticky aside
-const aside = document.querySelector("aside");
-// if (aside) {
-//   document.onscroll = () => {
-//     checkPosition();
-//   };
-// }
-
-function checkPosition() {
-  const nav = document.querySelector("nav");
-  const header = document.querySelector("header");
-  const asideTop =
-    document.scrollingElement.scrollTop -
-    (nav.offsetHeight + header.offsetHeight);
-  const screenWidth = window.innerWidth;
-  if (screenWidth >= 1080) {
-    if (nav.offsetHeight + header.offsetHeight < window.scrollY) {
-      aside.style.transform = `translateY(${asideTop}px)`;
-      aside.classList.add("sticky");
-    } else {
-      aside.style.transform = `translateY(0px)`;
-      aside.classList.remove("sticky");
-    }
-  } else {
-    aside.style.transform = `translateY(0px)`;
-    aside.classList.remove("sticky");
-  }
 }
 
 // Copy code snippets

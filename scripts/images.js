@@ -1,10 +1,10 @@
-const sharp = require('sharp');
-const fs = require('fs');
-const path = require('path');
+const sharp = require("sharp");
+const fs = require("node:fs");
+const path = require("node:path");
 
 // Input and output directories
-const inputDirectory = path.join(__dirname, '../webapp/static_src/img/');
-const outputDirectory = path.join(__dirname, '../webapp/static_compiled/img/');
+const inputDirectory = path.join(__dirname, "../webapp/static_src/img/");
+const outputDirectory = path.join(__dirname, "../webapp/static_compiled/img/");
 
 // Resizing constraints
 const maxWidth = 1920;
@@ -23,12 +23,12 @@ files.forEach((file) => {
   if (file.match(/\.(jpg|jpeg|png|gif)$/)) {
     sharp(`${inputDirectory}/${file}`)
       .resize(maxWidth, maxHeight, {
-        fit: 'inside',
+        fit: "inside",
         withoutEnlargement: true,
       })
       .jpeg({ quality: 80, progressive: true }) // Progressive JPEGs
       .webp({ quality: 80 }) // Convert to WebP format
-      .toFile(`${outputDirectory}/${file}`, (err, info) => {
+      .toFile(`${outputDirectory}/${file}`, (err) => {
         if (err) {
           console.error(`Error processing ${file}: ${err}`);
         } else {
