@@ -1,4 +1,4 @@
-# Production Deployment with Dokku on Linode 🚀
+# Production Deployment with Dokku on Linode
 
 Set up a production environment using Linode (Akamai Cloud) and Dokku. Need a local testing environment instead? Check our [local setup guide](./local.dokku.md).
 
@@ -9,10 +9,10 @@ Set up a production environment using Linode (Akamai Cloud) and Dokku. Need a lo
 ➡️ [Get started with Linode](https://www.linode.com/lp/refer/?r=2973f4e51059904e42c0dc36b66be18e54f25282)
 
 ## Features
-- 🔒 Automatic SSL with Let's Encrypt
-- 🗄️ Managed PostgreSQL
-- 📁 Persistent storage
-- 🚀 Git-push deployments
+- Automatic SSL with Let's Encrypt
+- Managed PostgreSQL
+- Persistent storage
+- Git-push deployments
 
 ## Install Dokku
 
@@ -152,7 +152,7 @@ dokku letsencrypt:cron-job --add
 dokku letsencrypt:list # to check the status
 ```
 
-## Deployment Checklist ✅
+## Deployment Checklist
 
 1. [ ] Server created and accessible
 2. [ ] Domain DNS configured
@@ -187,3 +187,7 @@ The deploy process will run the following:
 - Restart the nginx server
 
 It should be working after this and a domain link should be shown.
+
+## Data and Media
+
+Use the focused [data and media workflow](./data-and-media.md) for Heroku-backed local imports, local database exports, and media copy helpers. Treat production data and media commands as intentional local operations and do not commit generated dumps or copied secrets.

@@ -1,15 +1,28 @@
-# Local Development with Dokku on OrbStack 🛠️
+# Local Development with Dokku on OrbStack
 
 This guide helps you create a production-like environment locally using OrbStack and Dokku.
 
-⚠️ **Note**: This is for development/testing purposes, not permanent deployment. For production, see our [Linode deployment guide](./linode.dokku.md).
+**Note:** This is for development/testing purposes, not permanent deployment. For production, see the [Linode deployment guide](./linode.dokku.md).
+
+The default local machine name is `dokku-machine`. The default local app name is `myapp`. These names match the Makefile defaults and `docs/files/dokku-setup.sh`; update both places if you change them.
+
+## Happy Path
+
+1. Install OrbStack.
+2. Create the `dokku-machine` OrbStack machine.
+3. Install Dokku, Postgres, and your SSH key.
+4. Create the `myapp` app and `myapp-db` database.
+5. Configure buildpacks, environment variables, persistent media storage, and nginx media serving.
+6. Add the `dokku` git remote.
+7. Deploy `main` with `git push dokku main`, or deploy a feature branch with `git push dokku <current-branch>:main`.
+8. Create a Wagtail superuser and optionally copy local data/media using the [data and media workflow](./data-and-media.md).
 
 ## Key Features
-- 🔄 Heroku-compatible buildpacks
-- 💾 Local storage system
-- 🗄️ PostgreSQL database
-- 🔒 HTTPS with local domain
-- 🚀 Git-push deployments
+- Heroku-compatible buildpacks
+- Local storage system
+- PostgreSQL database
+- HTTPS with local domain
+- Git-push deployments
 
 ## Prerequisites
 - [OrbStack](https://orbstack.dev/) installed
@@ -167,7 +180,7 @@ orbctl run -m dokku-machine -u root bash -c "ls -l /var/lib/dokku/data/storage/m
 
 And try uploading again.
 
-## Quick Setup Script 🚀
+## Quick Setup Script
 
 Save time with our automated setup script:
 
@@ -180,46 +193,11 @@ bash ./docs/files/dokku-setup.sh
 
 ## Getting data and media files into the Dokku app
 
-There's a few ways to do this, but the easiest is to use the provided Makefile commands.
+Use the provided Makefile commands to export local Docker data, import it into local Dokku, and copy local media files. See [Data and media workflows](./data-and-media.md) for the full guide and cleanup notes.
 
-### Copy development data
+## Troubleshooting Checklist
 
-```bash
-# Copy the development data into the dokku app
-make export-data
-make import-data
-```
-This will copy the data from the local development environment into the dokku app.
-
-The `export-data` command will create a dump of the database to `db_backups`. The `import-data` command will copy the dump into the dokku machine and import it into the database.
-
-### Copy media files
-
-```bash
-# Copy the media files into the dokku app
-make push-dokku-data
-```
-This will create a script `copy-media.sh` which is pushed over to the dokku machine.
-
-You then need to run the script on the dokku machine to copy the files over.
-
-```bash
-# Run the script on the dokku machine
-./copy-media.sh
-```
-This will copy the media files from the local development environment into the dokku app.
-
-If your images are not showing up, you may need to delete renditions using the Django shell
-
-In a console on the dokku machine, run:
-
-```bash
-./manage.py shell
-```
-
-Then run the following commands:
-
-```python
-from wagtail.images.models import Rendition; Rendition.objects.all().delete()
-```
-This will delete all renditions and force Wagtail to regenerate them when the images are accessed again.
+- If a deploy fails during build, confirm the buildpack order is Node.js first, then Python.
+- If static files are missing, rebuild frontend assets and confirm the deploy ran `collectstatic`.
+- If media uploads fail, check that the mounted media directory is owned by `32767:32767`.
+- If the site returns host or CSRF errors, check `DJANGO_ALLOWED_HOSTS` and `DJANGO_CSRF_TRUSTED_ORIGINS`.
