@@ -5,9 +5,9 @@ include .env # this will make the .env file variables available to the Makefile
 DC=docker compose -f docker-compose.yaml
 DC_APP=app
 MANAGE=python manage.py
-# update this if you change the MACHINE_NAME in /docs/dokku-setup.sh
+# update this if you change the MACHINE_NAME in scripts/dokku-setup.sh
 DOKKU_MACHINE_NAME=dokku-machine
-# update this if you change the APP_NAME in /docs/dokku-setup.sh
+# update this if you change the APP_NAME in scripts/dokku-setup.sh
 DOKKU_APP_NAME=myapp
 DOKKU_DB_NAME=$(DOKKU_APP_NAME)-db
 
@@ -155,7 +155,7 @@ clean:
 # Make the dokku machine
 .PHONY: make-dokku
 make-dokku:
-	@bash ./docs/files/dokku-setup.sh
+	@bash ./scripts/dokku-setup.sh
 
 # Pull the data using the Heroku CLI and import it into the local database
 .PHONY: pull-data

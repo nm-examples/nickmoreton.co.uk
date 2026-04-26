@@ -4,7 +4,7 @@ This guide helps you create a local staging environment using OrbStack and Dokku
 
 **Note:** This is for staging/testing deployment behavior, not day-to-day local development or permanent deployment.
 
-The default local machine name is `dokku-machine`. The default local app name is `myapp`. These names match the Makefile defaults and `docs/files/dokku-setup.sh`; update both places if you change them.
+The default local machine name is `dokku-machine`. The default local app name is `myapp`. These names match the Makefile defaults and `scripts/dokku-setup.sh`; update both places if you change them.
 
 ## Happy Path
 
@@ -207,11 +207,11 @@ And try uploading again.
 
 Save time with our automated setup script:
 
-[dokku-setup.sh](./files/dokku-setup.sh) Don't forget to modify the SSH key in the script before running it.
+[dokku-setup.sh](../scripts/dokku-setup.sh) Don't forget to modify the SSH key in the script before running it.
 
 ```bash
 # Ensure to modify ssh-key in the script first
-bash ./docs/files/dokku-setup.sh
+bash ./scripts/dokku-setup.sh
 ```
 
 ## Getting data and media files into the Dokku app
