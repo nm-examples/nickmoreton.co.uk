@@ -205,13 +205,18 @@ And try uploading again.
 
 ## Quick Setup Script
 
-Save time with our automated setup script:
+Save time with the automated setup script:
 
-[dokku-setup.sh](../scripts/dokku-setup.sh) Don't forget to modify the SSH key in the script before running it.
+[dokku-setup.sh](../scripts/dokku-setup.sh) uses the first available public key from `~/.ssh/id_ed25519.pub`, `~/.ssh/id_rsa.pub`, or `~/.ssh/id_ecdsa.pub`.
 
 ```bash
-# Ensure to modify ssh-key in the script first
 bash ./scripts/dokku-setup.sh
+```
+
+To use a different public key, pass it explicitly:
+
+```bash
+SSH_KEY_PATH=~/.ssh/example.pub bash ./scripts/dokku-setup.sh
 ```
 
 ## Getting data and media files into the Dokku app
