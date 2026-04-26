@@ -52,9 +52,8 @@ jobs:
 
       - name: Check code style
         run: |
-          uv run black --check .
-          uv run isort --check .
-          uv run flake8 .
+          uv run ruff format --check .
+          uv run ruff check .
 
       - name: Check migrations
         run: uv run python manage.py makemigrations --check --dry-run
