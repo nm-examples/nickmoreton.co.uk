@@ -2,7 +2,7 @@
 
 This guide helps you create a local staging environment using OrbStack and Dokku for production-like verification before deployment.
 
-**Note:** This is for staging/testing deployment behavior, not day-to-day local development or permanent deployment. For production, see the [Linode deployment guide](./linode.dokku.md).
+**Note:** This is for staging/testing deployment behavior, not day-to-day local development or permanent deployment.
 
 The default local machine name is `dokku-machine`. The default local app name is `myapp`. These names match the Makefile defaults and `docs/files/dokku-setup.sh`; update both places if you change them.
 
