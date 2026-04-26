@@ -73,6 +73,12 @@ Import that dump into the local Dokku Postgres database:
 make import-data
 ```
 
+Restart the Dokku app after importing so the running process reconnects cleanly:
+
+```bash
+orbctl run -m dokku-machine -u root bash -c "dokku ps:restart myapp"
+```
+
 The default Makefile values target the local Dokku machine `dokku-machine`, app `myapp`, and database `myapp-db`. See [Local Dokku](./local.dokku.md) for the full setup.
 
 ## Copy Local Media to Local Dokku
@@ -86,10 +92,17 @@ make push-dokku-data
 Then run the generated script on the Dokku machine:
 
 ```bash
-./copy-media.sh
+orbctl run -m dokku-machine -u root bash -c "/root/copy-media.sh"
 ```
 
-If images do not appear after copying media, enter the Dokku app shell and clear Wagtail renditions:
+If images do not appear after copying media, SSH into the Dokku machine and enter the app shell:
+
+```bash
+orbctl ssh dokku-machine
+dokku enter myapp
+```
+
+Then run:
 
 ```bash
 ./manage.py shell
@@ -97,6 +110,13 @@ If images do not appear after copying media, enter the Dokku app shell and clear
 
 ```python
 from wagtail.images.models import Rendition; Rendition.objects.all().delete()
+```
+
+Check the app after the import and media copy:
+
+```bash
+curl -I -L http://myapp.dokku-machine.orb.local
+orbctl run -m dokku-machine -u root bash -c "dokku ps:report myapp"
 ```
 
 ## Generated Files and Cleanup

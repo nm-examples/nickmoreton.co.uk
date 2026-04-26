@@ -17,6 +17,14 @@ The default local machine name is `dokku-machine`. The default local app name is
 7. Deploy `main` with `git push dokku main`, or deploy a feature branch with `git push dokku <current-branch>:main`.
 8. Create a Wagtail superuser and optionally copy local data/media using the [data and media workflow](./data-and-media.md).
 
+Most of the machine and app setup is wrapped by:
+
+```bash
+make make-dokku
+```
+
+Run it from the project root after copying `.env.example` to `.env`.
+
 ## Key Features
 - Heroku-compatible buildpacks
 - Local storage system
@@ -94,6 +102,9 @@ orbctl run -m dokku-machine -u root bash -c "dokku buildpacks:add myapp https://
 orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp DJANGO_SECRET_KEY=supersecretkey --no-restart"
 orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp DJANGO_ALLOWED_HOSTS=myapp.dokku-machine.orb.local --no-restart"
 orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp DJANGO_CSRF_TRUSTED_ORIGINS=https://myapp.dokku-machine.orb.local --no-restart"
+orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp WAGTAIL_UNVEIL_API_KEY=local-dokku-key --no-restart"
+orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp WAGTAIL_UNVEIL_ENABLE_PRODUCTION_REPORTS=true --no-restart"
+orbctl run -m dokku-machine -u root bash -c "dokku config:set myapp WAGTAIL_UNVEIL_SKIP_URL_PREFIXES=django-admin,__reload__ --no-restart"
 # -----> Setting config vars
 # ...
 
@@ -155,7 +166,19 @@ orbctl run -m dokku-machine -u root bash -c "dokku enter myapp"
 ```
 
 ## Accessing the App
-You should be able to access the app at `https://myapp.dokku-machine.orb.local` and the admin at `https://myapp.dokku-machine.orb.local/admin`.
+The local setup serves the app over HTTP unless you add HTTPS separately:
+
+- Site: `http://myapp.dokku-machine.orb.local`
+- Admin: `http://myapp.dokku-machine.orb.local/admin`
+
+Verify the deployment with:
+
+```bash
+curl -I -L http://myapp.dokku-machine.orb.local
+orbctl run -m dokku-machine -u root bash -c "dokku ps:report myapp"
+```
+
+If running commands from a sandboxed tool such as Codex, OrbStack and Docker socket commands may need elevated host access. A plain terminal session should not need anything extra.
 
 ## Troubleshooting
 
