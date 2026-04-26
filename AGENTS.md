@@ -16,7 +16,9 @@ Use the root `README.md` for the standard local setup flow. Day-to-day commands:
 Copy `.env.example` to `.env` before starting work.
 
 ## Local Development & Staging
-Agents may set up the project for local development using `make quickstart` for the first boot, then `make run` for Django and `npm start` for frontend asset watching during day-to-day work. Local Dokku staging is documented in `docs/local.dokku.md`.
+Use Docker Compose for normal local development: `make quickstart` for the first boot, then `make run` for Django and `npm start` for frontend asset watching during day-to-day work.
+
+Use Dokku only as a local staging environment for production-like verification before deployment. Local Dokku staging is documented in `docs/local.dokku.md`.
 
 Only push to the local Dokku staging instance when explicitly requested. Deploy the current branch to Dokku's `main` with `git push dokku <current-branch>:main`. Data and media workflows are documented in `docs/data-and-media.md`; production data and media sync commands remain local-only and environment-dependent.
 

@@ -84,5 +84,5 @@ Django Browser Reload is enabled, so browser pages reload when watched frontend 
 ## Focused Docs
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
-- [Local Dokku](./docs/local.dokku.md): production-like local staging with OrbStack and Dokku.
+- [Local Dokku Staging](./docs/local.dokku.md): production-like local staging with OrbStack and Dokku.
 - [Production Dokku](./docs/linode.dokku.md): production or staging deployment on Linode/Akamai Cloud.
