@@ -15,6 +15,7 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 - `webapp/static_compiled/` contains generated frontend assets served by Django.
 - `docker/`, `docker-compose.yaml`, and `Makefile` contain local development support.
 - `docs/` contains deployment, staging, data, and media workflows.
+- `CHANGELOG.md` records notable unreleased and released changes.
 
 ## Requirements
 

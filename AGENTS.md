@@ -28,8 +28,12 @@ Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space
 ## Testing Guidelines
 Tests currently use Django’s built-in test runner (`python manage.py test` via `make test`). Add tests near the app they cover; the current example is `webapp/pages/test.py`, but prefer names like `test_models.py` or `test_views.py` as coverage grows. Name test methods `test_<behavior>` and cover page models, template rendering, and custom template tags when you change them.
 
-## Commit & Pull Request Guidelines
-Recent history uses short, imperative commit subjects such as `Update commands and documentation for copying media files to dokku`. Keep subjects specific and under roughly 72 characters. PRs should explain the user-facing or maintenance impact, list any migrations or environment changes, link related issues, and include screenshots for template or styling updates.
+## Commit, Changelog & Pull Request Guidelines
+Recent history uses short, imperative commit subjects such as `Update commands and documentation for copying media files to dokku`. Keep subjects specific and under roughly 72 characters.
+
+Update `CHANGELOG.md` with each commit when the change is user-facing, operationally meaningful, or otherwise notable. Keep new entries under `Unreleased` until a release section is created.
+
+PRs should explain the user-facing or maintenance impact, list any migrations or environment changes, link related issues, and include screenshots for template or styling updates. When pushing additional code to a branch that already has an open PR, update the PR body so it reflects the latest notable changes and matches the changelog where relevant.
 
 Before making or committing new changes, check the current branch. If it is `main`, create or switch to a feature branch first. Use the `codex/` branch prefix unless the user requests another branch name.
 
