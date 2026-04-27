@@ -33,12 +33,12 @@ When using OrbStack, the site is available at
 <https://prod-nginx.nickmoreton-production.orb.local> and the Wagtail admin is
 available at <https://prod-nginx.nickmoreton-production.orb.local/admin>.
 
-The stack also exposes a localhost fallback at <http://localhost:8000>.
+The stack also exposes a localhost fallback at <http://localhost:8001>.
 
-If port `8000` is already in use, set `PROD_PORT`:
+If port `8001` is already in use, set `PROD_PORT`:
 
 ```bash
-PROD_PORT=8001 make prod-run
+PROD_PORT=8002 make prod-run
 ```
 
 The OrbStack HTTPS URL remains the same when you change `PROD_PORT`.
@@ -71,7 +71,15 @@ nginx containers:
 
 - `static/` is populated by `make prod-collectstatic` and served by nginx at
   `/static/`.
-- `media/` is served by nginx at `/media/`.
+- `prod_media/` is served by nginx at `/media/`.
+
+Production-mode media is intentionally isolated from normal local development
+media. After refreshing local media with `make pull-media`, copy it into the
+production-mode stack with:
+
+```bash
+make prod-push-media
+```
 
 If static files return `404`, run:
 
@@ -80,12 +88,33 @@ npm run build
 make prod-collectstatic
 ```
 
-If media files return `404`, confirm the expected files exist under `media/`.
+If media files return `404`, confirm the expected files exist under
+`prod_media/`.
+
+## Data and media refresh
+
+Use the normal local development workflow as the source of production-derived
+data and media:
+
+```bash
+make pull-data
+make pull-media
+```
+
+Then mirror that local state into the production-mode Compose stack:
+
+```bash
+make prod-push-data
+make prod-push-media
+```
+
+`prod-push-data` replaces only the production-mode Postgres database.
+`prod-push-media` replaces only `prod_media/`.
 
 ## Troubleshooting
 
-- If `localhost:8000` is already in use, stop the normal development server or
-  run the production-mode stack with `PROD_PORT=8001 make prod-run`.
+- If `localhost:8001` is already in use, stop the process using it or run the
+  production-mode stack with `PROD_PORT=8002 make prod-run`.
 - If host or CSRF checks fail, confirm `DJANGO_ALLOWED_HOSTS` and
   `DJANGO_CSRF_TRUSTED_ORIGINS` in `docker-compose.production.yaml`.
 - If the app starts but pages fail before migrations run, run

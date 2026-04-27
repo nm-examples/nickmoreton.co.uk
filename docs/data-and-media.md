@@ -119,6 +119,55 @@ curl -I -L http://myapp.dokku-machine.orb.local
 orbctl run -m dokku-machine -u root bash -c "dokku ps:report myapp"
 ```
 
+## Copy Local Data to Production-Mode Docker
+
+Export the local Docker Postgres database and import it into the isolated
+production-mode Postgres volume:
+
+```bash
+make prod-push-data
+```
+
+This command:
+
+- Exports the normal local development database to `db_backups/backup.dump`.
+- Starts the production-mode Postgres service if needed.
+- Recreates the production-mode `webapp` database.
+- Restores `db_backups/backup.dump` into production-mode Postgres.
+- Starts or recreates the production-mode containers.
+
+To import an existing `db_backups/backup.dump` without exporting again, run:
+
+```bash
+make prod-import-data
+```
+
+This replaces only the production-mode database. It does not modify the normal
+local development database or the Heroku database.
+
+## Copy Local Media to Production-Mode Docker
+
+Copy local development media into the isolated production-mode media directory:
+
+```bash
+make prod-push-media
+```
+
+This command:
+
+- Replaces `prod_media/` with a copy of local `media/`.
+- Starts the production-mode Postgres service if needed.
+- Deletes Wagtail image renditions in the production-mode database so they
+  regenerate from the copied originals.
+
+The production-mode nginx container serves files from `prod_media/` at
+`/media/`. Check the app after importing data and copying media:
+
+```bash
+make prod-run
+curl -I -L https://prod-nginx.nickmoreton-production.orb.local
+```
+
 ## Generated Files and Cleanup
 
 These workflows may create or replace:
@@ -128,6 +177,7 @@ These workflows may create or replace:
 - `.s3cfg`
 - `copy-media.sh`
 - `media/`
+- `prod_media/`
 - local database content
 
 Run cleanup intentionally. The `make clean` target removes generated local development files and destroys Docker data after prompting for confirmation.

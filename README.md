@@ -84,9 +84,9 @@ View the site at
 <https://prod-nginx.nickmoreton-production.orb.local/admin>. Normal development
 still uses `make up`, `make run`, and `npm start`.
 
-The stack also exposes a localhost fallback at <http://localhost:8000>. If port
-`8000` is already in use, set `PROD_PORT`, for example
-`PROD_PORT=8001 make prod-run`; the OrbStack HTTPS URL remains the same.
+The stack also exposes a localhost fallback at <http://localhost:8001>. If port
+`8001` is already in use, set `PROD_PORT`, for example
+`PROD_PORT=8002 make prod-run`; the OrbStack HTTPS URL remains the same.
 
 For step-by-step commands and troubleshooting, see
 [Production-mode local checks](./docs/local.production.md).

@@ -165,6 +165,7 @@ cython_debug/
 node_modules/
 static/
 media/
+prod_media/
 webapp/static_compiled/
 .DS_Store
 /db_backups

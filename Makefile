@@ -37,7 +37,7 @@ help:
 	@echo ""
 	@echo "Miscellaneous targets"
 	@echo "====================="
-	@echo "clean          Clean up generated files and folders (node_modules, static, media, etc.)"
+	@echo "clean          Clean up generated files and folders (node_modules, static, media, prod_media, etc.)"
 	@echo "frontend       Build the frontend (npm)"
 	@echo "frontend-check Check frontend formatting and linting (npm)"
 	@echo "quickstart     Build and start all (npm & docker)"
@@ -49,8 +49,12 @@ help:
 	@echo "prod-build         Build production-mode Docker images"
 	@echo "prod-up            Start production-mode Postgres, Gunicorn, and nginx"
 	@echo "prod-down          Stop production-mode containers"
+	@echo "prod-restart       Restart production-mode containers"
 	@echo "prod-migrate       Run migrations with DEBUG=False settings"
 	@echo "prod-collectstatic Collect static files with DEBUG=False settings"
+	@echo "prod-import-data   Import db_backups/backup.dump into production-mode Postgres"
+	@echo "prod-push-data     Export local dev data and import it into production-mode Postgres"
+	@echo "prod-push-media    Copy local media into isolated production-mode media"
 	@echo "prod-run           Build assets, prepare the database/static files, and start production-mode containers"
 	@echo ""
 	@echo "Pulling data from Heroku and S3"
@@ -155,7 +159,7 @@ start:
 
 .PHONY: prod-prepare
 prod-prepare:
-	@mkdir -p static media db_backups
+	@mkdir -p static media prod_media db_backups
 
 .PHONY: prod-build
 prod-build: prod-prepare
@@ -169,6 +173,10 @@ prod-up: prod-prepare
 prod-down:
 	@$(DCP) down
 
+.PHONY: prod-restart
+prod-restart:
+	@$(DCP) restart
+
 .PHONY: prod-migrate
 prod-migrate: prod-prepare
 	@$(DCP) run --rm $(DCP_APP) $(MANAGE) migrate
@@ -176,6 +184,32 @@ prod-migrate: prod-prepare
 .PHONY: prod-collectstatic
 prod-collectstatic: prod-prepare
 	@$(DCP) run --rm $(DCP_APP) $(MANAGE) collectstatic --noinput
+
+.PHONY: prod-import-data
+prod-import-data: prod-prepare
+	@if [ ! -f db_backups/backup.dump ]; then echo "db_backups/backup.dump is missing. Run make export-data first."; exit 1; fi
+	@echo "Importing db_backups/backup.dump into production-mode Postgres"
+	@$(DCP) up -d prod-db
+	-@$(DCP) stop prod-app prod-nginx
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '\''webapp'\'' AND pid <> pg_backend_pid();"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
+	@$(DCP) exec prod-db sh -c 'pg_restore -U postgres -d webapp /db_backups/backup.dump'
+	@echo "Production-mode data imported"
+
+.PHONY: prod-push-data
+prod-push-data: export-data prod-import-data prod-up
+
+.PHONY: prod-push-media
+prod-push-media: prod-prepare
+	@if [ ! -d media ]; then echo "media directory is missing. Run make pull-media first or add local media."; exit 1; fi
+	@echo "Copying local media into isolated production-mode media"
+	@mkdir -p prod_media
+	@find prod_media -mindepth 1 -exec rm -rf {} +
+	@cp -R media/. prod_media/
+	@$(DCP) up -d prod-db
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) shell -c "from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
+	@echo "Production-mode media copied and renditions cleared"
 
 .PHONY: prod-run
 prod-run: frontend prod-build prod-migrate prod-collectstatic prod-up
@@ -188,12 +222,12 @@ prod-run: frontend prod-build prod-migrate prod-collectstatic prod-up
 .PHONY: clean
 clean:
 	@echo "WARNING:"
-	@echo "This will destroy all data in the database and remove all generated files and folders (node_modules, static, media)"
+	@echo "This will destroy all data in the database and remove all generated files and folders (node_modules, static, media, prod_media)"
 	@read -p "Are you sure? [y/N] " -n 1 -r; \
 	echo; \
 	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
 		make destroy; \
-		rm -rf ./node_modules ./static ./media ./db_backups db.sqlite3 webapp/static_compiled .s3cfg bootstrap.sh copy-media.sh; \
+		rm -rf ./node_modules ./static ./media ./prod_media ./db_backups db.sqlite3 webapp/static_compiled .s3cfg bootstrap.sh copy-media.sh; \
 		echo "Cleaned up"; \
 	else \
 		echo "Aborted"; \

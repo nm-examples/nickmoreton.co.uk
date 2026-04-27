@@ -13,5 +13,6 @@ db.sqlite3
 db.sqlite3-journal
 db_backups
 media
+prod_media
 node_modules
 static
