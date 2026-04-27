@@ -23,13 +23,16 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 - Node.js and npm
 - Python tooling is installed inside the app container with `uv`
 
-Copy the example environment file before running Make targets:
+Copy the example environment file before running the normal development or
+Heroku-backed data/media targets:
 
 ```bash
 cp .env.example .env
 ```
 
-For basic local development, the placeholder values are enough. Heroku and S3 values are only needed for data and media sync; see [Data and media](./docs/data-and-media.md).
+For basic local development, the placeholder values are enough. Production-mode
+local checks can run without `.env`. Heroku and S3 values are only needed for
+data and media sync; see [Data and media](./docs/data-and-media.md).
 
 ## First Run
 
@@ -79,6 +82,14 @@ Gunicorn, Postgres, collected static files, and nginx serving `/static/` and
 make prod-run
 ```
 
+This can run from source without first starting the normal development stack or
+pulling production data/media. It creates a blank production-mode database from
+migrations unless you later mirror local data into it.
+
+To pull Heroku data directly into production mode without setting up the normal
+local development database first, run `make prod-pull-data`. To pull S3 media
+directly into production mode, run `make prod-pull-media`.
+
 View the site at
 <https://prod-nginx.nickmoreton-production.orb.local> and the Wagtail admin at
 <https://prod-nginx.nickmoreton-production.orb.local/admin>. Normal development
@@ -100,7 +111,7 @@ For step-by-step commands and troubleshooting, see
 | `make up` | Start Postgres and the app container. |
 | `make run` | Run Django at `http://localhost:8000`. |
 | `make migrate` | Run Django migrations inside the app container. |
-| `make prod-run` | Build the production-mode image/assets, run migrations/static collection, and start Gunicorn behind nginx. |
+| `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
 | `make test` | Run the Django test suite inside the app container. |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |

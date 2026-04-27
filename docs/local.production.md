@@ -27,6 +27,10 @@ This command:
 - runs `collectstatic --noinput`;
 - starts Gunicorn behind nginx.
 
+It does not require the normal development Docker stack, `.env`, Heroku data, or
+local media. If no production-derived data has been mirrored in, migrations
+create a blank Wagtail site with the default homepage.
+
 When using OrbStack, the site is available at
 <https://prod-nginx.nickmoreton-production.orb.local> and the Wagtail admin is
 available at <https://prod-nginx.nickmoreton-production.orb.local/admin>.
@@ -71,8 +75,9 @@ nginx containers:
 - `prod_media/` is served by nginx at `/media/`.
 
 Production-mode media is intentionally isolated from normal local development
-media. After refreshing local media with `make pull-media`, copy it into the
-production-mode stack with:
+media. Missing media does not block `make prod-run`. After refreshing local
+media with `make pull-media`, optionally copy it into the production-mode stack
+with:
 
 ```bash
 make prod-push-media
@@ -91,7 +96,7 @@ If media files return `404`, confirm the expected files exist under
 ## Data and media refresh
 
 Use the normal local development workflow as the source of production-derived
-data and media:
+data and media only when you want production-like content:
 
 ```bash
 make pull-data
@@ -106,7 +111,22 @@ make prod-push-media
 ```
 
 `prod-push-data` replaces only the production-mode Postgres database.
-`prod-push-media` replaces only `prod_media/`.
+`prod-push-media` replaces only `prod_media/`. Neither command is required for
+a clean production-mode boot.
+
+If you want Heroku data in production mode without setting up the normal local
+development database first, run:
+
+```bash
+make prod-pull-data
+```
+
+If you want S3 media in production mode without syncing normal local development
+media first, run:
+
+```bash
+make prod-pull-media
+```
 
 ## Troubleshooting
 

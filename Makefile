@@ -1,6 +1,6 @@
 #!make
 
-include .env # this will make the .env file variables available to the Makefile
+-include .env # this will make the .env file variables available to the Makefile when present
 
 DC=docker compose -f docker-compose.yaml
 DCP=docker compose -f docker-compose.production.yaml
@@ -47,9 +47,11 @@ help:
 	@echo "prod-migrate       Run migrations with DEBUG=False settings"
 	@echo "prod-collectstatic Collect static files with DEBUG=False settings"
 	@echo "prod-import-data   Import db_backups/backup.dump into production-mode Postgres"
+	@echo "prod-pull-data     Pull Heroku data directly into production-mode Postgres"
+	@echo "prod-pull-media    Pull S3 media directly into isolated production-mode media"
 	@echo "prod-push-data     Export local dev data and import it into production-mode Postgres"
 	@echo "prod-push-media    Copy local media into isolated production-mode media"
-	@echo "prod-run           Build images, prepare the database/static files, and start production-mode containers"
+	@echo "prod-run           Build and run production mode from source"
 	@echo ""
 	@echo "Pulling data from Heroku and S3"
 	@echo "============================================================================"
@@ -64,6 +66,8 @@ help:
 	@echo "Mirroring data to production-mode Docker"
 	@echo "============================================================================"
 	@echo "export-data      Export the local development Postgres database to a file"
+	@echo "prod-pull-data   Pull Heroku data directly into production-mode Postgres"
+	@echo "prod-pull-media  Pull S3 media directly into isolated production-mode media"
 	@echo "prod-push-data   Export local dev data and import it into production-mode Postgres"
 	@echo "prod-push-media  Copy local media into isolated production-mode media"
 	@echo ""
@@ -149,7 +153,7 @@ start:
 
 .PHONY: prod-prepare
 prod-prepare:
-	@mkdir -p static media prod_media db_backups
+	@mkdir -p static prod_media db_backups
 
 .PHONY: prod-build
 prod-build: prod-prepare
@@ -184,8 +188,25 @@ prod-import-data: prod-prepare
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '\''webapp'\'' AND pid <> pg_backend_pid();"'
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
-	@$(DCP) exec prod-db sh -c 'pg_restore -U postgres -d webapp /db_backups/backup.dump'
+	@$(DCP) exec prod-db sh -c 'pg_restore --no-owner --no-acl -U postgres -d webapp /db_backups/backup.dump'
 	@echo "Production-mode data imported"
+
+.PHONY: prod-pull-data
+prod-pull-data: prod-prepare
+	@if [ -z "$(HEROKU_APP_NAME)" ]; then echo "HEROKU_APP_NAME is not set"; exit 1; fi
+	@echo "Pulling Heroku data directly into production-mode Postgres"
+	@rm -f latest.dump db_backups/prod-latest.dump
+	@heroku pg:backups:download -a $(HEROKU_APP_NAME)
+	@mv latest.dump db_backups/prod-latest.dump
+	@$(DCP) up -d prod-db
+	-@$(DCP) stop prod-app prod-nginx
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '\''webapp'\'' AND pid <> pg_backend_pid();"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
+	@$(DCP) exec prod-db sh -c 'pg_restore --no-owner --no-acl -U postgres -d webapp /db_backups/prod-latest.dump'
+	@rm -f db_backups/prod-latest.dump
+	@$(DCP) up -d
+	@echo "Heroku data imported into production-mode Postgres"
 
 .PHONY: prod-push-data
 prod-push-data: export-data prod-import-data prod-up
@@ -200,6 +221,24 @@ prod-push-media: prod-prepare
 	@$(DCP) up -d prod-db
 	@$(DCP) run --rm $(DCP_APP) $(MANAGE) shell -c "from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
 	@echo "Production-mode media copied and renditions cleared"
+
+.PHONY: prod-pull-media
+prod-pull-media: prod-prepare
+	@if [ -z "$(HEROKU_APP_NAME)" ]; then echo "HEROKU_APP_NAME is not set"; exit 1; fi
+	@$(eval S3CFG=$(PWD)/.s3cfg)
+	$(call heroku_to_env,$(HEROKU_APP_NAME))
+	@echo "Pulling S3 media directly into isolated production-mode media"
+	@rm -rf prod_media
+	@mkdir -p prod_media/original_images
+	@touch .s3cfg
+	@echo "[default]" >> .s3cfg
+	@AWS_ACCESS_KEY_ID=$$(grep '^AWS_ACCESS_KEY_ID=' .env | cut -d= -f2-); \
+	AWS_SECRET_ACCESS_KEY=$$(grep '^AWS_SECRET_ACCESS_KEY=' .env | cut -d= -f2-); \
+	AWS_STORAGE_BUCKET_NAME=$$(grep '^AWS_STORAGE_BUCKET_NAME=' .env | cut -d= -f2-); \
+	s3cmd --config=$(PWD)/.s3cfg --access_key=$$AWS_ACCESS_KEY_ID --secret_key=$$AWS_SECRET_ACCESS_KEY sync s3://$$AWS_STORAGE_BUCKET_NAME/original_images prod_media
+	@$(DCP) up -d prod-db
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) shell -c "from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
+	@echo "S3 media pulled into production-mode media and renditions cleared"
 
 .PHONY: prod-run
 prod-run: prod-build prod-migrate prod-collectstatic prod-up
@@ -233,7 +272,7 @@ pull-data:
 	@mv latest.dump db_backups/latest.dump
 	@$(DC) exec db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
 	@$(DC) exec db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
-	-@$(DC) exec db sh -c 'pg_restore -U postgres -d webapp /db_backups/latest.dump || true'
+	@$(DC) exec db sh -c 'pg_restore --no-owner --no-acl -U postgres -d webapp /db_backups/latest.dump'
 	@rm -rf db_backups/latest.dump
 	@echo "Data pulled from Heroku database"
 
@@ -257,7 +296,10 @@ pull-media:
 	@mkdir -p media/original_images
 	@touch .s3cfg
 	@echo "[default]" >> .s3cfg
-	@s3cmd --config=$(PWD)/.s3cfg --access_key=$(AWS_ACCESS_KEY_ID) --secret_key=$(AWS_SECRET_ACCESS_KEY) sync s3://$(AWS_STORAGE_BUCKET_NAME)/original_images media
+	@AWS_ACCESS_KEY_ID=$$(grep '^AWS_ACCESS_KEY_ID=' .env | cut -d= -f2-); \
+	AWS_SECRET_ACCESS_KEY=$$(grep '^AWS_SECRET_ACCESS_KEY=' .env | cut -d= -f2-); \
+	AWS_STORAGE_BUCKET_NAME=$$(grep '^AWS_STORAGE_BUCKET_NAME=' .env | cut -d= -f2-); \
+	s3cmd --config=$(PWD)/.s3cfg --access_key=$$AWS_ACCESS_KEY_ID --secret_key=$$AWS_SECRET_ACCESS_KEY sync s3://$$AWS_STORAGE_BUCKET_NAME/original_images media
 	@$(DC) exec $(DC_APP) $(MANAGE) shell -c "from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
 	@echo "Media pulled from S3 bucket"
 
