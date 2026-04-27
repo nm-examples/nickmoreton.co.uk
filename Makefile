@@ -40,7 +40,7 @@ help:
 	@echo ""
 	@echo "Production-mode local checks"
 	@echo "============================"
-	@echo "prod-build         Build production-mode Docker images"
+	@echo "prod-build         Build production-mode Docker images, including frontend assets"
 	@echo "prod-up            Start production-mode Postgres, Gunicorn, and nginx"
 	@echo "prod-down          Stop production-mode containers"
 	@echo "prod-restart       Restart production-mode containers"
@@ -49,7 +49,7 @@ help:
 	@echo "prod-import-data   Import db_backups/backup.dump into production-mode Postgres"
 	@echo "prod-push-data     Export local dev data and import it into production-mode Postgres"
 	@echo "prod-push-media    Copy local media into isolated production-mode media"
-	@echo "prod-run           Build assets, prepare the database/static files, and start production-mode containers"
+	@echo "prod-run           Build images, prepare the database/static files, and start production-mode containers"
 	@echo ""
 	@echo "Pulling data from Heroku and S3"
 	@echo "============================================================================"
@@ -202,9 +202,9 @@ prod-push-media: prod-prepare
 	@echo "Production-mode media copied and renditions cleared"
 
 .PHONY: prod-run
-prod-run: frontend prod-build prod-migrate prod-collectstatic prod-up
+prod-run: prod-build prod-migrate prod-collectstatic prod-up
 	@echo "Production-mode site running at https://prod-nginx.nickmoreton-production.orb.local"
-	@echo "Localhost fallback available at http://localhost:$${PROD_PORT:-8000}"
+	@echo "Localhost fallback available at http://localhost:$${PROD_PORT:-8001}"
 
 
 # Clean up

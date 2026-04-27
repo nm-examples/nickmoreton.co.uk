@@ -100,7 +100,7 @@ For step-by-step commands and troubleshooting, see
 | `make up` | Start Postgres and the app container. |
 | `make run` | Run Django at `http://localhost:8000`. |
 | `make migrate` | Run Django migrations inside the app container. |
-| `make prod-run` | Build assets, run production-mode migrations/static collection, and start Gunicorn behind nginx. |
+| `make prod-run` | Build the production-mode image/assets, run migrations/static collection, and start Gunicorn behind nginx. |
 | `make test` | Run the Django test suite inside the app container. |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |

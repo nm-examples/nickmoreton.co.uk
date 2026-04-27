@@ -9,6 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 ### Added
 - Add a production-mode Docker Compose workflow with Gunicorn, Postgres, and nginx for local `DEBUG = False` checks.
 - Add commands to mirror local development data and media into the production-mode Docker stack.
+- Build frontend assets inside the production-mode Docker image.
 
 ### Removed
 - Remove the local Dokku commands and documentation.

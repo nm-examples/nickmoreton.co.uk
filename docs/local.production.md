@@ -21,8 +21,7 @@ make prod-run
 
 This command:
 
-- installs frontend dependencies and builds frontend assets;
-- builds the production-mode app image;
+- builds the production-mode app image, including frontend assets;
 - starts a separate production-mode Postgres service when needed;
 - runs migrations with `webapp.settings.production`;
 - runs `collectstatic --noinput`;
@@ -47,7 +46,6 @@ The OrbStack HTTPS URL remains the same when you change `PROD_PORT`.
 If you want to run the workflow one step at a time:
 
 ```bash
-npm run build
 make prod-build
 make prod-migrate
 make prod-collectstatic
@@ -83,7 +81,7 @@ make prod-push-media
 If static files return `404`, run:
 
 ```bash
-npm run build
+make prod-build
 make prod-collectstatic
 ```
 
@@ -118,5 +116,5 @@ make prod-push-media
   `DJANGO_CSRF_TRUSTED_ORIGINS` in `docker-compose.production.yaml`.
 - If the app starts but pages fail before migrations run, run
   `make prod-migrate` and restart with `make prod-up`.
-- If you change Python dependencies or production settings, rerun
-  `make prod-build`.
+- If you change Python dependencies, frontend assets, or production settings,
+  rerun `make prod-build`.
