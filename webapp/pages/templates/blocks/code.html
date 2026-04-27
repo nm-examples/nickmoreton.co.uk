@@ -1,8 +1,8 @@
 <div class="code-block">
-    <pre><code class="hljs language-{{ value.language }}" data-copy>{{ value.code }}</code></pre>
-    <input type="hidden" value="{{ value.code }}">
+    <pre><code class="hljs language-{{ value.language }}">{{ value.code }}</code></pre>
+    <textarea hidden readonly data-code-source>{{ value.code }}</textarea>
     <div class="lang">{{ value.language }}</div>
-    <div class="copy">
+    <button class="copy" type="button" data-copy aria-label="Copy code">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 48 48">
             <title>note code</title>
             <g stroke-linecap="square" stroke-width="2" fill="none" stroke="#ffffff" stroke-linejoin="miter"
@@ -15,5 +15,5 @@
         </g>
     </svg>
     Copy code
-</div>
+    </button>
 </div>

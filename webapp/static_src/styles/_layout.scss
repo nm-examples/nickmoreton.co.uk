@@ -37,8 +37,6 @@ article h2:first-child:not(#grid-panels h2) {
 }
 
 @media screen and (min-width: $lg-breakpoint) {
-    // there's some javascript that adds the class 'fixed' to the aside element
-
     .grid-layout {
         display: flex;
         gap: 4rem;
@@ -59,11 +57,8 @@ article h2:first-child:not(#grid-panels h2) {
         transition: all 0s;
         flex: 2;
         align-self: flex-start;
-    }
-
-    aside.sticky {
-        height: 0; // prevent the body height growing when the aside is fixed
-        overflow: visible;
+        position: sticky;
+        top: 1rem;
     }
 }
 

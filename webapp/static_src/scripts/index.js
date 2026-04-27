@@ -3,7 +3,6 @@
  * It is responsible for:
  * - Highlighting code blocks
  * - Animating the tagline
- * - Making the aside sticky
  * - Copying code snippets
  * - Toggling the mobile nav
  */
@@ -67,7 +66,7 @@ if (animatedTagline) {
 
 function animate(tagLine, items) {
   let count = 0;
-  let interval = setInterval(() => {
+  const interval = setInterval(() => {
     if (count === items.length - 1) {
       tagLine.classList.add("finished");
       clearInterval(interval);
@@ -77,53 +76,42 @@ function animate(tagLine, items) {
   }, 300);
 }
 
-// Sticky aside
-const aside = document.querySelector("aside");
-// if (aside) {
-//   document.onscroll = () => {
-//     checkPosition();
-//   };
-// }
-
-function checkPosition() {
-  const nav = document.querySelector("nav");
-  const header = document.querySelector("header");
-  const asideTop =
-    document.scrollingElement.scrollTop -
-    (nav.offsetHeight + header.offsetHeight);
-  const screenWidth = window.innerWidth;
-  if (screenWidth >= 1080) {
-    if (nav.offsetHeight + header.offsetHeight < window.scrollY) {
-      aside.style.transform = `translateY(${asideTop}px)`;
-      aside.classList.add("sticky");
-    } else {
-      aside.style.transform = `translateY(0px)`;
-      aside.classList.remove("sticky");
-    }
-  } else {
-    aside.style.transform = `translateY(0px)`;
-    aside.classList.remove("sticky");
-  }
-}
-
 // Copy code snippets
 const copyButtons = document.querySelectorAll("[data-copy]");
 if (copyButtons) {
   copyButtons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const text = btn.parentElement.nextElementSibling.value;
-      navigator.clipboard.writeText(text);
-      const copyMessageContainer =
-        btn.parentElement.parentElement.querySelector(".copy");
-      const originalMessage = copyMessageContainer.innerHTML;
-      copyMessageContainer.innerHTML = "Copied!";
-      const int = setInterval(() => {
-        copyMessageContainer.innerHTML = originalMessage;
-        clearInterval(int);
-      }, 1000);
+    btn.addEventListener("click", () => {
+      copyCode(btn);
     });
   });
+}
+
+async function copyCode(btn) {
+  const codeBlock = btn.closest(".code-block");
+  const codeSource = codeBlock?.querySelector("[data-code-source]");
+  if (!codeSource) {
+    return;
+  }
+
+  if (!btn.dataset.copyDefault) {
+    btn.dataset.copyDefault = btn.innerHTML;
+  }
+
+  if (btn.resetTimeoutId) {
+    clearTimeout(btn.resetTimeoutId);
+  }
+
+  try {
+    await navigator.clipboard.writeText(codeSource.value);
+    btn.innerHTML = "Copied!";
+  } catch {
+    btn.innerHTML = "Copy failed";
+  }
+
+  btn.resetTimeoutId = setTimeout(() => {
+    btn.innerHTML = btn.dataset.copyDefault;
+    btn.resetTimeoutId = null;
+  }, 1000);
 }
 
 // Toggle mobile nav

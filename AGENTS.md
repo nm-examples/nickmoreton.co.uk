@@ -31,7 +31,7 @@ Tests currently use Django’s built-in test runner (`python manage.py test` via
 ## Commit, Changelog & Pull Request Guidelines
 Recent history uses short, imperative commit subjects such as `Update commands and documentation for copying media files to dokku`. Keep subjects specific and under roughly 72 characters.
 
-Update `CHANGELOG.md` with each commit when the change is user-facing, operationally meaningful, or otherwise notable. Keep new entries under `Unreleased` until a release section is created.
+Update `CHANGELOG.md` with each commit when the change is user-facing, operationally meaningful, or otherwise notable. Keep new entries under `Unreleased` until a release section is created. When preparing a PR for merging or deployment, move the PR's changelog entries from `Unreleased` into a dated release section for the deployment date.
 
 PRs should explain the user-facing or maintenance impact, list any migrations or environment changes, link related issues, and include screenshots for template or styling updates. When pushing additional code to a branch that already has an open PR, update the PR body so it reflects the latest notable changes and matches the changelog where relevant.
 
