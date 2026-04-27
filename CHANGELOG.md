@@ -10,6 +10,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add a production-mode Docker Compose workflow with Gunicorn, Postgres, and nginx for local `DEBUG = False` checks.
 - Add commands to mirror local development data and media into the production-mode Docker stack.
 
+### Removed
+- Remove the local Dokku commands and documentation.
+
 ## 2026-04-27
 
 ### Changed
@@ -25,7 +28,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 ### Changed
 - Replace Black, Flake8, and isort with Ruff for Python formatting and linting.
 - Update Python dependency floors, including `psycopg2` 2.9.12 for production runtime and `pre-commit` 4.6.0 for development hooks.
-- Clarify that local Dokku is for production-like staging, not day-to-day development.
+- Clarify that local Dokku is for production-like verification, not day-to-day development.
 - Move the Dokku setup script to `scripts/dokku-setup.sh`.
 - Make the Dokku setup script accept configurable SSH public keys.
 - Remove obsolete Linode deployment documentation.

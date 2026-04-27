@@ -14,7 +14,7 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 - `webapp/static_src/` contains Sass, JavaScript, and source images.
 - `webapp/static_compiled/` contains generated frontend assets served by Django.
 - `docker/`, `docker-compose.yaml`, and `Makefile` contain local development support.
-- `docs/` contains deployment, staging, data, and media workflows.
+- `docs/` contains deployment, production-mode local checks, data, and media workflows.
 - `CHANGELOG.md` records notable unreleased and released changes.
 
 ## Requirements
@@ -109,4 +109,3 @@ For step-by-step commands and troubleshooting, see
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
 - [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.
-- [Local Dokku Staging](./docs/local.dokku.md): production-like local staging with OrbStack and Dokku.

@@ -1,8 +1,7 @@
 # Production-Mode Local Checks
 
 This workflow runs the site locally with production settings, Gunicorn,
-Postgres, and nginx. It is intended to replace the useful verification parts of
-local Dokku without changing the normal development workflow.
+Postgres, and nginx without changing the normal development workflow.
 
 Normal development still uses:
 
@@ -121,9 +120,3 @@ make prod-push-media
   `make prod-migrate` and restart with `make prod-up`.
 - If you change Python dependencies or production settings, rerun
   `make prod-build`.
-
-## Dokku status
-
-The Dokku workflow remains documented in `local.dokku.md` for now. Prefer this
-production-mode Docker workflow for local `DEBUG = False` checks; remove Dokku
-once this path has had enough real-world use.

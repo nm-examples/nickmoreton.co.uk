@@ -1,6 +1,6 @@
 # Data and Media Workflows
 
-These workflows are for intentional local or staging operations. They can replace local data, copy production-derived content, and create temporary files. Do not run them against production unless that is explicitly the goal.
+These workflows are for intentional local verification operations. They can replace local data, copy production-derived content, and create temporary files. Do not run them against production unless that is explicitly the goal.
 
 ## Requirements
 
@@ -58,66 +58,6 @@ This command:
 - Deletes Wagtail image renditions so they regenerate from the copied originals.
 
 The local media directory is replaced by this workflow.
-
-## Copy Local Data to Local Dokku
-
-Export the local Docker Postgres database:
-
-```bash
-make export-data
-```
-
-Import that dump into the local Dokku Postgres database:
-
-```bash
-make import-data
-```
-
-Restart the Dokku app after importing so the running process reconnects cleanly:
-
-```bash
-orbctl run -m dokku-machine -u root bash -c "dokku ps:restart myapp"
-```
-
-The default Makefile values target the local Dokku machine `dokku-machine`, app `myapp`, and database `myapp-db`. See [Local Dokku](./local.dokku.md) for the full setup.
-
-## Copy Local Media to Local Dokku
-
-Generate and push a helper script for copying local media into the local Dokku app:
-
-```bash
-make push-dokku-data
-```
-
-Then run the generated script on the Dokku machine:
-
-```bash
-orbctl run -m dokku-machine -u root bash -c "/root/copy-media.sh"
-```
-
-If images do not appear after copying media, SSH into the Dokku machine and enter the app shell:
-
-```bash
-orbctl ssh dokku-machine
-dokku enter myapp
-```
-
-Then run:
-
-```bash
-./manage.py shell
-```
-
-```python
-from wagtail.images.models import Rendition; Rendition.objects.all().delete()
-```
-
-Check the app after the import and media copy:
-
-```bash
-curl -I -L http://myapp.dokku-machine.orb.local
-orbctl run -m dokku-machine -u root bash -c "dokku ps:report myapp"
-```
 
 ## Copy Local Data to Production-Mode Docker
 
