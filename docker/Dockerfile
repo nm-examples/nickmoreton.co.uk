@@ -2,7 +2,7 @@
 # Heroku deployments are via buildpacks
 FROM python:3.13-bookworm AS base
 
-RUN useradd wagtail
+RUN useradd --create-home --shell /bin/bash wagtail
 
 EXPOSE 8000
 

@@ -1,0 +1,17 @@
+.DS_Store
+.env
+.git
+.ruff_cache
+.s3cfg
+.venv
+__pycache__
+*.py[cod]
+
+bootstrap.sh
+copy-media.sh
+db.sqlite3
+db.sqlite3-journal
+db_backups
+media
+node_modules
+static

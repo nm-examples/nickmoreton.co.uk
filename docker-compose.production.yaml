@@ -1,0 +1,61 @@
+name: nickmoreton-production
+
+services:
+  prod-app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    command: gunicorn --config gunicorn.conf.py webapp.wsgi
+    volumes:
+      - ./static:/app/static:rw
+      - ./media:/app/media:rw
+    expose:
+      - "8000"
+    depends_on:
+      prod-db:
+        condition: service_healthy
+    environment:
+      DJANGO_SETTINGS_MODULE: webapp.settings.production
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,prod-nginx.nickmoreton-production.orb.local
+      DJANGO_CSRF_TRUSTED_ORIGINS: http://localhost:${PROD_PORT:-8000},https://prod-nginx.nickmoreton-production.orb.local
+      DJANGO_SECRET_KEY: local-production-mode-secret-key
+      DATABASE_URL: postgresql://postgres:password@prod-db:5432/webapp
+      WAGTAIL_SITE_NAME: nickmoreton
+      BASE_URL: https://prod-nginx.nickmoreton-production.orb.local
+      WAGTAILADMIN_BASE_URL: https://prod-nginx.nickmoreton-production.orb.local
+      ENVIRONMENT: production
+      PORT: 8000
+      PYTHONUNBUFFERED: 1
+      WAGTAIL_UNVEIL_API_KEY: 1234
+      WAGTAIL_UNVEIL_ENABLE_PRODUCTION_REPORTS: true
+      WAGTAIL_UNVEIL_PLATFORM_DEPENDENCY_FILE: pyproject.toml
+      WAGTAIL_UNVEIL_PAGES_PER_TYPE: 1
+      WAGTAIL_UNVEIL_SKIP_URL_PREFIXES: django-admin,__reload__
+
+  prod-nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "${PROD_PORT:-8000}:80"
+    volumes:
+      - ./docker/nginx.production.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./static:/srv/static:ro
+      - ./media:/srv/media:ro
+    depends_on:
+      - prod-app
+
+  prod-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: webapp
+      POSTGRES_PASSWORD: password
+    volumes:
+      - prod_dbdata:/var/lib/postgresql/data
+      - ./db_backups:/db_backups:rw
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 20s
+      retries: 5
+
+volumes:
+  prod_dbdata:

@@ -69,6 +69,28 @@ npm start
 
 Django Browser Reload is enabled, so browser pages reload when watched frontend files are rebuilt.
 
+## Production-Mode Local Check
+
+Use this workflow when you want to exercise the site with `DEBUG = False`,
+Gunicorn, Postgres, collected static files, and nginx serving `/static/` and
+`/media/`:
+
+```bash
+make prod-run
+```
+
+View the site at
+<https://prod-nginx.nickmoreton-production.orb.local> and the Wagtail admin at
+<https://prod-nginx.nickmoreton-production.orb.local/admin>. Normal development
+still uses `make up`, `make run`, and `npm start`.
+
+The stack also exposes a localhost fallback at <http://localhost:8000>. If port
+`8000` is already in use, set `PROD_PORT`, for example
+`PROD_PORT=8001 make prod-run`; the OrbStack HTTPS URL remains the same.
+
+For step-by-step commands and troubleshooting, see
+[Production-mode local checks](./docs/local.production.md).
+
 ## Common Commands
 
 | Command | Purpose |
@@ -78,6 +100,7 @@ Django Browser Reload is enabled, so browser pages reload when watched frontend 
 | `make up` | Start Postgres and the app container. |
 | `make run` | Run Django at `http://localhost:8000`. |
 | `make migrate` | Run Django migrations inside the app container. |
+| `make prod-run` | Build assets, run production-mode migrations/static collection, and start Gunicorn behind nginx. |
 | `make test` | Run the Django test suite inside the app container. |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |
@@ -85,4 +108,5 @@ Django Browser Reload is enabled, so browser pages reload when watched frontend 
 ## Focused Docs
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
+- [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.
 - [Local Dokku Staging](./docs/local.dokku.md): production-like local staging with OrbStack and Dokku.

@@ -3,7 +3,9 @@
 include .env # this will make the .env file variables available to the Makefile
 
 DC=docker compose -f docker-compose.yaml
+DCP=docker compose -f docker-compose.production.yaml
 DC_APP=app
+DCP_APP=prod-app
 MANAGE=python manage.py
 # update this if you change the MACHINE_NAME in scripts/dokku-setup.sh
 DOKKU_MACHINE_NAME=dokku-machine
@@ -41,6 +43,15 @@ help:
 	@echo "quickstart     Build and start all (npm & docker)"
 	@echo "start          Build the front end and start local development server (npm)"
 	@echo "make-dokku     Make the dokku machine"
+	@echo ""
+	@echo "Production-mode local checks"
+	@echo "============================"
+	@echo "prod-build         Build production-mode Docker images"
+	@echo "prod-up            Start production-mode Postgres, Gunicorn, and nginx"
+	@echo "prod-down          Stop production-mode containers"
+	@echo "prod-migrate       Run migrations with DEBUG=False settings"
+	@echo "prod-collectstatic Collect static files with DEBUG=False settings"
+	@echo "prod-run           Build assets, prepare the database/static files, and start production-mode containers"
 	@echo ""
 	@echo "Pulling data from Heroku and S3"
 	@echo "============================================================================"
@@ -141,6 +152,35 @@ start:
 	@npm install
 	@npm run build
 	@npm run start
+
+.PHONY: prod-prepare
+prod-prepare:
+	@mkdir -p static media db_backups
+
+.PHONY: prod-build
+prod-build: prod-prepare
+	@$(DCP) build
+
+.PHONY: prod-up
+prod-up: prod-prepare
+	@$(DCP) up -d
+
+.PHONY: prod-down
+prod-down:
+	@$(DCP) down
+
+.PHONY: prod-migrate
+prod-migrate: prod-prepare
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) migrate
+
+.PHONY: prod-collectstatic
+prod-collectstatic: prod-prepare
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) collectstatic --noinput
+
+.PHONY: prod-run
+prod-run: frontend prod-build prod-migrate prod-collectstatic prod-up
+	@echo "Production-mode site running at https://prod-nginx.nickmoreton-production.orb.local"
+	@echo "Localhost fallback available at http://localhost:$${PROD_PORT:-8000}"
 
 
 # Clean up
