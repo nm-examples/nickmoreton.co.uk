@@ -83,12 +83,6 @@ if (copyButtons) {
     btn.addEventListener("click", () => {
       copyCode(btn);
     });
-    btn.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        copyCode(btn);
-      }
-    });
   });
 }
 
@@ -99,7 +93,14 @@ async function copyCode(btn) {
     return;
   }
 
-  const originalMessage = btn.innerHTML;
+  if (!btn.dataset.copyDefault) {
+    btn.dataset.copyDefault = btn.innerHTML;
+  }
+
+  if (btn.resetTimeoutId) {
+    clearTimeout(btn.resetTimeoutId);
+  }
+
   try {
     await navigator.clipboard.writeText(codeSource.value);
     btn.innerHTML = "Copied!";
@@ -107,9 +108,9 @@ async function copyCode(btn) {
     btn.innerHTML = "Copy failed";
   }
 
-  const int = setInterval(() => {
-    btn.innerHTML = originalMessage;
-    clearInterval(int);
+  btn.resetTimeoutId = setTimeout(() => {
+    btn.innerHTML = btn.dataset.copyDefault;
+    btn.resetTimeoutId = null;
   }, 1000);
 }
 
