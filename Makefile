@@ -191,6 +191,7 @@ prod-import-data: prod-prepare
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
 	@$(DCP) exec prod-db sh -c 'pg_restore --no-owner --no-acl -U postgres -d webapp /db_backups/backup.dump'
+	@$(DCP) up -d prod-app prod-nginx
 	@echo "Production-mode data imported"
 
 .PHONY: prod-pull-data
