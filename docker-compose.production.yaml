@@ -17,7 +17,7 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: webapp.settings.production
       DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,prod-nginx.nickmoreton-production.orb.local
-      DJANGO_CSRF_TRUSTED_ORIGINS: http://localhost:${PROD_PORT:-8001},https://prod-nginx.nickmoreton-production.orb.local
+      DJANGO_CSRF_TRUSTED_ORIGINS: http://localhost:${PROD_PORT:-8001},http://127.0.0.1:${PROD_PORT:-8001},https://prod-nginx.nickmoreton-production.orb.local
       DJANGO_SECRET_KEY: local-production-mode-secret-key
       DATABASE_URL: postgresql://postgres:password@prod-db:5432/webapp
       WAGTAIL_SITE_NAME: nickmoreton
