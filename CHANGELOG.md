@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+## 2026-04-28
+
 ### Added
 - Add a production-mode Docker Compose workflow with Gunicorn, Postgres, and nginx for local `DEBUG = False` checks.
 - Add commands to mirror local development data and media into the production-mode Docker stack.
@@ -14,6 +16,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add a command to pull S3 media directly into production-mode Docker media.
 - Add a `prod-destroy` command to remove production-mode Docker volumes.
 - Add a `prod-quickstart` command for first production-mode boots.
+- Add a favicon based on the header logo mark.
 
 ### Changed
 - Allow production-mode Docker to run without first setting up local development data or media.
