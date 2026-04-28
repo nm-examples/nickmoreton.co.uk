@@ -86,6 +86,13 @@ This can run from source without first starting the normal development stack or
 pulling production data/media. It creates a blank production-mode database from
 migrations unless you later mirror local data into it.
 
+For a first production-mode boot that also prompts for a Wagtail admin user,
+run:
+
+```bash
+make prod-quickstart
+```
+
 To pull Heroku data directly into production mode without setting up the normal
 local development database first, run `make prod-pull-data`. To pull S3 media
 directly into production mode, run `make prod-pull-media`.
@@ -111,6 +118,7 @@ For step-by-step commands and troubleshooting, see
 | `make up` | Start Postgres and the app container. |
 | `make run` | Run Django at `http://localhost:8000`. |
 | `make migrate` | Run Django migrations inside the app container. |
+| `make prod-quickstart` | First production-mode boot: build/start, migrations, static files, superuser prompt. |
 | `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
 | `make prod-destroy` | Stop production-mode containers and remove their Docker volumes. |
 | `make test` | Run the Django test suite inside the app container. |

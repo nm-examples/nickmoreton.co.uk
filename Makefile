@@ -48,11 +48,8 @@ help:
 	@echo "prod-restart       Restart production-mode containers"
 	@echo "prod-migrate       Run migrations with DEBUG=False settings"
 	@echo "prod-collectstatic Collect static files with DEBUG=False settings"
-	@echo "prod-import-data   Import db_backups/backup.dump into production-mode Postgres"
-	@echo "prod-pull-data     Pull Heroku data directly into production-mode Postgres"
-	@echo "prod-pull-media    Pull S3 media directly into isolated production-mode media"
-	@echo "prod-push-data     Export local dev data and import it into production-mode Postgres"
-	@echo "prod-push-media    Copy local media into isolated production-mode media"
+	@echo "prod-superuser     Create a superuser with DEBUG=False settings"
+	@echo "prod-quickstart    Build and start production mode, then create a superuser"
 	@echo "prod-run           Build and run production mode from source"
 	@echo ""
 	@echo "Pulling data from Heroku and S3"
@@ -68,6 +65,7 @@ help:
 	@echo "Mirroring data to production-mode Docker"
 	@echo "============================================================================"
 	@echo "export-data      Export the local development Postgres database to a file"
+	@echo "prod-import-data Import db_backups/backup.dump into production-mode Postgres"
 	@echo "prod-pull-data   Pull Heroku data directly into production-mode Postgres"
 	@echo "prod-pull-media  Pull S3 media directly into isolated production-mode media"
 	@echo "prod-push-data   Export local dev data and import it into production-mode Postgres"
@@ -184,6 +182,13 @@ prod-migrate: prod-prepare
 .PHONY: prod-collectstatic
 prod-collectstatic: prod-prepare
 	@$(DCP) run --rm $(DCP_APP) $(MANAGE) collectstatic --noinput
+
+.PHONY: prod-superuser
+prod-superuser: prod-prepare
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) createsuperuser
+
+.PHONY: prod-quickstart
+prod-quickstart: prod-build prod-migrate prod-collectstatic prod-up prod-superuser
 
 .PHONY: prod-import-data
 prod-import-data: prod-prepare

@@ -31,6 +31,13 @@ It does not require the normal development Docker stack, `.env`, Heroku data, or
 local media. If no production-derived data has been mirrored in, migrations
 create a blank Wagtail site with the default homepage.
 
+For a first production-mode boot that also prompts for a Wagtail admin user,
+run:
+
+```bash
+make prod-quickstart
+```
+
 When using OrbStack, the site is available at
 <https://prod-nginx.nickmoreton-production.orb.local> and the Wagtail admin is
 available at <https://prod-nginx.nickmoreton-production.orb.local/admin>.
@@ -54,6 +61,7 @@ make prod-build
 make prod-migrate
 make prod-collectstatic
 make prod-up
+make prod-superuser
 ```
 
 Stop the production-mode containers with:
