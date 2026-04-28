@@ -6,6 +6,7 @@ DC=docker compose -f docker-compose.yaml
 DCP=docker compose -f docker-compose.production.yaml
 DC_APP=app
 DCP_APP=prod-app
+DCP_WAIT_DB=$(DCP) exec prod-db sh -c 'until pg_isready -U postgres; do sleep 1; done'
 MANAGE=python manage.py
 
 .PHONY: help
@@ -184,6 +185,7 @@ prod-import-data: prod-prepare
 	@if [ ! -f db_backups/backup.dump ]; then echo "db_backups/backup.dump is missing. Run make export-data first."; exit 1; fi
 	@echo "Importing db_backups/backup.dump into production-mode Postgres"
 	@$(DCP) up -d prod-db
+	@$(DCP_WAIT_DB)
 	-@$(DCP) stop prod-app prod-nginx
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '\''webapp'\'' AND pid <> pg_backend_pid();"'
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
@@ -199,6 +201,7 @@ prod-pull-data: prod-prepare
 	@heroku pg:backups:download -a $(HEROKU_APP_NAME)
 	@mv latest.dump db_backups/prod-latest.dump
 	@$(DCP) up -d prod-db
+	@$(DCP_WAIT_DB)
 	-@$(DCP) stop prod-app prod-nginx
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '\''webapp'\'' AND pid <> pg_backend_pid();"'
 	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'

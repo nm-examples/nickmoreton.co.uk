@@ -15,6 +15,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 - Allow production-mode Docker to run without first setting up local development data or media.
+- Wait for production-mode Postgres before importing data.
 
 ### Removed
 - Remove the local Dokku commands and documentation.
