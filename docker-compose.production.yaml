@@ -22,7 +22,6 @@ services:
       DATABASE_URL: postgresql://postgres:password@prod-db:5432/webapp
       WAGTAIL_SITE_NAME: nickmoreton
       BASE_URL: https://prod-nginx.nickmoreton-production.orb.local
-      WAGTAILADMIN_BASE_URL: https://prod-nginx.nickmoreton-production.orb.local
       ENVIRONMENT: production
       PORT: 8000
       PYTHONUNBUFFERED: 1
