@@ -1,8 +1,17 @@
-# Currently used for development only
-# Heroku deployments are via buildpacks
+FROM node:24-bookworm AS frontend
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY scripts/images.js ./scripts/images.js
+COPY webapp/static_src ./webapp/static_src
+RUN npm run build
+
 FROM python:3.13-bookworm AS base
 
-RUN useradd wagtail
+RUN useradd --create-home --shell /bin/bash wagtail
 
 EXPOSE 8000
 
@@ -33,6 +42,7 @@ RUN uv sync --frozen
 ENV PATH="/opt/.venv/bin:$PATH"
 
 COPY --chown=wagtail:wagtail . .
+COPY --from=frontend --chown=wagtail:wagtail /app/webapp/static_compiled ./webapp/static_compiled
 
 USER wagtail
 

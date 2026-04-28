@@ -14,7 +14,7 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 - `webapp/static_src/` contains Sass, JavaScript, and source images.
 - `webapp/static_compiled/` contains generated frontend assets served by Django.
 - `docker/`, `docker-compose.yaml`, and `Makefile` contain local development support.
-- `docs/` contains deployment, staging, data, and media workflows.
+- `docs/` contains deployment, production-mode local checks, data, and media workflows.
 - `CHANGELOG.md` records notable unreleased and released changes.
 
 ## Requirements
@@ -23,13 +23,16 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 - Node.js and npm
 - Python tooling is installed inside the app container with `uv`
 
-Copy the example environment file before running Make targets:
+Copy the example environment file before running the normal development or
+Heroku-backed data/media targets:
 
 ```bash
 cp .env.example .env
 ```
 
-For basic local development, the placeholder values are enough. Heroku and S3 values are only needed for data and media sync; see [Data and media](./docs/data-and-media.md).
+For basic local development, the placeholder values are enough. Production-mode
+local checks can run without `.env`. Heroku and S3 values are only needed for
+data and media sync; see [Data and media](./docs/data-and-media.md).
 
 ## First Run
 
@@ -69,6 +72,43 @@ npm start
 
 Django Browser Reload is enabled, so browser pages reload when watched frontend files are rebuilt.
 
+## Production-Mode Local Check
+
+Use this workflow when you want to exercise the site with `DEBUG = False`,
+Gunicorn, Postgres, collected static files, and nginx serving `/static/` and
+`/media/`:
+
+```bash
+make prod-run
+```
+
+This can run from source without first starting the normal development stack or
+pulling production data/media. It creates a blank production-mode database from
+migrations unless you later mirror local data into it.
+
+For a first production-mode boot that also prompts for a Wagtail admin user,
+run:
+
+```bash
+make prod-quickstart
+```
+
+To pull Heroku data directly into production mode without setting up the normal
+local development database first, run `make prod-pull-data`. To pull S3 media
+directly into production mode, run `make prod-pull-media`.
+
+View the site at
+<https://prod-nginx.nickmoreton-production.orb.local> and the Wagtail admin at
+<https://prod-nginx.nickmoreton-production.orb.local/admin>. Normal development
+still uses `make up`, `make run`, and `npm start`.
+
+The stack also exposes a localhost fallback at <http://localhost:8001>. If port
+`8001` is already in use, set `PROD_PORT`, for example
+`PROD_PORT=8002 make prod-run`; the OrbStack HTTPS URL remains the same.
+
+For step-by-step commands and troubleshooting, see
+[Production-mode local checks](./docs/local.production.md).
+
 ## Common Commands
 
 | Command | Purpose |
@@ -78,6 +118,9 @@ Django Browser Reload is enabled, so browser pages reload when watched frontend 
 | `make up` | Start Postgres and the app container. |
 | `make run` | Run Django at `http://localhost:8000`. |
 | `make migrate` | Run Django migrations inside the app container. |
+| `make prod-quickstart` | First production-mode boot: build/start, migrations, static files, superuser prompt. |
+| `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
+| `make prod-destroy` | Stop production-mode containers and remove their Docker volumes. |
 | `make test` | Run the Django test suite inside the app container. |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |
@@ -85,4 +128,4 @@ Django Browser Reload is enabled, so browser pages reload when watched frontend 
 ## Focused Docs
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
-- [Local Dokku Staging](./docs/local.dokku.md): production-like local staging with OrbStack and Dokku.
+- [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.

@@ -15,12 +15,10 @@ Use the root `README.md` for the standard local setup flow. Day-to-day commands:
 
 Copy `.env.example` to `.env` before starting work.
 
-## Local Development & Staging
+## Local Development & Production-Mode Checks
 Use Docker Compose for normal local development: `make quickstart` for the first boot, then `make run` for Django and `npm start` for frontend asset watching during day-to-day work.
 
-Use Dokku only as a local staging environment for production-like verification before deployment. Local Dokku staging is documented in `docs/local.dokku.md`.
-
-Only push to the local Dokku staging instance when explicitly requested. Deploy the current branch to Dokku's `main` with `git push dokku <current-branch>:main`. Data and media workflows are documented in `docs/data-and-media.md`; production data and media sync commands remain local-only and environment-dependent.
+Use the production-mode Docker workflow for production-like local verification before deployment. Run `make prod-run` to start Gunicorn behind nginx with `DEBUG = False`; the OrbStack URL is `https://prod-nginx.nickmoreton-production.orb.local`. Data and media workflows are documented in `docs/data-and-media.md`; production data and media sync commands remain local-only and environment-dependent.
 
 ## Coding Style & Naming Conventions
 Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `ruff`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
@@ -29,7 +27,7 @@ Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space
 Tests currently use Django’s built-in test runner (`python manage.py test` via `make test`). Add tests near the app they cover; the current example is `webapp/pages/test.py`, but prefer names like `test_models.py` or `test_views.py` as coverage grows. Name test methods `test_<behavior>` and cover page models, template rendering, and custom template tags when you change them.
 
 ## Commit, Changelog & Pull Request Guidelines
-Recent history uses short, imperative commit subjects such as `Update commands and documentation for copying media files to dokku`. Keep subjects specific and under roughly 72 characters.
+Recent history uses short, imperative commit subjects such as `Mirror data into production-mode Docker`. Keep subjects specific and under roughly 72 characters.
 
 Update `CHANGELOG.md` with each commit when the change is user-facing, operationally meaningful, or otherwise notable. Keep new entries under `Unreleased` until a release section is created. When preparing a PR for merging or deployment, move the PR's changelog entries from `Unreleased` into a dated release section for the deployment date.
 

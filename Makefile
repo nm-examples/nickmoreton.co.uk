@@ -1,15 +1,13 @@
 #!make
 
-include .env # this will make the .env file variables available to the Makefile
+-include .env # this will make the .env file variables available to the Makefile when present
 
 DC=docker compose -f docker-compose.yaml
+DCP=docker compose -f docker-compose.production.yaml
 DC_APP=app
+DCP_APP=prod-app
+DCP_WAIT_DB=$(DCP) exec prod-db sh -c 'until pg_isready -U postgres; do sleep 1; done'
 MANAGE=python manage.py
-# update this if you change the MACHINE_NAME in scripts/dokku-setup.sh
-DOKKU_MACHINE_NAME=dokku-machine
-# update this if you change the APP_NAME in scripts/dokku-setup.sh
-DOKKU_APP_NAME=myapp
-DOKKU_DB_NAME=$(DOKKU_APP_NAME)-db
 
 .PHONY: help
 help:
@@ -35,12 +33,24 @@ help:
 	@echo ""
 	@echo "Miscellaneous targets"
 	@echo "====================="
-	@echo "clean          Clean up generated files and folders (node_modules, static, media, etc.)"
+	@echo "clean          Clean up generated files and folders (node_modules, static, media, prod_media, etc.)"
 	@echo "frontend       Build the frontend (npm)"
 	@echo "frontend-check Check frontend formatting and linting (npm)"
 	@echo "quickstart     Build and start all (npm & docker)"
 	@echo "start          Build the front end and start local development server (npm)"
-	@echo "make-dokku     Make the dokku machine"
+	@echo ""
+	@echo "Production-mode local checks"
+	@echo "============================"
+	@echo "prod-build         Build production-mode Docker images, including frontend assets"
+	@echo "prod-up            Start production-mode Postgres, Gunicorn, and nginx"
+	@echo "prod-down          Stop production-mode containers"
+	@echo "prod-destroy       Stop production-mode containers and remove volumes"
+	@echo "prod-restart       Restart production-mode containers"
+	@echo "prod-migrate       Run migrations with DEBUG=False settings"
+	@echo "prod-collectstatic Collect static files with DEBUG=False settings"
+	@echo "prod-superuser     Create a superuser with DEBUG=False settings"
+	@echo "prod-quickstart    Build and start production mode, then create a superuser"
+	@echo "prod-run           Build and run production mode from source"
 	@echo ""
 	@echo "Pulling data from Heroku and S3"
 	@echo "============================================================================"
@@ -52,15 +62,14 @@ help:
 	@echo "pull-data      Pull the data from the Heroku database and import it into the local database"
 	@echo "pull-media     Pull the media from the S3 bucket"
 	@echo ""
-	@echo "Pushing data to Dokku"
+	@echo "Mirroring data to production-mode Docker"
 	@echo "============================================================================"
-	@echo "push-dokku-data Push the media to the dokku machine"
-	@echo "                run the copy-media.sh script on the dokku machine to copy the media to the dokku app"
-	@echo "                and run the following command in the dokku app shell:"
-	@echo "                from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
-	@echo "                to clear the cached images"
-	@echo "export-data     Export the data from the postgres database to a file"
-	@echo "import-data     Import the data from the file into the dokku postgres database"
+	@echo "export-data      Export the local development Postgres database to a file"
+	@echo "prod-import-data Import db_backups/backup.dump into production-mode Postgres"
+	@echo "prod-pull-data   Pull Heroku data directly into production-mode Postgres"
+	@echo "prod-pull-media  Pull S3 media directly into isolated production-mode media"
+	@echo "prod-push-data   Export local dev data and import it into production-mode Postgres"
+	@echo "prod-push-media  Copy local media into isolated production-mode media"
 	@echo ""
 	
 
@@ -142,27 +151,130 @@ start:
 	@npm run build
 	@npm run start
 
+.PHONY: prod-prepare
+prod-prepare:
+	@mkdir -p static prod_media db_backups
+
+.PHONY: prod-build
+prod-build: prod-prepare
+	@$(DCP) build
+
+.PHONY: prod-up
+prod-up: prod-prepare
+	@$(DCP) up -d
+
+.PHONY: prod-down
+prod-down:
+	@$(DCP) down
+
+.PHONY: prod-destroy
+prod-destroy:
+	@$(DCP) down -v
+
+.PHONY: prod-restart
+prod-restart:
+	@$(DCP) restart
+
+.PHONY: prod-migrate
+prod-migrate: prod-prepare
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) migrate
+
+.PHONY: prod-collectstatic
+prod-collectstatic: prod-prepare
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) collectstatic --noinput
+
+.PHONY: prod-superuser
+prod-superuser: prod-prepare
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) createsuperuser
+
+.PHONY: prod-quickstart
+prod-quickstart: prod-build prod-migrate prod-collectstatic prod-up prod-superuser
+
+.PHONY: prod-import-data
+prod-import-data: prod-prepare
+	@if [ ! -f db_backups/backup.dump ]; then echo "db_backups/backup.dump is missing. Run make export-data first."; exit 1; fi
+	@echo "Importing db_backups/backup.dump into production-mode Postgres"
+	@$(DCP) up -d prod-db
+	@$(DCP_WAIT_DB)
+	-@$(DCP) stop prod-app prod-nginx
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '\''webapp'\'' AND pid <> pg_backend_pid();"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
+	@$(DCP) exec prod-db sh -c 'pg_restore --no-owner --no-acl -U postgres -d webapp /db_backups/backup.dump'
+	@$(DCP) up -d prod-app prod-nginx
+	@echo "Production-mode data imported"
+
+.PHONY: prod-pull-data
+prod-pull-data: prod-prepare
+	@if [ -z "$(HEROKU_APP_NAME)" ]; then echo "HEROKU_APP_NAME is not set"; exit 1; fi
+	@echo "Pulling Heroku data directly into production-mode Postgres"
+	@rm -f latest.dump db_backups/prod-latest.dump
+	@heroku pg:backups:download -a $(HEROKU_APP_NAME)
+	@mv latest.dump db_backups/prod-latest.dump
+	@$(DCP) up -d prod-db
+	@$(DCP_WAIT_DB)
+	-@$(DCP) stop prod-app prod-nginx
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '\''webapp'\'' AND pid <> pg_backend_pid();"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
+	@$(DCP) exec prod-db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
+	@$(DCP) exec prod-db sh -c 'pg_restore --no-owner --no-acl -U postgres -d webapp /db_backups/prod-latest.dump'
+	@rm -f db_backups/prod-latest.dump
+	@$(DCP) up -d
+	@echo "Heroku data imported into production-mode Postgres"
+
+.PHONY: prod-push-data
+prod-push-data: export-data prod-import-data prod-up
+
+.PHONY: prod-push-media
+prod-push-media: prod-prepare
+	@if [ ! -d media ]; then echo "media directory is missing. Run make pull-media first or add local media."; exit 1; fi
+	@echo "Copying local media into isolated production-mode media"
+	@mkdir -p prod_media
+	@find prod_media -mindepth 1 -exec rm -rf {} +
+	@cp -R media/. prod_media/
+	@$(DCP) up -d prod-db
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) shell -c "from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
+	@echo "Production-mode media copied and renditions cleared"
+
+.PHONY: prod-pull-media
+prod-pull-media: prod-prepare
+	@if [ -z "$(HEROKU_APP_NAME)" ]; then echo "HEROKU_APP_NAME is not set"; exit 1; fi
+	@$(eval S3CFG=$(PWD)/.s3cfg)
+	$(call heroku_to_env,$(HEROKU_APP_NAME))
+	@echo "Pulling S3 media directly into isolated production-mode media"
+	@rm -rf prod_media
+	@mkdir -p prod_media/original_images
+	@touch .s3cfg
+	@echo "[default]" >> .s3cfg
+	@AWS_ACCESS_KEY_ID=$$(grep '^AWS_ACCESS_KEY_ID=' .env | cut -d= -f2-); \
+	AWS_SECRET_ACCESS_KEY=$$(grep '^AWS_SECRET_ACCESS_KEY=' .env | cut -d= -f2-); \
+	AWS_STORAGE_BUCKET_NAME=$$(grep '^AWS_STORAGE_BUCKET_NAME=' .env | cut -d= -f2-); \
+	s3cmd --config=$(PWD)/.s3cfg --access_key=$$AWS_ACCESS_KEY_ID --secret_key=$$AWS_SECRET_ACCESS_KEY sync s3://$$AWS_STORAGE_BUCKET_NAME/original_images prod_media
+	@$(DCP) up -d prod-db
+	@$(DCP) run --rm $(DCP_APP) $(MANAGE) shell -c "from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
+	@echo "S3 media pulled into production-mode media and renditions cleared"
+
+.PHONY: prod-run
+prod-run: prod-build prod-migrate prod-collectstatic prod-up
+	@echo "Production-mode site running at https://prod-nginx.nickmoreton-production.orb.local"
+	@echo "Localhost fallback available at http://localhost:$${PROD_PORT:-8001}"
+
 
 # Clean up
 # rm -rf ./webapp/static_compiled; \ add when needed
 .PHONY: clean
 clean:
 	@echo "WARNING:"
-	@echo "This will destroy all data in the database and remove all generated files and folders (node_modules, static, media)"
+	@echo "This will destroy all data in the database and remove all generated files and folders (node_modules, static, media, prod_media)"
 	@read -p "Are you sure? [y/N] " -n 1 -r; \
 	echo; \
 	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
 		make destroy; \
-		rm -rf ./node_modules ./static ./media ./db_backups db.sqlite3 webapp/static_compiled .s3cfg bootstrap.sh copy-media.sh; \
+		rm -rf ./node_modules ./static ./media ./prod_media ./db_backups db.sqlite3 webapp/static_compiled .s3cfg bootstrap.sh copy-media.sh; \
 		echo "Cleaned up"; \
 	else \
 		echo "Aborted"; \
 	fi
-
-# Make the dokku machine
-.PHONY: make-dokku
-make-dokku:
-	@bash ./scripts/dokku-setup.sh
 
 # Pull the data using the Heroku CLI and import it into the local database
 .PHONY: pull-data
@@ -174,7 +286,7 @@ pull-data:
 	@mv latest.dump db_backups/latest.dump
 	@$(DC) exec db sh -c 'psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS webapp;"'
 	@$(DC) exec db sh -c 'psql -U postgres -d postgres -c "CREATE DATABASE webapp;"'
-	-@$(DC) exec db sh -c 'pg_restore -U postgres -d webapp /db_backups/latest.dump || true'
+	@$(DC) exec db sh -c 'pg_restore --no-owner --no-acl -U postgres -d webapp /db_backups/latest.dump'
 	@rm -rf db_backups/latest.dump
 	@echo "Data pulled from Heroku database"
 
@@ -184,13 +296,6 @@ export-data:
 	echo "Exporting data from the postgres database"
 	@mkdir -p db_backups
 	@$(DC) exec db sh -c 'pg_dump -Fc -U postgres -d webapp > /db_backups/backup.dump'
-
-# Import the data from the file into the postgres database
-.PHONY: import-data
-import-data:
-	echo "Importing data into the dokku postgres database"
-	orbctl push -m $(DOKKU_MACHINE_NAME) db_backups/backup.dump /root/backup.dump
-	orbctl exec -m $(DOKKU_MACHINE_NAME) bash -c 'dokku postgres:import $(DOKKU_DB_NAME) < /root/backup.dump'
 
 # Pull the media from the S3 bucket
 # Not sure why but if you have .s3cfg in your home directory it will use that for the s3cmd command keys etc.
@@ -205,29 +310,12 @@ pull-media:
 	@mkdir -p media/original_images
 	@touch .s3cfg
 	@echo "[default]" >> .s3cfg
-	@s3cmd --config=$(PWD)/.s3cfg --access_key=$(AWS_ACCESS_KEY_ID) --secret_key=$(AWS_SECRET_ACCESS_KEY) sync s3://$(AWS_STORAGE_BUCKET_NAME)/original_images media
+	@AWS_ACCESS_KEY_ID=$$(grep '^AWS_ACCESS_KEY_ID=' .env | cut -d= -f2-); \
+	AWS_SECRET_ACCESS_KEY=$$(grep '^AWS_SECRET_ACCESS_KEY=' .env | cut -d= -f2-); \
+	AWS_STORAGE_BUCKET_NAME=$$(grep '^AWS_STORAGE_BUCKET_NAME=' .env | cut -d= -f2-); \
+	s3cmd --config=$(PWD)/.s3cfg --access_key=$$AWS_ACCESS_KEY_ID --secret_key=$$AWS_SECRET_ACCESS_KEY sync s3://$$AWS_STORAGE_BUCKET_NAME/original_images media
 	@$(DC) exec $(DC_APP) $(MANAGE) shell -c "from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
 	@echo "Media pulled from S3 bucket"
-
-.PHONY: push-dokku-data
-push-dokku-data:
-	@echo "Pushing setup to dokku"
-	@PWD=$(PWD)
-	@touch copy-media.sh
-	@echo "#!/bin/bash" > copy-media.sh
-	@echo "WORKDIR=$(WORKDIR)" >> copy-media.sh
-	@echo "DOKKU_APP_NAME=$(DOKKU_APP_NAME)" >> copy-media.sh
-	@echo "cp -r $(WORKDIR)/media/original_images/ /var/lib/dokku/data/storage/$(DOKKU_APP_NAME)/media/" >> copy-media.sh
-	@echo "dokku storage:ensure-directory $(DOKKU_APP_NAME) --chown herokuish" >> copy-media.sh
-	@orbctl push -m $(DOKKU_MACHINE_NAME) copy-media.sh /root/copy-media.sh
-	@orbctl exec -m $(DOKKU_MACHINE_NAME) bash -c 'chmod +x /root/copy-media.sh'
-	@echo "========================================================="
-	@echo "Now run the following command on the dokku machine:"
-	@echo "orbctl run -m $(DOKKU_MACHINE_NAME) -u root bash -c '/root/copy-media.sh'"
-	@echo "Enter the dokku machine with: 'dokku enter $(DOKKU_APP_NAME)' and run the following command:"
-	@echo "and run: ./manage.py shell"
-	@echo "and run: from wagtail.images.models import Rendition; Rendition.objects.all().delete()"
-	@echo "========================================================="
 
 # Copy heroku config vars to .env
 # required to run the pull-data and pull-media targets
@@ -245,8 +333,7 @@ define heroku_to_env
     @echo "HEROKU_APP_NAME=$(APP_NAME)" >> .env
     @for var in $(HEROKU_VARS); do \
         echo "$$var" >> .env; \
-    done
+	    done
 	@echo "WORKDIR=$(PWD)" >> .env
-	@echo "DOKKU_MACHINE_NAME=$(DOKKU_MACHINE_NAME)" >> .env
     @echo "Heroku config vars copied to .env for app: $(APP_NAME)"
 endef
