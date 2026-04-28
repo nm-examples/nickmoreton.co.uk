@@ -44,6 +44,7 @@ help:
 	@echo "prod-build         Build production-mode Docker images, including frontend assets"
 	@echo "prod-up            Start production-mode Postgres, Gunicorn, and nginx"
 	@echo "prod-down          Stop production-mode containers"
+	@echo "prod-destroy       Stop production-mode containers and remove volumes"
 	@echo "prod-restart       Restart production-mode containers"
 	@echo "prod-migrate       Run migrations with DEBUG=False settings"
 	@echo "prod-collectstatic Collect static files with DEBUG=False settings"
@@ -167,6 +168,10 @@ prod-up: prod-prepare
 .PHONY: prod-down
 prod-down:
 	@$(DCP) down
+
+.PHONY: prod-destroy
+prod-destroy:
+	@$(DCP) down -v
 
 .PHONY: prod-restart
 prod-restart:

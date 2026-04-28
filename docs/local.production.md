@@ -62,6 +62,12 @@ Stop the production-mode containers with:
 make prod-down
 ```
 
+Stop the production-mode containers and remove their Docker volumes with:
+
+```bash
+make prod-destroy
+```
+
 ## Static and media files
 
 Production mode uses `DEBUG = False`, so Django does not serve files from

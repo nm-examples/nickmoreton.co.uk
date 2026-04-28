@@ -112,6 +112,7 @@ For step-by-step commands and troubleshooting, see
 | `make run` | Run Django at `http://localhost:8000`. |
 | `make migrate` | Run Django migrations inside the app container. |
 | `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
+| `make prod-destroy` | Stop production-mode containers and remove their Docker volumes. |
 | `make test` | Run the Django test suite inside the app container. |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |

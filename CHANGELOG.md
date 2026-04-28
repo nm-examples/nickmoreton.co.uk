@@ -12,6 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Build frontend assets inside the production-mode Docker image.
 - Add a command to pull Heroku data directly into the production-mode Docker database.
 - Add a command to pull S3 media directly into production-mode Docker media.
+- Add a `prod-destroy` command to remove production-mode Docker volumes.
 
 ### Changed
 - Allow production-mode Docker to run without first setting up local development data or media.
