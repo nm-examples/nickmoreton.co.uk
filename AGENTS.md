@@ -29,11 +29,15 @@ Tests currently use Django’s built-in test runner (`python manage.py test` via
 ## Commit, Changelog & Pull Request Guidelines
 Recent history uses short, imperative commit subjects such as `Mirror data into production-mode Docker`. Keep subjects specific and under roughly 72 characters.
 
+Only commit changes after a developer has reviewed them and approved them for commit. Prefer separate, focused commits when the changes are better understood or reviewed independently.
+
+When the work appears complete, ask the developer whether to push the branch, create a pull request, or both. Wait for their instruction before taking those actions, unless they have already explicitly authorized them for the current work.
+
 Update `CHANGELOG.md` with each commit when the change is user-facing, operationally meaningful, or otherwise notable. Keep new entries under `Unreleased` until a release section is created. When preparing a PR for merging or deployment, move the PR's changelog entries from `Unreleased` into a dated release section for the deployment date.
 
 PRs should explain the user-facing or maintenance impact, list any migrations or environment changes, link related issues, and include screenshots for template or styling updates. When pushing additional code to a branch that already has an open PR, update the PR body so it reflects the latest notable changes and matches the changelog where relevant.
 
-Before making or committing new changes, check the current branch. If it is `main`, create or switch to a feature branch first. Use the `codex/` branch prefix unless the user requests another branch name.
+Before making or committing new changes, check the current branch. Start new work on a feature branch whose name describes the work to be done; create or switch to the appropriate branch before editing, including when the current branch is for unrelated work. Do not make new changes directly on `main`. Do not prefix branch names unless the user requests a prefix.
 
 ## Configuration & Data Handling
 Do not commit real secrets or production dumps. Data sync commands such as `make pull-data` and `make pull-media` depend on `.env` values and external tooling; treat them as local-only operations and clean up generated backups after use. See `docs/data-and-media.md` for the full workflow and generated files.
