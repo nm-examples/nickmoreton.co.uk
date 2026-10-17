@@ -1,72 +1,10 @@
-{% extends "base.html" %}
-{% load wagtailcore_tags %}
-
-{% block body_class %}template-articles{% endblock %}
-
-{% block header %}
-<header class="short">
-    <div class="container">
-        <h1>{{ page.get_parent.title }}</h1>
-    </div>
-</header>
-{% endblock header %}
-
+{% extends "base.html" %}{% load wagtailcore_tags %}
+{% block body_class %}article-page chapter-page{% endblock %}
 {% block content %}
-
-    <div class="grid-layout">
-        <article>
-            <h2>{{ page.title }}</h2>
-            {% for block in page.body %}
-            {% include_block block %}
-            {% endfor %}
-            <div class="pagination chapter">
-                {% if previous_chapter %}
-                <a href="{{ previous_chapter.url }}" class="button prev">
-                    <span class="icon-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="12" width="12" viewBox="0 0 12 12">
-                            <title>move left</title>
-                            <g fill="#fff" class="nc-icon-wrapper">
-                                <path d="M11,0a1,1,0,0,0-1,1V11a1,1,0,0,0,2,0V1A1,1,0,0,0,11,0Z" fill="#fff"></path>
-                                <path data-color="color-2"
-                                    d="M4.707,2.045a.5.5,0,0,0-.536.079l-4,3.5a.5.5,0,0,0,0,.752l4,3.5A.5.5,0,0,0,4.5,10,.5.5,0,0,0,5,9.5V7H7.5A.5.5,0,0,0,8,6.5v-1A.5.5,0,0,0,7.5,5H5V2.5A.5.5,0,0,0,4.707,2.045Z">
-                                </path>
-                            </g>
-                        </svg>
-                    </span>
-                    Previous chapter
-                </a>
-                {% endif %}
-                {% if next_chapter %}
-                <a href="{{ next_chapter.url }}" class="button next">
-                    Next chapter
-                    <span class="icon-arrow">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="12" width="12" viewBox="0 0 12 12">
-                            <title>move right</title>
-                            <g fill="#fff" class="nc-icon-wrapper">
-                                <path d="M1,12a1,1,0,0,0,1-1V1A1,1,0,0,0,0,1V11A1,1,0,0,0,1,12Z" fill="#fff"></path>
-                                <path data-color="color-2"
-                                    d="M7.829,2.124A.5.5,0,0,0,7,2.5V5H4.5a.5.5,0,0,0-.5.5v1a.5.5,0,0,0,.5.5H7V9.5a.5.5,0,0,0,.829.376l4-3.5a.5.5,0,0,0,0-.752Z">
-                                </path>
-                            </g>
-                        </svg>
-                    </span>
-                </a>
-                {% endif %}
-            </div>
-        </article>
-        <aside>
-            {% include "pages/includes/chapter_aside.html" with show_back_link="yes" %}
-            <div>
-                <h3>Other recent articles</h3>
-                <ul>
-                    {% for article in latest_articles %}
-                    <li>
-                        <a href="{{ article.url }}">{{ article.title }}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </aside>
+    {% include "pages/includes/page_header.html" with section_label=article.title %}
+    <div class="wrap detail-layout">
+        <article class="prose">{{ rendered_body }}<div class="chapter-pagination">{% if previous_chapter %}<a class="button" href="{% pageurl previous_chapter %}">← Previous chapter</a>{% endif %}{% if next_chapter %}<a class="button" href="{% pageurl next_chapter %}">Next chapter →</a>{% endif %}</div></article>
+        <aside class="sidebar" aria-label="Article navigation">{% include "pages/includes/toc.html" %}{% include "pages/includes/chapter_aside.html" %}</aside>
     </div>
-
-{% endblock content %}
+    {% include "pages/includes/related.html" with related_pages=latest_articles related_title="More articles" %}
+{% endblock %}

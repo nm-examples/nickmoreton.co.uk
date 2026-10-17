@@ -1,38 +1,11 @@
-{% extends "base.html" %}
-{% load static wagtailcore_tags %}
-
-{% block body_class %}template-searchresults{% endblock %}
-
+{% extends "base.html" %}{% load wagtailcore_tags %}
 {% block title %}Search{% endblock %}
-
+{% block body_class %}archive-page{% endblock %}
 {% block content %}
-<h1>Search</h1>
-
-<form action="{% url 'search' %}" method="get">
-    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-    <input type="submit" value="Search" class="button">
-</form>
-
-{% if search_results %}
-<ul>
-    {% for result in search_results %}
-    <li>
-        <h4><a href="{% pageurl result %}">{{ result }}</a></h4>
-        {% if result.search_description %}
-        {{ result.search_description }}
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
-
-{% if search_results.has_previous %}
-<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
-{% endif %}
-
-{% if search_results.has_next %}
-<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
-{% endif %}
-{% elif search_query %}
-No results found
-{% endif %}
+<section class="page-hero"><div class="wrap"><span class="section-num">EXPLORE THE SITE</span><h1>Search.</h1><form class="site-search" action="{% url 'search' %}" method="get"><label class="search" for="site-query"><span aria-hidden="true">⌕</span><input id="site-query" aria-label="Search the site" type="search" name="query" value="{{ search_query|default:'' }}" placeholder="Search the site…"></label><button class="button" type="submit">Search →</button></form></div></section>
+<section class="archive wrap" aria-label="Search results">
+{% if search_query %}<p role="status">{{ search_results.paginator.count }} result{{ search_results.paginator.count|pluralize }} for “{{ search_query }}”</p>{% endif %}
+<div class="archive-articles">{% for result in search_results %}<article class="archive-article"><a href="{% pageurl result %}"><h2>{{ result.title }}</h2></a>{% if result.search_description %}<p>{{ result.search_description }}</p>{% endif %}<a class="text-link" href="{% pageurl result %}">Read more ↗</a></article>{% empty %}{% if search_query %}<p>No results found. Try another search.</p>{% else %}<p>Search articles, chapters, and packages.</p>{% endif %}{% endfor %}</div>
+<div class="chapter-pagination">{% if search_results.has_previous %}<a class="button" href="?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">← Previous</a>{% endif %}{% if search_results.has_next %}<a class="button" href="?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next →</a>{% endif %}</div>
+</section>
 {% endblock %}

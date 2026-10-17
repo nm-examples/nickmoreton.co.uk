@@ -1,7 +1,4 @@
-<ul>
-    {% for item in main_menu %}
-    <li>
-        <a href="{{ item.value.page.url }}">{{ item.value.label }}<span>&nbsp;</span></a>
-    </li>
-    {% endfor %}
-</ul>
+<nav class="site-nav" id="navigation" aria-label="Main navigation">
+    {% for item in main_menu %}<a href="{{ item.url }}"{% if request.path == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a>{% endfor %}
+    <a class="nav-github" href="{{ profile.github_url|default:'https://github.com/nickmoreton' }}">GitHub <span aria-hidden="true">↗</span></a>
+</nav>

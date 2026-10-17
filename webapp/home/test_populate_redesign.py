@@ -45,6 +45,9 @@ class PopulateRedesignTests(TestCase):
         self.assertEqual(len(self.home.projects), 4)
         self.assertEqual(self.home.body.get_prep_value(), body)
         self.assertEqual(self.home.hero_project["title"], "Alcott Farm Bed & Breakfast")
+        response = self.client.get(self.home.url)
+        self.assertEqual(response.status_code, 200)
+        self.assertRegex(response.content.decode(), r"/media/images/[^\"]+\.webp")
         revision_id = self.home.latest_revision_id
         menu = Navigation.objects.get().main_menu.get_prep_value()
         self.run_command(apply=True)

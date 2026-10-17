@@ -1,11 +1,3 @@
 {% extends "base.html" %}
-
 {% block title %}Page not found{% endblock %}
-
-{% block body_class %}template-404{% endblock %}
-
-{% block content %}
-<h1>Page not found</h1>
-
-<h2>Sorry, this page could not be found.</h2>
-{% endblock %}
+{% block content %}<section class="page-hero"><div class="wrap"><span class="section-num">404</span><h1>Page not found.</h1><p class="page-lead">Sorry, this page could not be found.</p><a class="button" href="/">Return home →</a></div></section>{% endblock %}

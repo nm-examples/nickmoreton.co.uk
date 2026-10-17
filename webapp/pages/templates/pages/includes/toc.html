@@ -1,0 +1,1 @@
+{% if table_of_contents %}<p class="sidebar-label">ON THIS PAGE</p><div class="toc">{% for heading in table_of_contents %}<a href="#{{ heading.id }}" class="toc-{{ heading.level }}">{{ heading.title }}</a>{% endfor %}</div>{% endif %}

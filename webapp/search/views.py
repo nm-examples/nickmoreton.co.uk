@@ -1,18 +1,19 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
-from wagtail.models import Page
+from wagtail.models import Page, Site
 
 
 def search(request):
-    # migration errors seen here at wagtail 6.0
-    # but as im not using the search_promotions module
-    # i will comment it out
-    search_query = request.GET.get("query", None)
+    search_query = request.GET.get("query", "").strip()
     page = request.GET.get("page", 1)
 
     # Search
     if search_query:
-        search_results = Page.objects.live().search(search_query)
+        pages = Page.objects.live().public()
+        site = Site.find_for_request(request)
+        if site:
+            pages = pages.descendant_of(site.root_page, inclusive=True)
+        search_results = pages.search(search_query)
     else:
         search_results = Page.objects.none()
 

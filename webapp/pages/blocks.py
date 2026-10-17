@@ -38,6 +38,13 @@ class CodeBlock(blocks.StructBlock):
         ]
     )
 
+    def get_context(self, value, parent_context=None):
+        context = super().get_context(value, parent_context=parent_context)
+        context["expand_code"] = (
+            len(value["code"].splitlines()) > 30 or len(value["code"]) > 1800
+        )
+        return context
+
     class Meta:
         icon = "code"
         template = "blocks/code.html"

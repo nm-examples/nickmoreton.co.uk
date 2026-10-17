@@ -1,0 +1,2 @@
+{% load wagtailcore_tags %}
+{% if related_pages %}<section class="related"><div class="wrap"><span class="section-num">KEEP EXPLORING</span><h2>{{ related_title }}</h2><div class="related-grid">{% for related_page in related_pages %}<a class="related-card" href="{% pageurl related_page %}"><span>{% if related_page.topic %}{{ related_page.topic }}{% elif related_page.category %}{{ related_page.category }}{% else %}Wagtail{% endif %}</span><h3>{{ related_page.title }}</h3><span aria-hidden="true">↗</span></a>{% endfor %}</div></div></section>{% endif %}

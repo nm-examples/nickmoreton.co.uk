@@ -2,55 +2,9 @@
 
 {% block body_class %}kitchen-sink{% endblock body_class %}
 
+{% block title %}Component examples{% endblock %}
 {% block content %}
-{% comment %}
-<nav>
-	<figure class="icon">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
-			<title>Nick Moreton</title>
-			<g transform="translate(0 0)">
-				<g class="nc-icon-wrapper" fill="#212121">
-					<path d="M16,20.882l5.882-2.941-5.435-2.718a1,1,0,0,0-.894,0l-5.435,2.718Z" data-color="color-2">
-					</path>
-					<path d="M17,22.618V30l5.447-2.724A1,1,0,0,0,23,26.382V19.618Z" data-color="color-2"></path>
-					<path d="M15,22.618l-6-3v6.764a1,1,0,0,0,.553.894L15,30Z" data-color="color-2"></path>
-					<path d="M8,7.145,13.882,4.2,8.447,1.486a1,1,0,0,0-.894,0L2.118,4.2Z" fill="#212121"></path>
-					<path d="M9,8.881v7.382l5.447-2.724A1,1,0,0,0,15,12.645V5.881Z" fill="#212121"></path>
-					<path d="M7,8.881l-6-3v6.764a1,1,0,0,0,.553.894L7,16.263Z" fill="#212121"></path>
-					<path d="M24,7.145,29.882,4.2,24.447,1.486a1,1,0,0,0-.894,0L18.118,4.2Z" fill="#212121"></path>
-					<path d="M25,8.881v7.382l5.447-2.724A1,1,0,0,0,31,12.645V5.881Z" fill="#212121"></path>
-					<path d="M23,8.881l-6-3v6.764a1,1,0,0,0,.553.894L23,16.263Z" fill="#212121"></path>
-				</g>
-			</g>
-		</svg>
-		<div class="name">Nick Moreton</div>
-	</figure>
-	<div class="menu-switch">
-		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-			<g class="nc-icon-wrapper" stroke-width="2" fill="#212121" stroke="#212121">
-				<line data-color="color-2" fill="none" stroke-linecap="square" stroke-miterlimit="10" x1="2" y1="16"
-					x2="30" y2="16" stroke-linejoin="miter"></line>
-				<line fill="none" stroke="#212121" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="7" x2="30"
-					y2="7" stroke-linejoin="miter"></line>
-				<line fill="none" stroke="#212121" stroke-linecap="square" stroke-miterlimit="10" x1="2" y1="25" x2="16"
-					y2="25" stroke-linejoin="miter"></line>
-			</g>
-		</svg>
-	</div>
-	<menu role="menu" id="menu">
-		<ul>
-			<li>
-				<a href="#1">Home<span>&nbsp;</span></a>
-			</li>
-			<li>
-				<a href="#2">Projects<span>&nbsp;</span></a>
-			</li>
-			<li>
-				<a href="#3">Wagtail Packages<span>&nbsp;</span></a>
-			</li>
-		</ul>
-	</menu>
-</nav> {% endcomment %}
+<div class="wrap prose kitchen-sink-content">
 
 <pre>
 	<code class="hljs language-python">
@@ -368,4 +322,5 @@ class ArticleIndexPage(BasePage):
 </form>
 
 
+</div>
 {% endblock content %}

@@ -1,73 +1,43 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
-
+{% load wagtailcore_tags wagtailimages_tags %}
 {% block body_class %}template-homepage{% endblock %}
-
 {% block content %}
-
-<article>
-            {% for block in page.body %}
-            {% include_block block %}
-            {% endfor %}
-
-            <div id="grid-panels" class="articles">
-                <h2>Articles</h2>
-                <div class="grid-panels">
-    
-                        {% for article in all_articles %}
-    
-                            <a href="{{ article.url }}">
-                            <article>
-                                    <span class="title">
-                                        {{ article.title }}
-                                    </span>
-    
-                                    <span class="arrow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 32 32">
-                                            <title>arrow right</title>
-                                            <g stroke-linecap="square" stroke-width="2" fill="none" stroke="#ffffff" stroke-linejoin="miter"
-                                                class="nc-icon-wrapper" stroke-miterlimit="10">
-                                                <line data-cap="butt" x1="2" y1="16" x2="30" y2="16" stroke-linecap="butt" stroke="#ffffff">
-                                                </line>
-                                                <polyline points="21,7 30,16 21,25 "></polyline>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </article>
-                            </a>
-    
-                        {% endfor %}
-    
-                </div>
+    {% include "home/includes/hero.html" %}
+    {% include "home/includes/portfolio.html" %}
+    <section class="section wrap" id="packages" aria-labelledby="packages-title">
+        <div class="section-head">
+            <div><span class="section-num">02 / OPEN SOURCE</span><h2 id="packages-title">A little code.<br>A lot to explore.</h2><p>Explore the tools, read the docs, make them your own.</p></div>
+            <a class="text-link" href="https://github.com/nm-packages">View on GitHub <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="packages">
+            {% for package in all_packages %}{% include "pages/includes/package_card.html" %}{% empty %}<p>Packages will appear here when published.</p>{% endfor %}
+        </div>
+    </section>
+    <section class="articles-section" id="articles" aria-labelledby="articles-title" data-filter>
+        <div class="wrap article-layout">
+            <div class="article-intro">
+                <span class="section-num">03 / ARTICLES</span><h2 id="articles-title">From the<br>developer’s desk.</h2>
+                <p>Wagtail, Python, and the details in between.</p>
+                {% if article_index %}<a class="text-link" href="{% pageurl article_index %}">Visit the article archive <span aria-hidden="true">↗</span></a>{% endif %}
+                {% include "core/includes/filter.html" with filter_id="home-search" filter_label="Search articles" placeholder="Find an article…" %}
             </div>
-            <div id="grid-panels" class="packages">
-                <h2>Packages</h2>
-                <div class="grid-panels">
-    
-                        {% for package in all_packages %}
-    
-                            <a href="{{ package.url }}">
-                                <article>
-                                    <span class="title">{{ package.title }}</span>
-    
-                                    <span class="arrow">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 32 32">
-                                            <title>arrow right</title>
-                                            <g stroke-linecap="square" stroke-width="2" fill="none" stroke="#ffffff" stroke-linejoin="miter"
-                                                class="nc-icon-wrapper" stroke-miterlimit="10">
-                                                <line data-cap="butt" x1="2" y1="16" x2="30" y2="16" stroke-linecap="butt" stroke="#ffffff">
-                                                </line>
-                                                <polyline points="21,7 30,16 21,25 "></polyline>
-                                            </g>
-                                        </svg>
-                                    </span>
-                                </article>
-                            </a>
-    
-                        {% endfor %}
-    
-                </div>
+            <div>
+                <ol class="article-list">
+                    {% for article in all_articles %}
+                    <li class="article-item" data-search-item data-search-text="{{ article.title }} {{ article.topic }}">
+                        <a href="{% pageurl article %}"><span class="article-number">{{ forloop.counter|stringformat:'02d' }}</span><div><span class="category">{{ article.topic|default:'Wagtail'|upper }}</span><h3>{{ article.title }}</h3></div><span class="arrow" aria-hidden="true">↗</span></a>
+                    </li>
+                    {% empty %}<li><p>Articles will appear here when published.</p></li>{% endfor %}
+                </ol>
+                <p class="empty" data-filter-empty hidden>No matching articles. Try another search or clear the filter.</p>
             </div>
-        </article>
-
-{% endblock content %}
+        </div>
+    </section>
+    {% include "home/includes/about.html" %}
+    <section class="contact-section" id="explore" aria-labelledby="explore-title">
+        <div class="wrap contact-inner">
+            <div><span class="section-num">CODE &amp; CURIOSITY</span><h2 id="explore-title">Always learning.<br>Always building.</h2><p>Explore my technical articles and open-source packages.</p></div>
+            <a class="button" href="#articles">Explore the articles <span aria-hidden="true">↗</span></a><span class="contact-flower" aria-hidden="true">✳</span>
+        </div>
+    </section>
+{% endblock %}

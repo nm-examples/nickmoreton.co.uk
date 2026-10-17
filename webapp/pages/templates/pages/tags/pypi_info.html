@@ -1,45 +1,6 @@
-<section>
-    <h3>Package Information</h3>
-    {% if release %}
-    <ul class="chapter-list">
-        <li>Current Version: {{ release }}</li>
-        <li>Release Date: {{ release_date }}</li>
-        <li>
-            <a href="{{ pypi_url }}" target="_blank" class="flex-col">
-                PyPi
-                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 16 16">
-                    <title>box arrow top right</title>
-                    <g stroke-width="1" stroke-linejoin="round" fill="none" stroke="#8ECAE6" stroke-linecap="round"
-                        class="nc-icon-wrapper">
-                        <path
-                            d="M15.5,2V14A1.5,1.5,0,0,1,14,15.5H2A1.5,1.5,0,0,1,.5,14V2A1.5,1.5,0,0,1,2,.5H14A1.5,1.5,0,0,1,15.5,2Z">
-                        </path>
-                        <line x1="12.5" y1="3.5" x2="6.5" y2="9.5" stroke="#8ECAE6"></line>
-                        <polyline points="7.5 3.5 12.5 3.5 12.5 8.5" stroke="#8ECAE6"></polyline>
-                    </g>
-                </svg>
-            </a>
-        </li>
-        <!-- <li>
-            <a href="{{ home_page }}" target="_blank" class="flex-col">
-                Source Code
-                <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 16 16">
-                    <title>box arrow top right</title>
-                    <g stroke-width="1" stroke-linejoin="round" fill="none" stroke="#8ECAE6" stroke-linecap="round"
-                        class="nc-icon-wrapper">
-                        <path
-                            d="M15.5,2V14A1.5,1.5,0,0,1,14,15.5H2A1.5,1.5,0,0,1,.5,14V2A1.5,1.5,0,0,1,2,.5H14A1.5,1.5,0,0,1,15.5,2Z">
-                        </path>
-                        <line x1="12.5" y1="3.5" x2="6.5" y2="9.5" stroke="#8ECAE6"></line>
-                        <polyline points="7.5 3.5 12.5 3.5 12.5 8.5" stroke="#8ECAE6"></polyline>
-                    </g>
-                </svg>
-            </a>
-        </li> -->
-    </ul>
-    {% else %}
-    <ul class="chapter-list">
-        <li>Package information is unavailable</li>
-    </ul>
-    {% endif %}
+<section class="resource-box">
+    <h3>Package information</h3>
+    {% if release %}<dl><dt>Current version</dt><dd>{{ release }}</dd>{% if release_date %}<dt>Release date</dt><dd>{{ release_date }}</dd>{% endif %}</dl>{% else %}<p>Release information is currently unavailable.</p>{% endif %}
+    {% if repository_url %}<a href="{{ repository_url }}">Source on GitHub ↗</a>{% endif %}
+    {% if pypi_url %}<a href="{{ pypi_url }}">Package on PyPI ↗</a>{% endif %}
 </section>

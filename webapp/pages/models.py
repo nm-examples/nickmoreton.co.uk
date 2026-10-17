@@ -4,6 +4,7 @@ from wagtail.fields import StreamField
 from wagtail.models import Page
 
 from webapp.pages.blocks import BaseBlocks
+from webapp.pages.content import render_body
 
 
 # ABSTRACT MODELS
@@ -57,6 +58,7 @@ class ArticlePageBase(BasePage):
     def get_context(self, request):
         context = super().get_context(request)
         context["latest_articles"] = self.get_latest_articles()
+        context.update(render_body(self.body, request))
         return context
 
     def get_chapters(self):
@@ -214,4 +216,5 @@ class PackagePage(BasePage):
     def get_context(self, request):
         context = super().get_context(request)
         context["latest_packages"] = self.get_latest_packages()
+        context.update(render_body(self.body, request))
         return context

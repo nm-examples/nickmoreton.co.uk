@@ -21,11 +21,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add a Wagtail redesign implementation plan covering content models, templates, assets, and validation.
 - Add editable homepage introduction, profile, About, and portfolio content, with a repeatable population command for the supplied redesign content.
 - Add article and package presentation fields and optional navigation URLs and section anchors.
+- Add heading contents links, expandable code examples, and regression tests.
 
 ### Changed
 - Keep homepage and archive listings and related content scoped to published, public pages.
 - Replace Pico styling with the supplied design components and Sass modules.
 - Support WebP source assets and consistent image output extensions in the frontend image build.
+- Apply the redesign theme across the homepage, archives, details, chapters, search, and error pages using app-owned templates and the existing frontend build.
+- Add progressive mobile navigation, archive filtering, and code copying while preserving content access without JavaScript.
+- Cache PyPI metadata and handle request failures without breaking package pages.
+- Exclude restricted pages from site search.
 
 ### Fixed
 

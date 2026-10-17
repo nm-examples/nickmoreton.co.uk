@@ -1,151 +1,25 @@
 {% load static wagtailcore_tags wagtailuserbar navigation_tags %}
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <title>
-        {% block title %}
-        {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
-        {% endblock %}
-        {% block title_suffix %}
-        {% wagtail_site as current_site %}
-        {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
-        {% endblock %}
-    </title>
-    {% if page.search_description %}
-    <meta name="description" content="{{ page.search_description }}" />
-    {% endif %}
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    {# Force all links in the live preview panel to be opened in a new tab #}
-    {% if request.in_preview_panel %}
-    <base target="_blank">
-    {% endif %}
-
-    {# Global stylesheets #}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}{% block title_suffix %}{% wagtail_site as current_site %}{% if current_site.site_name %} — {{ current_site.site_name }}{% endif %}{% endblock %}</title>
+    {% if page.search_description %}<meta name="description" content="{{ page.search_description }}">{% endif %}
+    {% if request.in_preview_panel %}<base target="_blank">{% endif %}
     <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
     <link rel="icon" href="{% static 'img/favicon-32x32.png' %}" type="image/png" sizes="32x32">
     <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bundle.css' %}">
-
-    {% block extra_css %}
-    {# Override this in templates to add extra stylesheets #}
-    {% endblock %}
+    <link rel="stylesheet" href="{% static 'css/bundle.css' %}">
+    {% block extra_css %}{% endblock %}
 </head>
-
 <body class="{% block body_class %}{% endblock %}">
     {% wagtailuserbar %}
-    <div class="bg-color">
-    <div class="container">
-        <nav>
-            <ul>
-                <li>
-                    <a href="/" class="brand">
-                        <figure class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32">
-                                <title>Nick Moreton</title>
-                                <g transform="translate(0 0)">
-                                    <g class="nc-icon-wrapper" fill="#fff">
-                                        <path d="M16,20.882l5.882-2.941-5.435-2.718a1,1,0,0,0-.894,0l-5.435,2.718Z"></path>
-                                        <path d="M17,22.618V30l5.447-2.724A1,1,0,0,0,23,26.382V19.618Z"></path>
-                                        <path d="M15,22.618l-6-3v6.764a1,1,0,0,0,.553.894L15,30Z"></path>
-                                        <path d="M8,7.145,13.882,4.2,8.447,1.486a1,1,0,0,0-.894,0L2.118,4.2Z">
-                                        </path>
-                                        <path d="M9,8.881v7.382l5.447-2.724A1,1,0,0,0,15,12.645V5.881Z"></path>
-                                        <path d="M7,8.881l-6-3v6.764a1,1,0,0,0,.553.894L7,16.263Z" fill="#212121"></path>
-                                        <path d="M24,7.145,29.882,4.2,24.447,1.486a1,1,0,0,0-.894,0L18.118,4.2Z">
-                                        </path>
-                                        <path d="M25,8.881v7.382l5.447-2.724A1,1,0,0,0,31,12.645V5.881Z"></path>
-                                        <path d="M23,8.881l-6-3v6.764a1,1,0,0,0,.553.894L23,16.263Z" fill="#212121"></path>
-                                    </g>
-                                </g>
-                            </svg>
-                            <!-- <div class="name">Nick Moreton</div> -->
-                        </figure>
-                    </a>
-                </li>
-            </ul>
-            <!-- <ul class="menu-switch">
-                <li>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                            <g class="nc-icon-wrapper" stroke-width="2" fill="#212121" stroke="#212121">
-                                <line data-color="color-2" fill="none" stroke-linecap="square" stroke-miterlimit="10" x1="2"
-                                    y1="16" x2="30" y2="16" stroke-linejoin="miter"></line>
-                                <line fill="none" stroke="#212121" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="7"
-                                    x2="30" y2="7" stroke-linejoin="miter"></line>
-                                <line fill="none" stroke="#212121" stroke-linecap="square" stroke-miterlimit="10" x1="2" y1="25"
-                                    x2="16" y2="25" stroke-linejoin="miter"></line>
-                            </g>
-                        </svg>
-                    </div>
-                </li>
-            </ul> -->
-            <menu role="menu" id="menu">
-                {% get_navigation %}
-            </menu>
-        </nav>
-    </div>
-    </div>
-
-    {% block header %}
-    <header>
-        <div class="container">
-            <h1>Web Developer: <span data-animated>loving</span> Wagtail CMS</h1>
-        </div>
-    </header>
-    {% endblock header %}
-
-    <main>
-        <div class="container">
-            {% block content %}{% endblock %}
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <ul>
-                <li>
-                    <a href="https://github.com/nickmoreton">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 48 48">
-                            <title>logo github</title>
-                            <g fill="#ffffff" class="nc-icon-wrapper">
-                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#000"
-                                    d="M24,0.6c-13.3,0-24,10.7-24,24c0,10.6,6.9,19.6,16.4,22.8 c1.2,0.2,1.6-0.5,1.6-1.2c0-0.6,0-2.1,0-4.1c-6.7,1.5-8.1-3.2-8.1-3.2c-1.1-2.8-2.7-3.5-2.7-3.5c-2.2-1.5,0.2-1.5,0.2-1.5 c2.4,0.2,3.7,2.5,3.7,2.5c2.1,3.7,5.6,2.6,7,2c0.2-1.6,0.8-2.6,1.5-3.2c-5.3-0.6-10.9-2.7-10.9-11.9c0-2.6,0.9-4.8,2.5-6.4 c-0.2-0.6-1.1-3,0.2-6.4c0,0,2-0.6,6.6,2.5c1.9-0.5,4-0.8,6-0.8c2,0,4.1,0.3,6,0.8c4.6-3.1,6.6-2.5,6.6-2.5c1.3,3.3,0.5,5.7,0.2,6.4 c1.5,1.7,2.5,3.8,2.5,6.4c0,9.2-5.6,11.2-11,11.8c0.9,0.7,1.6,2.2,1.6,4.4c0,3.2,0,5.8,0,6.6c0,0.6,0.4,1.4,1.7,1.2 C41.1,44.2,48,35.2,48,24.6C48,11.3,37.3,0.6,24,0.6z">
-                                </path>
-                            </g>
-                        </svg>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.linkedin.com/in/nick-moreton-45b165192/">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 32 32">
-                            <title>logo linkedin</title>
-                            <g fill="#ffffff" class="nc-icon-wrapper">
-                                <path
-                                    d="M29,1H3A2,2,0,0,0,1,3V29a2,2,0,0,0,2,2H29a2,2,0,0,0,2-2V3A2,2,0,0,0,29,1ZM9.887,26.594H5.374V12.25H9.887ZM7.63,10.281a2.625,2.625,0,1,1,2.633-2.625A2.624,2.624,0,0,1,7.63,10.281ZM26.621,26.594H22.2V19.656c0-1.687,0-3.75-2.35-3.75s-2.633,1.782-2.633,3.656v7.126H12.8V12.25h4.136v1.969h.094a4.7,4.7,0,0,1,4.231-2.344c4.513,0,5.359,3,5.359,6.844Z"
-                                    fill="#000"></path>
-                            </g>
-                        </svg>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </footer>
-
-    {# Global javascript #}
-    <script src="{% static 'js/bundle.js' %}"></script>
-
-    {% block extra_js %}
-    {# Override this in templates to add extra javascript #}
-    {% endblock %}
+    <a class="skip" href="#main">Skip to content</a>
+    {% include "core/includes/header.html" %}
+    <main id="main" tabindex="-1">{% block content %}{% endblock %}</main>
+    {% include "core/includes/footer.html" %}
+    <script src="{% static 'js/bundle.js' %}" defer></script>
+    {% block extra_js %}{% endblock %}
 </body>
-
 </html>

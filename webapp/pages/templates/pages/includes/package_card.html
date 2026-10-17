@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+<article class="package{% if package.featured %} featured{% endif %}" data-search-item data-search-text="{{ package.title }} {{ package.category }} {{ package.excerpt }} {{ package.pypi_package_name }}">
+    <div class="card-top"><span class="package-icon" aria-hidden="true">{{ package.card_icon }}</span><span class="tag">{{ package.category|default:'Wagtail'|upper }}</span></div>
+    <h3><a href="{% pageurl package %}">{{ package.title }}</a></h3>
+    <p>{{ package.excerpt }}</p>
+    <div class="card-bottom"><span>{{ package.pypi_package_name }}</span><a href="{% pageurl package %}">Explore package <span aria-hidden="true">↗</span></a></div>
+</article>

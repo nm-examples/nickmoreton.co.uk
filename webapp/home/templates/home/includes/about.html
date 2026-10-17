@@ -1,0 +1,8 @@
+{% load wagtailcore_tags %}
+<section class="about wrap" id="about" aria-labelledby="about-title">
+    <div><span class="section-num">04 / BEHIND THE CODE</span><h2 id="about-title">{{ page.about_title }}</h2></div>
+    <div class="about-content">
+        <div><h3>{{ page.about_heading|linebreaksbr }}</h3>{{ page.about_body|richtext }}<a class="text-link" href="{{ page.github_url }}">Explore my code <span aria-hidden="true">↗</span></a></div>
+        <div class="connect"><h3>Elsewhere on the web.</h3><p>Find me on GitHub and LinkedIn.</p><div class="connect-links"><a href="{{ page.github_url }}">GitHub ↗</a><a href="{{ page.linkedin_url }}">LinkedIn ↗</a></div></div>
+    </div>
+</section>
