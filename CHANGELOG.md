@@ -36,6 +36,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 ### Fixed
 
 - Clean generated assets before starting frontend watchers and stop watchers on build failures.
+- Build and collect static assets in CI before running template-rendering tests.
 
 ## 2026-04-28
 
