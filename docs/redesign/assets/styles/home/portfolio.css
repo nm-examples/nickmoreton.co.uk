@@ -1,0 +1,179 @@
+/* Past-project cards, screenshot frames, and portfolio captions. */
+
+.work-section {
+    padding: 76px 0 65px;
+}
+
+.work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 26px;
+}
+
+.work-card {
+    min-width: 0;
+}
+
+.work-image {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 13px;
+    padding: 35px 35px 0;
+    height: 310px;
+    background: #ffcf9f;
+}
+
+.tone-1 .work-image {
+    background: #c8befc;
+}
+
+.tone-2 .work-image {
+    background: #ffb9b2;
+}
+
+.tone-3 .work-image {
+    background: #bce4e1;
+}
+
+.work-screen {
+    display: block;
+    border: 5px solid #fff;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    box-shadow: 0 12px 25px #30203330;
+    transform: rotate(-3deg);
+    transition: transform 0.3s;
+}
+
+.tone-1 .work-screen,
+.tone-3 .work-screen {
+    transform: rotate(3deg);
+}
+
+.work-image:hover .work-screen {
+    transform: rotate(0) translateY(-7px);
+}
+
+.work-screen img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.project-open {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    border-radius: 50%;
+    height: 38px;
+    width: 38px;
+    background: white;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+    box-shadow: 0 5px 15px #33213e20;
+}
+
+.work-caption {
+    padding: 21px 4px 0;
+}
+
+.work-category {
+    font: 10px var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #7959b4;
+}
+
+.work-caption h3 {
+    font-size: 23px;
+    letter-spacing: -0.6px;
+    font-weight: 600;
+    margin: 9px 0;
+}
+
+.work-caption h3 a:hover {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+.work-caption p {
+    font-size: 14px;
+    max-width: 460px;
+    margin: 0 0 14px;
+}
+
+.work-caption .text-link {
+    font-size: 12px;
+    color: #6138bd;
+}
+
+.work-note {
+    font: 10px var(--mono);
+    margin: 28px 0 0;
+    color: var(--muted);
+}
+
+.work-note a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+@media (max-width: 1280px) {
+    .work-image {
+        height: 285px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .work-image {
+        height: 235px;
+        padding: 25px 25px 0;
+    }
+    .work-caption h3 {
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 760px) {
+    .work-section {
+        padding-top: 45px;
+    }
+    .work-grid {
+        gap: 30px 20px;
+    }
+    .work-image {
+        height: 215px;
+        padding: 20px 20px 0;
+    }
+    .work-caption h3 {
+        font-size: 20px;
+    }
+    .work-caption p {
+        font-size: 13px;
+    }
+    .work-category {
+        font-size: 9px;
+    }
+    .work-note {
+        line-height: 1.7;
+    }
+}
+
+@media (max-width: 480px) {
+    .work-grid {
+        grid-template-columns: 1fr;
+        gap: 34px;
+    }
+    .work-image {
+        height: 270px;
+        padding: 28px 28px 0;
+    }
+    .work-caption h3 {
+        font-size: 22px;
+    }
+    .work-caption p {
+        font-size: 14px;
+    }
+}

@@ -1,0 +1,42 @@
+/* Search fields and result summaries. */
+
+.search {
+    display: flex;
+    border-bottom: 1px solid #9cae94;
+    align-items: center;
+    padding: 6px 0 12px;
+    margin-top: 30px;
+    gap: 10px;
+    max-width: 250px;
+    color: var(--muted);
+}
+
+.search input {
+    width: 100%;
+    min-width: 0;
+    background: none;
+    border: 0;
+    outline: none;
+    color: var(--ink);
+    font-size: 13px;
+}
+
+.search input::placeholder {
+    color: #687765;
+}
+
+.search-results {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+@media (max-width: 760px) {
+    .search {
+        max-width: none;
+        margin-top: 20px;
+    }
+}
+
+.search {
+    border-color: #a38cbf;
+}
