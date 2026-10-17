@@ -1,0 +1,106 @@
+/* Document defaults, accessibility, containers, and reduced-motion preferences. */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button,
+a,
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid #739547;
+    outline-offset: 5px;
+}
+
+button {
+    cursor: pointer;
+}
+
+.wrap {
+    width: min(1184px, calc(100% - 96px));
+    margin: auto;
+}
+
+.mono {
+    font-family: var(--mono);
+}
+
+.skip {
+    position: absolute;
+    top: -70px;
+    padding: 15px;
+    background: var(--lime);
+    z-index: 20;
+}
+
+.skip:focus {
+    top: 8px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--muted);
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 1000px) {
+    .wrap {
+        width: calc(100% - 56px);
+    }
+}
+
+@media (max-width: 760px) {
+    .wrap {
+        width: calc(100% - 40px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *:before,
+    *:after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline-color: #ee5c35;
+}

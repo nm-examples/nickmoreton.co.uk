@@ -21,7 +21,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
-    "@picocss/pico": "^2.1.1",
     "concurrently": "^10.0.6",
     "esbuild": "^0.28.2",
     "highlight.js": "^11.12.0",

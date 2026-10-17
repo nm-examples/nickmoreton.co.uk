@@ -24,6 +24,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 - Keep homepage and archive listings and related content scoped to published, public pages.
+- Replace Pico styling with the supplied design components and Sass modules.
+- Support WebP source assets and consistent image output extensions in the frontend image build.
 
 ### Fixed
 

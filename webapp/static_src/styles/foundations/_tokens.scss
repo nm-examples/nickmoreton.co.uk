@@ -1,0 +1,24 @@
+/* Shared colour and font variables. Later values retain the prototype palette overrides. */
+
+:root {
+    --bg: #f7f8f3;
+    --paper: #fff;
+    --ink: #182f28;
+    --muted: #5f6d64;
+    --line: #dbe1d7;
+    --green: #2d6049;
+    --lime: #d5ed9c;
+    --soft: #ebeee5;
+    --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+:root {
+    --bg: #faf9ff;
+    --ink: #211e44;
+    --muted: #605b78;
+    --line: #ded9ed;
+    --green: #5636cf;
+    --lime: #ffce5d;
+    --soft: #ece6fc;
+}
