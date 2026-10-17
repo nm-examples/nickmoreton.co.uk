@@ -3,13 +3,16 @@ from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 
+# IDs rendered outside the body by base.html and core/tags/navigation.html.
+SHARED_TEMPLATE_IDS = {"main", "navigation"}
+
 
 def render_body(body, request):
     html = render_to_string("pages/includes/body.html", {"body": body}, request=request)
     soup = BeautifulSoup(html, "html.parser")
     headings = soup.find_all(["h2", "h3"])
     reserved = {heading["id"] for heading in headings if heading.has_attr("id")}
-    used = {
+    used = SHARED_TEMPLATE_IDS | {
         element["id"] for element in soup.find_all(id=True) if element not in headings
     }
     toc = []
