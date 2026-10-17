@@ -22,6 +22,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add editable homepage introduction, profile, About, and portfolio content, with a repeatable population command for the supplied redesign content.
 - Add article and package presentation fields and optional navigation URLs and section anchors.
 - Add heading contents links, expandable code examples, and regression tests.
+- Add redesign integration and rollout guidance with desktop and mobile review screenshots.
 
 ### Changed
 - Keep homepage and archive listings and related content scoped to published, public pages.

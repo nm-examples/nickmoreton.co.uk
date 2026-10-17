@@ -1,6 +1,6 @@
 # Wagtail redesign implementation plan
 
-Status: proposed for review.
+Status: implemented locally; awaiting developer review.
 
 Prepared: 17 October 2026.
 
@@ -14,7 +14,8 @@ The scope includes the five reference layouts plus article chapters, site search
 error pages, the kitchen-sink page, and reusable content blocks so the whole site
 adopts the theme consistently.
 
-This document records the proposed strategy. Implementation has not started.
+This document records the agreed strategy. See [integration and review notes](integration.md)
+for the implementation, population commands, verification, and screenshots.
 
 ## 1. Establish the template and asset structure
 
