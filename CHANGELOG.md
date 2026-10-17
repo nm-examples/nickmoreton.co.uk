@@ -19,6 +19,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add a repository-local Python upgrade skill with recorded version selection, companion-file checks, and a read-only lockfile inventory helper.
 - Add static redesign reference pages and images, with preview and Wagtail integration documentation.
 - Add a Wagtail redesign implementation plan covering content models, templates, assets, and validation.
+- Add editable homepage introduction, profile, About, and portfolio content, with a repeatable population command for the supplied redesign content.
+- Add article and package presentation fields and optional navigation URLs and section anchors.
+
+### Changed
+- Keep homepage and archive listings and related content scoped to published, public pages.
 
 ### Fixed
 

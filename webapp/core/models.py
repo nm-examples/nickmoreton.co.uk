@@ -12,7 +12,16 @@ class Navigation(BaseSiteSetting):
                 blocks.StructBlock(
                     [
                         ("label", blocks.CharBlock(required=True)),
-                        ("page", blocks.PageChooserBlock()),
+                        ("page", blocks.PageChooserBlock(required=False)),
+                        ("url", blocks.URLBlock(required=False)),
+                        (
+                            "anchor",
+                            blocks.RegexBlock(
+                                regex=r"^[A-Za-z][A-Za-z0-9_-]*$",
+                                required=False,
+                                help_text="Optional section ID, such as work or about, without #.",
+                            ),
+                        ),
                     ]
                 ),
             ),

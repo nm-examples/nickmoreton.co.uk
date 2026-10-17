@@ -1,0 +1,108 @@
+{
+    "projects": [
+        {
+            "title": "Alcott Farm Bed & Breakfast",
+            "category": "Hospitality",
+            "description": "A small website for a bed & breakfast in Worcestershire, UK.",
+            "image": "alcott-farm-bed-breakfast.fill-1200x996.BJHXxmEm.webp",
+            "image_description": "Alcott Farm Bed & Breakfast website screenshot from Made with Wagtail",
+            "record_url": "https://madewithwagtail.org/developers/nick-moreton/alcott-farm-bed-breakfast/"
+        },
+        {
+            "title": "Cotswold Cottage Holidays",
+            "category": "Travel & accommodation",
+            "description": "A collection of self catering cottage accommodation in the Cotswolds UK",
+            "image": "cotswold-cottage-holidays.fill-1200x996.CKPlisH3.webp",
+            "image_description": "Cotswold Cottage Holidays website screenshot from Made with Wagtail",
+            "record_url": "https://madewithwagtail.org/developers/nick-moreton/cotswold-cottage-holidays/"
+        },
+        {
+            "title": "Four All Seasons Catering",
+            "category": "Food & catering",
+            "description": "",
+            "image": "four-all-seasons-catering.fill-1200x996.BX-HOzJj.webp",
+            "image_description": "Four All Seasons Catering website screenshot from Made with Wagtail",
+            "record_url": "https://madewithwagtail.org/developers/nick-moreton/four-all-seasons-catering/"
+        },
+        {
+            "title": "Visit Droitwich Spa",
+            "category": "Tourism",
+            "description": "A website to showcase the area of Droitwich, UK with a focus on tourism. Built for the local council.",
+            "image": "visit-droitwich-spa.fill-1200x996.Se8aVOGO.webp",
+            "image_description": "Visit Droitwich Spa website screenshot from Made with Wagtail",
+            "record_url": "https://madewithwagtail.org/developers/nick-moreton/visit-droitwich-spa/"
+        }
+    ],
+    "articles": [
+        {
+            "slug": "getting-started-with-wagtail",
+            "topic": "WAGTAIL / GETTING STARTED",
+            "homepage_order": 1,
+            "repository_url": "https://github.com/nm-examples/wagtail-starter-kit"
+        },
+        {
+            "slug": "wagtail-start-cli",
+            "topic": "WAGTAIL / TOOLING",
+            "homepage_order": 2
+        },
+        {
+            "slug": "wagtail-content-types-reporter",
+            "topic": "WAGTAIL / TOOLING",
+            "homepage_order": 3
+        },
+        {
+            "slug": "deploy-wagtail-cms-to-pythonanywhere",
+            "topic": "WAGTAIL / DEPLOYMENT",
+            "homepage_order": 4
+        },
+        {
+            "slug": "wagtail-response-checker",
+            "topic": "WAGTAIL / TOOLING",
+            "homepage_order": 5
+        },
+        {
+            "slug": "deploy-wagtail-cms-to-pythonanywhere-part-2",
+            "topic": "WAGTAIL / DEPLOYMENT",
+            "homepage_order": 6
+        },
+        {
+            "slug": "python-dependency-version-checker",
+            "topic": "PYTHON / TOOLING",
+            "homepage_order": 7
+        }
+    ],
+    "packages": [
+        {
+            "slug": "wagtail-exposapi",
+            "category": "WAGTAIL / API",
+            "homepage_order": 1,
+            "featured": true,
+            "card_icon": "{ }",
+            "repository_url": "https://github.com/nm-packages/wagtail-exposapi"
+        },
+        {
+            "slug": "wagtail-honeypot",
+            "category": "WAGTAIL / FORMS",
+            "homepage_order": 2,
+            "featured": false,
+            "card_icon": "◇",
+            "repository_url": "https://github.com/nm-packages/wagtail-honeypot"
+        },
+        {
+            "slug": "wagtail-formatted-richtext",
+            "category": "WAGTAIL / CONTENT",
+            "homepage_order": 3,
+            "featured": false,
+            "card_icon": "Tt",
+            "repository_url": "https://github.com/nm-packages/wagtail-f-richtext"
+        },
+        {
+            "slug": "wagtail-qr-code",
+            "category": "WAGTAIL / QR",
+            "homepage_order": 4,
+            "featured": false,
+            "card_icon": "▦",
+            "repository_url": "https://github.com/nm-packages/wagtail-qrcode"
+        }
+    ]
+}
