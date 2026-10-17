@@ -25,6 +25,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add redesign integration and rollout guidance with desktop and mobile review screenshots.
 
 ### Changed
+- Correct Nick’s title to Support Engineer and describe him as an engineer working in Torchbox’s support team in the homepage, CMS defaults, and redesign reference.
 - Keep homepage and archive listings and related content scoped to published, public pages.
 - Replace Pico styling with the supplied design components and Sass modules.
 - Support WebP source assets and consistent image output extensions in the frontend image build.

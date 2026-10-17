@@ -55,7 +55,7 @@ The original prototype records these content sources as inspected on 15 October 
 - https://www.nickmoreton.co.uk/packages/wagtail-qr-code/
 - https://www.nickmoreton.co.uk/articles/getting-started-with-wagtail/
 
-The headline uses “Software Engineer” at Nick’s request. The original YAML values,
+The headline uses “Support Engineer”, corrected at Nick’s request. The original YAML values,
 package names, package description excerpts, article titles, and profile links are
 retained. Section headings, navigation labels, article topic labels, and short orienting
 text are new interface copy. No testimonials, client logos, invented statistics,
@@ -133,8 +133,8 @@ reference easy to browse; they do not prescribe the final production asset struc
 
 ## Current role and AI
 
-At Nick’s request, the introduction and About section identify his role as a software
-engineer in Torchbox’s support team and describe his team’s use of AI to develop tools
+At Nick’s request, the introduction and About section describe him as an engineer
+working in Torchbox’s support team and describe his team’s use of AI to develop tools
 for day-to-day client site management, including upgrades, bug reports, and outages and
 incidents, as supplied by Nick. No particular models, automation capabilities, or
 measured outcomes are claimed.

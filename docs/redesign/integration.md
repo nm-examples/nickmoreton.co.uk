@@ -60,9 +60,11 @@ No new environment variables are required.
 
 ## Migrations and content population
 
-Three schema migrations add homepage content fields, article/package presentation
-fields, and optional navigation URL/anchor values. Existing body fields, page IDs,
-slugs, and URLs are preserved.
+Four migrations cover the homepage fields, article/package presentation fields,
+optional navigation URL/anchor values, and the Support Engineer title correction.
+The title correction updates matching supplied copy in saved homepage content and
+current live/draft revisions; customised copy, older revisions, and draft status
+are preserved. Existing body fields, page IDs, slugs, and URLs are preserved.
 
 For an existing checkout with the development containers running:
 
@@ -120,7 +122,7 @@ Checks performed during implementation:
 
 - Frontend production build and Biome checks.
 - Ruff, pyupgrade, django-upgrade, Django system checks, and migration drift checks.
-- All 33 Django regression tests passed in development and production mode, covering content rendering, related cards, chapter
+- All 37 Django regression tests passed in development and production mode, covering content rendering, related cards, chapter
   navigation, public listings, search, editable fields, content population,
   code escaping, unique anchors, and PyPI failure/caching behaviour.
 - HTTP rendering of all 21 published development pages.

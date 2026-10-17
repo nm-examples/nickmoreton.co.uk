@@ -23,15 +23,15 @@ class HomePage(Page):
     )
 
     profile_name = models.CharField(max_length=100, default="Nick Moreton")
-    role = models.CharField(max_length=150, default="Software Engineer at Torchbox")
+    role = models.CharField(max_length=150, default="Support Engineer at Torchbox")
     hero_title = models.TextField(default="Websites.\nCode.")
     hero_highlight = models.TextField(default="Things I’ve\nbuilt.")
     headline = models.CharField(
-        max_length=255, default="Software Engineer: loving Wagtail CMS"
+        max_length=255, default="Support Engineer: loving Wagtail CMS"
     )
     introduction = RichTextField(
         default=(
-            "<p>I’m Nick Moreton, a software engineer in the support team at "
+            "<p>I’m Nick Moreton, an engineer working in the support team at "
             '<a href="https://torchbox.com">Torchbox</a>, where we use AI to develop '
             "tools for day-to-day client site management. Explore my past website "
             "projects, open-source packages, and technical articles.</p>"
@@ -54,7 +54,7 @@ class HomePage(Page):
     about_title = models.CharField(max_length=150, default="Hello, I’m Nick.")
     about_body = RichTextField(
         default=(
-            "<p>I work as a software engineer in the support team at "
+            "<p>I’m an engineer working in the support team at "
             '<a href="https://torchbox.com">Torchbox ↗</a>.</p>'
             "<p>We use AI to develop tools that help us with day-to-day client site "
             "management, including upgrades, bug reports, and site outages and "
