@@ -6,6 +6,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Added
+- Add a repository-local Python upgrade skill with recorded version selection, companion-file checks, and a read-only lockfile inventory helper.
+
 ## 2026-04-28
 
 ### Added
