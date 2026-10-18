@@ -1,8 +1,8 @@
-{% load wagtailcore_tags navigation_tags %}
+{% load static wagtailcore_tags navigation_tags %}
 {% wagtail_site as current_site %}
 <header class="site-header">
     <div class="wrap header-inner">
-        <a class="brand" href="{% pageurl current_site.root_page %}" aria-label="Nick Moreton home"><span class="brand-mark" aria-hidden="true">n/m</span>Nick Moreton<span class="brand-dot">.</span></a>
+        <a class="brand" href="{% pageurl current_site.root_page %}" aria-label="Nick Moreton home"><img class="brand-mark" src="{% static 'img/favicon.svg' %}" width="39" height="39" alt="">Nick Moreton<span class="brand-dot">.</span></a>
         <button class="menu" type="button" aria-expanded="false" aria-controls="navigation" data-menu hidden>Menu <span aria-hidden="true">☰</span></button>
         {% get_navigation %}
     </div>
