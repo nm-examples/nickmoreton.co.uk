@@ -17,7 +17,7 @@
     height: 7px;
     width: 7px;
     border-radius: 50%;
-    background: var(--green);
+    background: var(--accent);
     display: inline-block;
 }
 
@@ -39,12 +39,12 @@ h1 {
 }
 
 h1 .light {
-    color: var(--green);
+    color: var(--accent);
     display: block;
 }
 
 h1 .colon {
-    color: #9cae83;
+    color: var(--accent);
 }
 
 .intro {
@@ -80,7 +80,7 @@ h1 .colon {
 .tech span:before {
     content: "#";
     margin-right: 6px;
-    color: #93a288;
+    color: var(--muted);
 }
 
 @media (min-width: 1500px) {
@@ -160,18 +160,18 @@ h1 .colon {
     z-index: -1;
     inset: 0 calc((1184px - 100vw) / 2) 0;
     background:
-        radial-gradient(ellipse at 90% 20%, #d4c5ff 0, transparent 50%),
-        radial-gradient(ellipse at 10% 90%, #ffe5d2 0, transparent 50%), #eee9ff;
+        radial-gradient(ellipse at 90% 20%, var(--violet-light) 0, transparent 50%),
+        radial-gradient(ellipse at 10% 90%, var(--peach) 0, transparent 50%), var(--soft);
     pointer-events: none;
 }
 
 .hero .eyebrow {
-    color: #5d3a9f;
+    color: var(--accent-hover);
     font-size: 10px;
 }
 
 .hero .dot {
-    background: #ef6948;
+    background: var(--coral);
 }
 
 .hero-grid {
@@ -189,7 +189,7 @@ h1 {
 }
 
 .hero h1 .light {
-    color: #6338d3;
+    color: var(--accent);
 }
 
 .original-headline {
@@ -221,11 +221,11 @@ h1 {
 .hero-browser {
     width: 92%;
     margin-left: 6%;
-    border: 6px solid white;
+    border: 6px solid var(--paper);
     border-radius: 13px;
-    background: white;
+    background: var(--paper);
     overflow: hidden;
-    box-shadow: 0 20px 55px #44227b30;
+    box-shadow: 0 20px 55px color-mix(in srgb, var(--ink) 18%, transparent);
     transform: rotate(3deg);
     z-index: 1;
     transition: transform 0.3s;
@@ -242,11 +242,11 @@ h1 {
     justify-content: space-between;
     font: 9px var(--mono);
     padding: 9px 7px 13px;
-    color: #5f5273;
+    color: var(--muted);
 }
 
 .browser-chrome > span:first-child {
-    color: #b09acb;
+    color: var(--violet-light);
     font-size: 8px;
 }
 
@@ -264,7 +264,7 @@ h1 {
     width: 360px;
     height: 360px;
     border-radius: 50%;
-    background: #ffc94f;
+    background: var(--gold);
     right: -20px;
     top: -15px;
 }
@@ -276,7 +276,7 @@ h1 {
     position: absolute;
     bottom: -100px;
     left: 30px;
-    border: 25px solid #f67c63;
+    border: 25px solid var(--coral);
     border-radius: 50%;
 }
 
@@ -285,13 +285,13 @@ h1 {
     z-index: 3;
     top: 0;
     left: -10px;
-    background: #fc7855;
+    background: var(--coral);
     padding: 15px 20px;
     border-radius: 5px;
     font-size: 12px;
-    color: #331c30;
+    color: var(--ink);
     transform: rotate(-5deg);
-    box-shadow: 0 10px 20px #8b412315;
+    box-shadow: 0 10px 20px color-mix(in srgb, var(--ink) 18%, transparent);
 }
 
 .visual-label span {
@@ -301,13 +301,13 @@ h1 {
 
 .hero-bottom {
     margin-top: 42px;
-    border-color: #cfc0e5;
-    color: #65547c;
+    border-color: var(--line);
+    color: var(--muted);
     padding-bottom: 15px;
 }
 
 .tech span:before {
-    color: #8654bf;
+    color: var(--accent);
 }
 
 @media (max-width: 1280px) {

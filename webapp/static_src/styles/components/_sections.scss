@@ -14,7 +14,7 @@
 
 .section-num {
     font: 11px var(--mono);
-    color: var(--green);
+    color: var(--accent);
     letter-spacing: 1px;
     display: block;
     margin-bottom: 13px;
@@ -78,7 +78,7 @@ h2 {
 }
 
 .section-num {
-    color: #6d44d5;
+    color: var(--accent);
 }
 
 .section-head h2 {
@@ -88,7 +88,7 @@ h2 {
 }
 
 .colour-word {
-    color: #7043d0;
+    color: var(--accent);
 }
 
 .section {

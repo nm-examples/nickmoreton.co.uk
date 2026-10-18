@@ -1,7 +1,7 @@
 /* Closing articles call to action and decorative flower. */
 
 .contact-section {
-    background: #ffd0b9;
+    background: var(--peach);
     position: relative;
     overflow: hidden;
 }
@@ -17,7 +17,9 @@
 }
 
 .contact-section .section-num {
-    color: #a54333;
+    color: var(--coral-dark);
+    position: relative;
+    z-index: 1;
 }
 
 .contact-section h2 {
@@ -29,29 +31,29 @@
 }
 
 .contact-section p {
-    color: #754c50;
+    color: var(--text);
     font-size: 14px;
     position: relative;
     z-index: 1;
 }
 
 .contact-section .button {
-    background: #292044;
-    color: white;
+    background: var(--ink);
+    color: var(--paper);
     position: relative;
     z-index: 1;
     flex-shrink: 0;
 }
 
 .contact-section .button:hover {
-    background: #573499;
+    background: var(--accent-hover);
 }
 
 .contact-flower {
     position: absolute;
     right: 160px;
     top: -64px;
-    color: #f5a382;
+    color: var(--peach);
     font-size: 330px;
     line-height: 1;
     z-index: 0;

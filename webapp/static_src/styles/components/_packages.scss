@@ -20,13 +20,13 @@
 }
 
 .package:hover {
-    border-color: #98ae88;
+    border-color: var(--line-strong);
     transform: translateY(-3px);
 }
 
 .package.featured {
-    background: #ecf1e3;
-    border-color: #d4ddc7;
+    background: var(--soft);
+    border-color: var(--line);
 }
 
 .card-top {
@@ -39,13 +39,13 @@
 .package-icon {
     width: 41px;
     height: 41px;
-    border: 1px solid #d0d9c7;
+    border: 1px solid var(--line);
     border-radius: 9px;
     display: grid;
     place-items: center;
-    color: var(--green);
+    color: var(--accent);
     font: 20px var(--mono);
-    background: #f6f9ef;
+    background: var(--soft);
 }
 
 .package-icon svg {
@@ -94,7 +94,7 @@
 }
 
 .card-bottom a {
-    color: var(--green);
+    color: var(--accent);
     display: flex;
     gap: 15px;
     align-items: center;
@@ -164,52 +164,52 @@
 }
 
 .package {
-    border-color: #e1daef;
-    border-top: 4px solid #7144d5;
+    border-color: var(--line);
+    border-top: 4px solid var(--accent);
 }
 
 .package.featured {
-    background: #f0e9ff;
-    border-color: #daccf4;
-    border-top-color: #7144d5;
+    background: var(--soft);
+    border-color: var(--line);
+    border-top-color: var(--accent);
 }
 
 .package:nth-child(2) {
-    border-top-color: #ef8267;
+    border-top-color: var(--coral);
 }
 
 .package:nth-child(3) {
-    border-top-color: #d4a234;
+    border-top-color: var(--gold);
 }
 
 .package:nth-child(4) {
-    border-top-color: #32a0a3;
+    border-top-color: var(--teal);
 }
 
 .package-icon {
-    background: #f2ecff;
-    border-color: #dfd0f7;
-    color: #6a3ac8;
+    background: var(--soft);
+    border-color: var(--line);
+    color: var(--accent);
 }
 
 .package:nth-child(2) .package-icon {
-    background: #fff0e9;
-    color: #be4c30;
-    border-color: #f6d8ce;
+    background: var(--peach);
+    color: var(--coral-dark);
+    border-color: var(--line);
 }
 
 .package:nth-child(3) .package-icon {
-    background: #fff6d8;
-    color: #886000;
-    border-color: #eee1b3;
+    background: var(--cream);
+    color: var(--gold-dark);
+    border-color: var(--line);
 }
 
 .package:nth-child(4) .package-icon {
-    background: #e1f5f2;
-    color: #176d72;
-    border-color: #bfe0dc;
+    background: var(--mint);
+    color: var(--teal-dark);
+    border-color: var(--line);
 }
 
 .tag {
-    background: #ffffff80;
+    background: color-mix(in srgb, var(--paper) 50%, transparent);
 }

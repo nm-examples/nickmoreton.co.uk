@@ -36,7 +36,7 @@ input {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible {
-    outline: 3px solid #739547;
+    outline: 3px solid var(--coral);
     outline-offset: 5px;
 }
 
@@ -57,7 +57,7 @@ button {
     position: absolute;
     top: -70px;
     padding: 15px;
-    background: var(--lime);
+    background: var(--gold);
     z-index: 20;
 }
 
@@ -102,5 +102,5 @@ p {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible {
-    outline-color: #ee5c35;
+    outline-color: var(--coral);
 }

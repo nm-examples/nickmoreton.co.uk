@@ -61,6 +61,25 @@ is rendered as the distinct profile action from the homepage settings.
 
 No new environment variables are required.
 
+## Theme colours
+
+The shared palette lives in
+`webapp/static_src/styles/foundations/_tokens.scss`. It contains 25 colours plus
+the two font variables: page/text/borders, violet branding, coral/gold/teal
+accents, and dark code surfaces. Components reuse these colours directly instead
+of declaring their own near-identical shades. Translucent surfaces and shadows
+use `color-mix()` with the shared colours.
+
+For example, `--muted` controls secondary text and labels, `--accent` controls the
+main violet accents and buttons, and `--soft` controls pale violet backgrounds.
+Use the darker companion colours for text on accent surfaces. After editing the
+palette, rebuild the frontend and recheck contrast against affected backgrounds.
+
+The static reference keeps the same palette in
+`docs/redesign/assets/styles/foundations/tokens.css`; keep these files aligned.
+The SVG favicon/header artwork and third-party syntax-highlighting theme retain
+their own embedded colours.
+
 ## Migrations and content population
 
 Four migrations cover the homepage fields, article/package presentation fields,

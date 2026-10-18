@@ -14,7 +14,7 @@
 .related {
     border-top: 1px solid var(--line);
     padding: 42px 0 55px;
-    background: #f0e9fb;
+    background: var(--soft);
 }
 
 .related h2 {
@@ -29,8 +29,8 @@
 }
 
 .related-card {
-    background: #fff;
-    border: 1px solid #e1d5f0;
+    background: var(--paper);
+    border: 1px solid var(--line);
     border-radius: 9px;
     padding: 24px;
     display: flex;
@@ -41,7 +41,7 @@
 }
 
 .related-card:hover {
-    border-color: #a47fda;
+    border-color: var(--line-strong);
 }
 
 @media (max-width: 760px) {

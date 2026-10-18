@@ -1,9 +1,9 @@
 /* Code examples, copy buttons, and expandable snippets. */
 
 .code-block {
-    background: #24203f;
-    border: 1px solid #3b315d;
-    color: #e9defa;
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    color: var(--code-text);
     border-radius: 9px;
     overflow: hidden;
     margin: 25px 0;
@@ -14,23 +14,23 @@
     align-items: center;
     justify-content: space-between;
     padding: 11px 17px;
-    background: #30294f;
-    color: #c6b7e0;
+    background: var(--code-bar);
+    color: var(--code-muted);
     font: 10px var(--mono);
-    border-bottom: 1px solid #493d66;
+    border-bottom: 1px solid var(--code-border);
 }
 
 .code-copy {
     font: 10px var(--mono);
-    border: 1px solid #66577f;
+    border: 1px solid var(--code-border);
     background: transparent;
-    color: #e6dcfa;
+    color: var(--code-text);
     border-radius: 4px;
     padding: 6px 9px;
 }
 
 .code-copy:hover {
-    background: #4f3c6e;
+    background: var(--code-bar);
 }
 
 .prose pre {
@@ -48,14 +48,14 @@
 }
 
 .prose p code {
-    background: #ede5fc;
+    background: var(--soft);
     padding: 3px 5px;
     border-radius: 3px;
     font-size: 13px;
 }
 
 .code-expand {
-    border: 1px solid #dfd3ee;
+    border: 1px solid var(--code-border);
     border-radius: 8px;
     margin: 24px 0;
     overflow: hidden;
@@ -66,7 +66,7 @@
     font-size: 13px;
     font-weight: 550;
     cursor: pointer;
-    background: #f1eafa;
+    background: var(--soft);
 }
 
 .code-expand .code-block {

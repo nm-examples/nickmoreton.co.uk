@@ -21,27 +21,27 @@
     border-radius: 13px;
     padding: 35px 35px 0;
     height: 310px;
-    background: #ffcf9f;
+    background: var(--peach);
 }
 
 .tone-1 .work-image {
-    background: #c8befc;
+    background: var(--violet-light);
 }
 
 .tone-2 .work-image {
-    background: #ffb9b2;
+    background: var(--coral);
 }
 
 .tone-3 .work-image {
-    background: #bce4e1;
+    background: var(--mint);
 }
 
 .work-screen {
     display: block;
-    border: 5px solid #fff;
+    border: 5px solid var(--paper);
     border-radius: 8px 8px 0 0;
     overflow: hidden;
-    box-shadow: 0 12px 25px #30203330;
+    box-shadow: 0 12px 25px color-mix(in srgb, var(--ink) 18%, transparent);
     transform: rotate(-3deg);
     transition: transform 0.3s;
 }
@@ -68,11 +68,11 @@
     border-radius: 50%;
     height: 38px;
     width: 38px;
-    background: white;
+    background: var(--paper);
     display: grid;
     place-items: center;
     font-size: 20px;
-    box-shadow: 0 5px 15px #33213e20;
+    box-shadow: 0 5px 15px color-mix(in srgb, var(--ink) 18%, transparent);
 }
 
 .work-caption {
@@ -83,7 +83,7 @@
     font: 10px var(--mono);
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    color: #7959b4;
+    color: var(--muted);
 }
 
 .work-caption h3 {
@@ -106,7 +106,7 @@
 
 .work-caption .text-link {
     font-size: 12px;
-    color: #6138bd;
+    color: var(--accent);
 }
 
 .work-note {

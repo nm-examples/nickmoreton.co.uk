@@ -29,9 +29,9 @@
 }
 
 .archive-article {
-    border: 1px solid #ded2ef;
+    border: 1px solid var(--line);
     border-radius: 10px;
-    background: white;
+    background: var(--paper);
     padding: 27px;
     display: flex;
     flex-direction: column;
@@ -39,8 +39,8 @@
 }
 
 .archive-article:first-child {
-    background: #eee4ff;
-    border-top: 4px solid #7040d2;
+    background: var(--soft);
+    border-top: 4px solid var(--accent);
 }
 
 .archive-article h2 {
@@ -51,7 +51,7 @@
 }
 
 .archive-article a:hover h2 {
-    color: #6b38c6;
+    color: var(--accent);
 }
 
 .archive-article .text-link {
@@ -61,7 +61,7 @@
 
 .archive-category {
     font: 10px var(--mono);
-    color: #806491;
+    color: var(--muted);
 }
 
 .archive .packages .card-bottom > span {

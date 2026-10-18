@@ -2,7 +2,7 @@
 
 .search {
     display: flex;
-    border-bottom: 1px solid #9cae94;
+    border-bottom: 1px solid var(--line-strong);
     align-items: center;
     padding: 6px 0 12px;
     margin-top: 30px;
@@ -22,7 +22,7 @@
 }
 
 .search input::placeholder {
-    color: #687765;
+    color: var(--muted);
 }
 
 .search-results {
@@ -38,5 +38,5 @@
 }
 
 .search {
-    border-color: #a38cbf;
+    border-color: var(--line-strong);
 }

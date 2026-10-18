@@ -2,17 +2,17 @@
 
 .page-hero {
     padding: 36px 0 40px;
-    background: linear-gradient(120deg, #f2eaff, #e0d5ff);
-    border-bottom: 1px solid #d9cdef;
+    background: linear-gradient(120deg, var(--soft), var(--violet-light));
+    border-bottom: 1px solid var(--line);
 }
 
 .package-page .page-hero {
-    background: linear-gradient(120deg, #ffecdf, #ffcbb9);
+    background: linear-gradient(120deg, var(--peach), var(--peach));
 }
 
 .breadcrumb {
     font: 11px var(--mono);
-    color: #6c5c88;
+    color: var(--muted);
     margin-bottom: 34px;
     display: flex;
     gap: 12px;
@@ -43,7 +43,7 @@
     display: flex;
     gap: 18px;
     align-items: center;
-    color: #65547d;
+    color: var(--muted);
 }
 
 .page-hero .hero-actions {

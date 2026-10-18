@@ -1,7 +1,7 @@
 /* Homepage article list, topic labels, and empty state. */
 
 .articles-section {
-    background: #edf0e8;
+    background: var(--soft);
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     padding: 62px 0 65px;
@@ -26,11 +26,11 @@
 }
 
 .article-item {
-    border-top: 1px solid #cdd6c5;
+    border-top: 1px solid var(--line);
 }
 
 .article-item:last-child {
-    border-bottom: 1px solid #cdd6c5;
+    border-bottom: 1px solid var(--line);
 }
 
 .article-item a {
@@ -42,7 +42,7 @@
 }
 
 .article-item a:hover h3 {
-    color: var(--green);
+    color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 4px;
 }
@@ -57,7 +57,7 @@
 
 .article-number {
     font: 10px var(--mono);
-    color: #74846c;
+    color: var(--muted);
 }
 
 .article-item h3 {
@@ -70,7 +70,7 @@
 
 .article-item .category {
     font: 10px var(--mono);
-    color: #687765;
+    color: var(--muted);
     margin-bottom: 6px;
     display: block;
 }
@@ -109,19 +109,19 @@
 }
 
 .articles-section {
-    background: #ece6fb;
-    border-color: #ddd2f1;
+    background: var(--soft);
+    border-color: var(--line);
 }
 
 .article-item {
-    border-color: #d4c8e8;
+    border-color: var(--line);
 }
 
 .article-item:last-child {
-    border-color: #d4c8e8;
+    border-color: var(--line);
 }
 
 .article-number,
 .article-item .category {
-    color: #74628f;
+    color: var(--muted);
 }

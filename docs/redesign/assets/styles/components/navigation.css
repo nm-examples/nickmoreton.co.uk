@@ -40,13 +40,13 @@ nav {
 }
 
 nav a:hover {
-    color: var(--green);
+    color: var(--accent);
     text-decoration: underline;
     text-underline-offset: 5px;
 }
 
 .nav-github {
-    border: 1px solid #aebbad;
+    border: 1px solid var(--line-strong);
     border-radius: 6px;
     padding: 11px 15px;
     display: flex;
@@ -98,7 +98,7 @@ nav a:hover {
 }
 
 header {
-    background: #faf9fff5;
+    background: color-mix(in srgb, var(--bg) 96%, transparent);
     backdrop-filter: blur(12px);
 }
 
@@ -107,18 +107,18 @@ nav {
 }
 
 .nav-github {
-    background: #5a35d3;
-    color: white;
+    background: var(--accent);
+    color: var(--paper);
     border: 0;
 }
 
 .nav-github:hover {
-    color: white;
-    background: #4324a8;
+    color: var(--paper);
+    background: var(--accent-hover);
 }
 
 .menu {
-    border-color: #beb4d8;
+    border-color: var(--line-strong);
 }
 
 @media (max-width: 1000px) {
@@ -129,7 +129,7 @@ nav {
 
 @media (max-width: 760px) {
     nav {
-        background: #faf9ff;
+        background: var(--bg);
         gap: 22px;
     }
 }

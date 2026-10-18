@@ -17,7 +17,7 @@
 .prose li {
     font-size: 17px;
     line-height: 1.85;
-    color: #373047;
+    color: var(--text);
 }
 
 .prose p {
@@ -57,7 +57,7 @@
 }
 
 .prose a {
-    color: #4b2299;
+    color: var(--accent-hover);
     text-decoration: underline;
     text-underline-offset: 4px;
     overflow-wrap: anywhere;
@@ -65,10 +65,10 @@
 
 .prose figure {
     margin: 30px 0;
-    background: #e8dfff;
+    background: var(--soft);
     border-radius: 12px;
     padding: 18px;
-    border: 1px solid #dacef0;
+    border: 1px solid var(--line);
 }
 
 .prose img {
@@ -81,12 +81,12 @@
 .prose figcaption {
     font: 10px/1.6 var(--mono);
     margin-top: 12px;
-    color: #59436e;
+    color: var(--muted);
 }
 
 .callout {
-    background: #fff2cf;
-    border-left: 3px solid #dbac35;
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
     padding: 22px 24px;
     border-radius: 0 8px 8px 0;
     margin: 28px 0;
@@ -101,7 +101,7 @@
 }
 
 .prose ul li::marker {
-    color: #8b58d9;
+    color: var(--accent);
 }
 
 @media (max-width: 1100px) {

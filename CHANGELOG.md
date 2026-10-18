@@ -25,6 +25,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add redesign integration and rollout guidance with desktop and mobile review screenshots.
 
 ### Changed
+- Consolidate theme colours into a shared 25-colour palette for text, surfaces, accents, borders, and derived shadows while retaining the contrast fixes.
 - Randomly select a portfolio project for the homepage hero on each request, keeping its screenshot, title, and record link together.
 - Increase article, chapter, and package body text to 17px on desktop and mobile, and sidebar text by 1px, and darken body and sidebar text for easier reading.
 - Simplify the footer to a single Back to top link.
@@ -43,6 +44,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 ### Fixed
 
 - Clean generated assets before starting frontend watchers and stop watchers on build failures.
+- Enlarge the homepage YAML links to touch targets at least 44px high, with vertically aligned labels.
+- Improve contrast of homepage article numbers, topic labels, and the closing section label, keeping the label above decorative artwork.
 - Build and collect static assets in CI before running template-rendering tests.
 - Keep article, chapter, and package contents links clear of shared template IDs.
 
