@@ -62,6 +62,22 @@ and native builds are separate inputs.
 
 ## Resolve and validate in stages
 
+Before the first resolution, persist the recorded cutoff and prerelease policy
+in `pyproject.toml` so plain Docker/CI commands use the same resolver inputs:
+
+```toml
+[tool.uv]
+exclude-newer = "<recorded RFC 3339 UTC cutoff>"
+prerelease = "explicit"
+```
+
+Replace the placeholder with the selection record's timestamp and merge into
+any existing `[tool.uv]` table. Persist any other non-default resolution settings
+used by the run too. CLI-only settings are insufficient: uv records them in the
+lockfile, and a later plain `uv lock --check` or `uv sync --locked` can reject
+the lock when project configuration differs. Keep the manifest, selection record,
+and resolver flags aligned; advance the cutoff only for a deliberate new selection.
+
 Use the recorded uv version and cutoff for every resolution. Where compatibility
 permits, refresh dependencies on the old Python first, upgrade Wagtail one feature
 release at a time, then change Python. Adapt the order to the verified matrix;

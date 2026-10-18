@@ -9,6 +9,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 ### Added
 - Add a repository-local Python upgrade skill with recorded version selection, companion-file checks, and a read-only lockfile inventory helper.
 
+### Fixed
+- Require the Python upgrade skill to persist resolver cutoff and prerelease settings before locking so Docker and CI consistency checks use the same inputs.
+
 ## 2026-04-28
 
 ### Added

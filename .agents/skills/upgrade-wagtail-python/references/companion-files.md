@@ -5,7 +5,7 @@ row in the dated upgrade notes; do not mechanically change unaffected files.
 
 | File | What to check or align |
 | --- | --- |
-| `pyproject.toml` | Python range; exact runtime/dev selections and intended upper bounds; Ruff target; uv sources/indexes. |
+| `pyproject.toml` | Python range; exact runtime/dev selections and intended upper bounds; Ruff target; uv sources/indexes; persist `[tool.uv].exclude-newer` and `prerelease` to match the selection record and resolver flags. |
 | `uv.lock` | All direct/transitive versions, hashes, source/marker changes, and uv lock format. Keep marker-specific variants separate. |
 | `.python-version` | Release line for local tooling, CI, and Heroku; compatible with the Docker patch. |
 | `docker/Dockerfile` | Python patch + Debian stable codename + multi-platform digest; uv pin; locked install; native libpq/JPEG/WebP/zlib dependencies. Node stage belongs to its own phase. |
