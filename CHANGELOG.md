@@ -25,6 +25,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add redesign integration and rollout guidance with desktop and mobile review screenshots.
 
 ### Changed
+- Remove numeric prefixes from homepage section labels.
 - Replace the header’s n/m lettering with offset orange and white dots and a soft orange-dot shadow inside a purple rounded square, and use the same mark for favicons.
 - Remove the circular n/m mark from article and package bylines, retaining the author name and date.
 - Correct Nick’s title to Support Engineer and describe him as an engineer working in Torchbox’s support team in the homepage, CMS defaults, and redesign reference.
