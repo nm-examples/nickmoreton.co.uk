@@ -5,21 +5,23 @@ repos:
       - id: biome-ci
         additional_dependencies: ["@biomejs/biome@2.4.13"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.10
+    rev: v0.17.1
     hooks:
       - id: ruff-check
       - id: ruff-format
   - repo: https://github.com/astral-sh/uv-pre-commit
-    # Keep version in sync with your uv package version
-    rev: 0.6.9
+    # Keep version in sync with Docker and CI
+    rev: 0.13.1
     hooks:
-      - id: uv-lock # Locks the uv lockfile
+      - id: uv-lock
+        args: [--check] # Validate the accepted lock without resolving
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.30.0"
+    rev: "1.33.0"
     hooks:
       - id: django-upgrade
         args: [--target-version, "6.0"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.21.2
+    rev: v3.22.0
     hooks:
       - id: pyupgrade
+        args: [--py314-plus]

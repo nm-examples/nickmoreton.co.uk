@@ -6,7 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Changed
+- Upgrade the Python backend to Python 3.14.8, Django 6.0.9, and Wagtail 7.4.3 LTS, with refreshed runtime and development dependencies.
+- Pin the Python Docker base to Debian Trixie and align uv 0.13.1 across Docker, CI, and pre-commit; validate and install the accepted lockfile without regenerating it.
+
 ### Added
+- Add PostgreSQL regression coverage for live/draft pages, editor publishing and preview, search, template tags, and JPEG/WebP image renditions; run it in CI with built static assets.
+- Record Python upgrade selections, verification, and rollback steps.
 - Add a repository-local Node frontend upgrade skill with version selection, the latest stable Debian Node image policy, companion-file checks, and a read-only npm lockfile inventory helper.
 - Add a repository-local Python upgrade skill with recorded version selection, companion-file checks, and a read-only lockfile inventory helper.
 

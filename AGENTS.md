@@ -23,7 +23,7 @@ Use the production-mode Docker workflow for production-like local verification b
 For Node frontend upgrades, check the latest Debian stable release and use its supported Node image variant. Pin the image with an exact Node patch tag, Debian codename, and verified multi-platform index digest, then verify native dependencies and the local Docker workflows. Keep Python image changes in the separate Python upgrade phase.
 
 ## Coding Style & Naming Conventions
-Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `ruff`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
+Target Python `3.14`, Django `6.0`, and Wagtail `7.4` LTS. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `ruff`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
 
 ## Testing Guidelines
 
@@ -31,7 +31,7 @@ For Python backend upgrades, use the repository-local skill in `.agents/skills/u
 
 For Node and frontend dependency upgrades, use the repository-local skill in `.agents/skills/upgrade-node-frontend/SKILL.md` to record version selections, align npm/Biome/runtime pins, and verify builds, watchers, and Docker. Keep Python image changes in the separate Python upgrade phase.
 
-Tests currently use Django’s built-in test runner (`python manage.py test` via `make test`). Add tests near the app they cover; the current example is `webapp/pages/test.py`, but prefer names like `test_models.py` or `test_views.py` as coverage grows. Name test methods `test_<behavior>` and cover page models, template rendering, and custom template tags when you change them.
+Tests currently use Django’s built-in test runner (`python manage.py test` via `make test`). Add tests near the app they cover; the regression suite is `webapp/pages/test_upgrade.py`, but prefer names like `test_models.py` or `test_views.py` as coverage grows. Name test methods `test_<behavior>` and cover page models, template rendering, and custom template tags when you change them.
 
 ## Commit, Changelog & Pull Request Guidelines
 Recent history uses short, imperative commit subjects such as `Mirror data into production-mode Docker`. Keep subjects specific and under roughly 72 characters.

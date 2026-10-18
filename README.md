@@ -1,8 +1,8 @@
 # Nick Moreton's Wagtail-Powered Website
 
-[![Wagtail](https://img.shields.io/badge/wagtail-7.3.1-olive.svg)](https://wagtail.org/)
-[![Django](https://img.shields.io/badge/django-6.0.4-green.svg)](https://www.djangoproject.com/)
-[![Python](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/)
+[![Wagtail](https://img.shields.io/badge/wagtail-7.4.3-olive.svg)](https://wagtail.org/)
+[![Django](https://img.shields.io/badge/django-6.0.9-green.svg)](https://www.djangoproject.com/)
+[![Python](https://img.shields.io/badge/python-3.14.8-blue.svg)](https://www.python.org/)
 
 Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django and Wagtail site with custom content models, a small frontend build pipeline, and Docker-based local development.
 
@@ -21,7 +21,8 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 
 - Docker Compose
 - Node.js and npm
-- Python tooling is installed inside the app container with `uv`
+- Python 3.14 (Docker pins 3.14.8) and uv 0.13.1 are installed inside the app container
+- Django 6.0 and Wagtail 7.4 LTS are the supported framework lines
 
 Copy the example environment file before running the normal development or
 Heroku-backed data/media targets:
@@ -129,3 +130,15 @@ For step-by-step commands and troubleshooting, see
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
 - [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.
+
+## Python Dependency Maintenance
+
+Docker, CI, and pre-commit use uv 0.13.1. The accepted `uv.lock` includes artifact
+hashes; Docker and CI install it with `uv sync --locked` and validate it with
+`uv lock --check`. The release cutoff and explicit prerelease policy in
+`pyproject.toml` are part of the resolution inputs. Advance them deliberately
+for a new dependency selection, using the repository's Python upgrade skill.
+Heroku detects `uv.lock`; do not generate a competing `requirements.txt`.
+
+See [the Python upgrade record](./docs/python-upgrade.md) for version selections,
+verification, migration/reindex/static-file requirements, and rollback steps.
