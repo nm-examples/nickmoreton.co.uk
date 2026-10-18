@@ -1,4 +1,4 @@
-FROM node:24-bookworm AS frontend
+FROM node:24.22.0-trixie@sha256:ff054b356ab93ed540518ca23cfcd9840e5256dd04db5a8d8afc43f4ecc7c9f8 AS frontend
 
 WORKDIR /app
 

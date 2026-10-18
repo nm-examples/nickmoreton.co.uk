@@ -20,7 +20,7 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 ## Requirements
 
 - Docker Compose
-- Node.js and npm
+- Node.js 24.22.0 LTS and its bundled npm 11.19.1 (see `.nvmrc`)
 - Python 3.14 (Docker pins 3.14.8) and uv 0.13.1 are installed inside the app container
 - Django 6.0 and Wagtail 7.4 LTS are the supported framework lines
 
@@ -65,9 +65,13 @@ Run Django:
 make run
 ```
 
-In another terminal, watch frontend assets:
+In another terminal, select the project runtime, install the accepted lockfile,
+and watch frontend assets:
 
 ```bash
+nvm install
+nvm use
+npm ci
 npm start
 ```
 
@@ -142,3 +146,13 @@ Heroku detects `uv.lock`; do not generate a competing `requirements.txt`.
 
 See [the Python upgrade record](./docs/python-upgrade.md) for version selections,
 verification, migration/reindex/static-file requirements, and rollback steps.
+
+## Node Frontend Maintenance
+
+The Node Docker build stage uses Debian 13 (Trixie), pinned to an exact Node
+patch and multi-platform image digest. Local setup, CI, and Heroku select the
+Node/npm versions in `.nvmrc` and `package.json`. Routine installs use `npm ci`;
+only intentional dependency upgrades regenerate `package-lock.json`.
+
+See [the Node frontend upgrade record](./docs/node-upgrade.md) for selections,
+compatibility evidence, verification, and rollback.

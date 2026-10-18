@@ -11,6 +11,30 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
+  frontend:
+    name: frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Verify bundled npm
+        run: test "$(npm --version)" = "$(node -p 'require("./package.json").engines.npm')"
+
+      - name: Install the accepted lockfile
+        run: npm ci
+
+      - name: Check frontend code and build assets
+        run: |
+          npm run biome:check
+          npm run build
+          git diff --exit-code -- package.json package-lock.json
+
   python:
     name: python
     runs-on: ubuntu-latest

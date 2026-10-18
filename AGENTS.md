@@ -15,6 +15,8 @@ Use the root `README.md` for the standard local setup flow. Day-to-day commands:
 
 Copy `.env.example` to `.env` before starting work.
 
+Use Node.js `24.22.0` LTS and its bundled npm `11.19.1`. Select the project runtime with `nvm install` and `nvm use` from `.nvmrc`, then use `npm ci` for routine installs. Regenerate `package-lock.json` only for deliberate dependency updates. Keep `.nvmrc`, the exact Node/npm engines in `package.json`, Docker, and CI aligned; Heroku uses the package engines. Version selections, verification, and rollback steps are recorded in `docs/node-upgrade.md`.
+
 ## Local Development & Production-Mode Checks
 Use Docker Compose for normal local development: `make quickstart` for the first boot, then `make run` for Django and `npm start` for frontend asset watching during day-to-day work.
 
@@ -24,6 +26,8 @@ For Node frontend upgrades, check the latest Debian stable release and use its s
 
 ## Coding Style & Naming Conventions
 Target Python `3.14`, Django `6.0`, and Wagtail `7.4` LTS. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `ruff`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
+
+Frontend JavaScript and JSON checks use Biome `2.5.15`, pinned exactly in `package.json` and matched by the pre-commit hook revision and additional dependency. Run `npm run biome:check` for its configured file coverage and `npm run build` to verify production assets.
 
 ## Testing Guidelines
 
