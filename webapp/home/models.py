@@ -1,4 +1,5 @@
 import json
+import random
 
 from django.db import models
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
@@ -119,10 +120,7 @@ class HomePage(Page):
     @property
     def hero_project(self):
         projects = [block.value for block in self.projects]
-        return next(
-            (project for project in projects if project["featured"]),
-            projects[0] if projects else None,
-        )
+        return random.choice(projects) if projects else None
 
     def all_articles(self):
         return (

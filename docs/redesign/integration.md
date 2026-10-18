@@ -25,8 +25,11 @@ introduction, which now has editable values shared by the display and copy actio
 
 Portfolio projects are ordered blocks with a title, category, optional description,
 Wagtail image, image description, external portfolio-record URL, and a featured
-checkbox. The first featured project appears in the hero; otherwise the first
-project is used. An empty portfolio has a link to the external portfolio archive.
+checkbox retained from the initial design. The hero randomly selects from all
+portfolio projects on each page request, keeping the image, title, description,
+and record link together. The featured checkbox no longer controls the hero.
+Random selection can repeat a project on consecutive requests. An empty portfolio
+has a link to the external portfolio archive.
 
 Article pages have optional topic and repository fields. Package pages have
 category, repository, icon, and featured-card fields. Both types have a homepage

@@ -25,6 +25,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add redesign integration and rollout guidance with desktop and mobile review screenshots.
 
 ### Changed
+- Randomly select a portfolio project for the homepage hero on each request, keeping its screenshot, title, and record link together.
 - Increase article, chapter, and package body text to 17px on desktop and mobile, and sidebar text by 1px, and darken body and sidebar text for easier reading.
 - Simplify the footer to a single Back to top link.
 - Remove numeric prefixes from homepage section labels.

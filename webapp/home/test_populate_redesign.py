@@ -44,7 +44,9 @@ class PopulateRedesignTests(TestCase):
         self.home.refresh_from_db()
         self.assertEqual(len(self.home.projects), 4)
         self.assertEqual(self.home.body.get_prep_value(), body)
-        self.assertEqual(self.home.hero_project["title"], "Alcott Farm Bed & Breakfast")
+        self.assertEqual(
+            self.home.projects[0].value["title"], "Alcott Farm Bed & Breakfast"
+        )
         response = self.client.get(self.home.url)
         self.assertEqual(response.status_code, 200)
         self.assertRegex(response.content.decode(), r"/media/images/[^\"]+\.webp")
