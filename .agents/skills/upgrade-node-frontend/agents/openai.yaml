@@ -1,0 +1,4 @@
+interface:
+  display_name: "Upgrade nickmoreton.co.uk Node"
+  short_description: "Recorded frontend upgrades for nickmoreton.co.uk"
+  default_prompt: "Use $upgrade-node-frontend to upgrade this repository’s Node frontend toolchain with recorded versions, the latest stable Debian Node image, and local Docker verification."

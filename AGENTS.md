@@ -20,12 +20,16 @@ Use Docker Compose for normal local development: `make quickstart` for the first
 
 Use the production-mode Docker workflow for production-like local verification before deployment. Run `make prod-run` to start Gunicorn behind nginx with `DEBUG = False`; the OrbStack URL is `https://prod-nginx.nickmoreton-production.orb.local`. Data and media workflows are documented in `docs/data-and-media.md`; production data and media sync commands remain local-only and environment-dependent.
 
+For Node frontend upgrades, check the latest Debian stable release and use its supported Node image variant. Pin the image with an exact Node patch tag, Debian codename, and verified multi-platform index digest, then verify native dependencies and the local Docker workflows. Keep Python image changes in the separate Python upgrade phase.
+
 ## Coding Style & Naming Conventions
 Target Python `3.13`, Django `6.0`, and Wagtail `7.3`. Follow PEP 8 with 4-space indentation. Keep Django modules and template directories lowercase with underscores; use `PascalCase` for model and test class names, and `snake_case` for functions and methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials in `webapp/static_src/styles/`. The Python toolchain includes `ruff`, `pyupgrade`, and `django-upgrade`; run them before opening a PR if you touch Python code.
 
 ## Testing Guidelines
 
 For Python backend upgrades, use the repository-local skill in `.agents/skills/upgrade-wagtail-python/SKILL.md` to record exact version selections, align companion files, and verify the Docker stacks.
+
+For Node and frontend dependency upgrades, use the repository-local skill in `.agents/skills/upgrade-node-frontend/SKILL.md` to record version selections, align npm/Biome/runtime pins, and verify builds, watchers, and Docker. Keep Python image changes in the separate Python upgrade phase.
 
 Tests currently use Django’s built-in test runner (`python manage.py test` via `make test`). Add tests near the app they cover; the current example is `webapp/pages/test.py`, but prefer names like `test_models.py` or `test_views.py` as coverage grows. Name test methods `test_<behavior>` and cover page models, template rendering, and custom template tags when you change them.
 

@@ -7,6 +7,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 ## Unreleased
 
 ### Added
+- Add a repository-local Node frontend upgrade skill with version selection, the latest stable Debian Node image policy, companion-file checks, and a read-only npm lockfile inventory helper.
 - Add a repository-local Python upgrade skill with recorded version selection, companion-file checks, and a read-only lockfile inventory helper.
 
 ### Fixed
