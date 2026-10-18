@@ -26,10 +26,16 @@ header {
 }
 
 .brand-mark {
+    background: var(--ink);
+    color: var(--lime);
     width: 39px;
     height: 39px;
-    display: block;
-    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    font-size: 15px;
+    letter-spacing: -2px;
+    font-family: var(--mono);
 }
 
 .brand-dot {
@@ -104,6 +110,11 @@ nav a:hover {
 header {
     background: #faf9fff5;
     backdrop-filter: blur(12px);
+}
+
+.brand-mark {
+    background: #5a35d3;
+    color: white;
 }
 
 .brand > span:last-child {
