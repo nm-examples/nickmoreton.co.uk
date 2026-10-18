@@ -15,9 +15,9 @@
 
 .prose p,
 .prose li {
-    font-size: 16px;
+    font-size: 17px;
     line-height: 1.85;
-    color: #514a66;
+    color: #373047;
 }
 
 .prose p {
@@ -57,7 +57,7 @@
 }
 
 .prose a {
-    color: #6035c5;
+    color: #4b2299;
     text-decoration: underline;
     text-underline-offset: 4px;
     overflow-wrap: anywhere;
@@ -81,7 +81,7 @@
 .prose figcaption {
     font: 10px/1.6 var(--mono);
     margin-top: 12px;
-    color: #75628c;
+    color: #59436e;
 }
 
 .callout {
@@ -117,11 +117,6 @@
         flex-direction: column-reverse;
         gap: 30px;
         padding-top: 30px;
-    }
-    .prose p,
-    .prose li {
-        font-size: 15px;
-        line-height: 1.85;
     }
     .prose h2 {
         font-size: 26px;
