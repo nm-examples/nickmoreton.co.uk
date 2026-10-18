@@ -4,17 +4,10 @@
     padding: 25px 0 28px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 20px;
     font: 10px var(--mono);
     color: var(--muted);
-}
-
-.footer-name {
-    font-family: var(--sans);
-    font-size: 13px;
-    color: var(--ink);
-    font-weight: 550;
 }
 
 .footer a:hover {
@@ -26,12 +19,6 @@
         font-size: 9px;
         flex-wrap: wrap;
         line-height: 1.6;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer > a:last-child {
-        margin-left: auto;
     }
 }
 
