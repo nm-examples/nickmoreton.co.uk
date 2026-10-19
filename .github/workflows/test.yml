@@ -11,9 +11,50 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
+  frontend:
+    name: frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+
+      - name: Verify bundled npm
+        run: test "$(npm --version)" = "$(node -p 'require("./package.json").engines.npm')"
+
+      - name: Install the accepted lockfile
+        run: npm ci
+
+      - name: Check frontend code and build assets
+        run: |
+          npm run biome:check
+          npm run build
+          git diff --exit-code -- package.json package-lock.json
+
   python:
     name: python
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: webapp
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:password@localhost:5432/webapp
+      DJANGO_SETTINGS_MODULE: webapp.settings.dev
 
     steps:
       - uses: actions/checkout@v4
@@ -21,41 +62,46 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
-          # Install a specific version of uv.
-          # Keep this in sync with the version in .pre-commit-config.yaml
-          version: "0.6.9"
+          # Keep Docker and .pre-commit-config.yaml aligned.
+          version: "0.13.1"
 
-      - name: "Set up Python"
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version-file: ".python-version"
 
+      - name: Validate the accepted lockfile
+        run: uv lock --check
+
+      - name: Install PostgreSQL build headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes libpq-dev
+
       - name: Install the project
-        run: uv sync --all-extras --dev
+        run: uv sync --locked --all-extras --dev
 
-      - name: Check if uv.lock is up to date
-        run: |
-          uv lock
-          if ! git diff --exit-code uv.lock; then
-            echo "uv.lock is not up to date. Please update it."
-            exit 1
-          fi
+      - name: Set up Node for static assets
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
 
-      - name: Check if requirements.txt is up to date
+      - name: Prepare static assets
         run: |
-          uv export --no-hashes --no-dev --output-file requirements.txt --locked
-          if ! git diff --exit-code requirements.txt; then
-            echo "requirements.txt is not up to date. Please update it."
-            exit 1
-          fi
+          npm ci
+          npm run build
+          uv run --locked python manage.py collectstatic --noinput
 
       - name: Check code style
         run: |
-          uv run ruff format --check .
-          uv run ruff check .
+          uv run --locked ruff format --check .
+          uv run --locked ruff check .
 
-      - name: Check migrations
-        run: uv run python manage.py makemigrations --check --dry-run
+      - name: Check Django configuration and migrations
+        run: |
+          uv run --locked python -Wa manage.py check
+          uv run --locked python manage.py makemigrations --check --dry-run
 
-      - name: Run tests
-        run: uv run manage.py test
+      - name: Run PostgreSQL regression tests
+        run: uv run --locked python -Wa manage.py test --noinput

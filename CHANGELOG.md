@@ -6,6 +6,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Changed
+- Upgrade to Python 3.14.8, Django 6.0.9, Wagtail 7.4.3 LTS, and Node 24.22.0.
+- Refresh dependencies, pin Debian Trixie builds, and standardize locked installs.
+
+### Added
+- Add PostgreSQL regression tests and frontend CI checks.
+- Add Python and Node upgrade skills, dependency inventories, and verification/rollback records.
+
+### Fixed
+- Clean generated assets before starting frontend watchers and stop watchers on build failures.
+
 ## 2026-04-28
 
 ### Added

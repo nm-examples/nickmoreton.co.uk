@@ -13,19 +13,23 @@
     "scripts:prod": "concurrently \"npm run scripts -- --minify\"",
     "scripts:watch": "concurrently \"npm run scripts -- --watch\"",
     "images": "node scripts/images.js",
-    "clean": "rm -rf static_compiled",
+    "clean": "rm -rf webapp/static_compiled",
     "build": "concurrently \"npm run styles:prod\" \"npm run scripts:prod\" \"npm run images\"",
-    "start": "concurrently \"npm run clean\" \"npm run styles:watch\" \"npm run scripts:watch\" \"npm run images\"",
+    "start": "npm run clean && concurrently --kill-others-on-fail \"npm run styles:watch\" \"npm run scripts:watch\" \"npm run images\"",
     "biome:check": "biome ci .",
     "biome:write": "biome check --write ."
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.13",
+    "@biomejs/biome": "2.5.15",
     "@picocss/pico": "^2.1.1",
-    "concurrently": "^9.2.1",
-    "esbuild": "^0.28.0",
-    "highlight.js": "^11.11.1",
-    "sass": "^1.99.0",
-    "sharp": "^0.34.5"
+    "concurrently": "^10.0.6",
+    "esbuild": "^0.28.2",
+    "highlight.js": "^11.12.0",
+    "sass": "^1.105.2",
+    "sharp": "^0.35.5"
+  },
+  "engines": {
+    "node": "24.22.0",
+    "npm": "11.19.1"
   }
 }

@@ -135,19 +135,19 @@ quickstart: frontend build up migrate collectstatic superuser
 # Build the frontend
 .PHONY: frontend
 frontend:
-	@npm install
+	@npm ci
 	@npm run build
 
 # Check the frontend
 .PHONY: frontend-check
 frontend-check:
-	@npm install
+	@npm ci
 	@npm run biome:check
 
 # Start the frontend and run the local development server
 .PHONY: start
 start:
-	@npm install
+	@npm ci
 	@npm run build
 	@npm run start
 

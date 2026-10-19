@@ -3,31 +3,31 @@ name = "nickmoreton"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14,<3.15"
 dependencies = [
-    "dj-database-url>=3.1.2",
-    "django>=6.0.4,<6.1",
-    "django-browser-reload>=1.21.0",
-    "django-storages[s3]>=1.14.6",
-    "gunicorn>=25.3.0",
-    "psycopg2>=2.9.12",
-    "requests==2.33.1",
-    "wagtail>=7.3.1,<7.4",
-    "wagtail-unveil>=0.1.0a7",
-    "whitenoise==6.12.0",
+    "dj-database-url>=3.1.2,<4",
+    "django>=6.0.9,<6.1",
+    "django-browser-reload>=1.21.0,<2",
+    "django-storages[s3]>=1.14.6,<2",
+    "gunicorn>=26.2.0,<27",
+    "psycopg2>=2.9.13,<3",
+    "requests>=2.34.2,<3",
+    "wagtail>=7.4.3,<7.5",
+    "wagtail-unveil==0.1.0a7",
+    "whitenoise>=6.12.0,<7",
 ]
 
 [dependency-groups]
 dev = [
-    "django-upgrade>=1.30.0",
-    "pre-commit>=4.6.0",
-    "pyupgrade>=3.21.2",
-    "ruff>=0.15.10",
+    "django-upgrade>=1.33.0,<2",
+    "pre-commit>=4.7.0,<5",
+    "pyupgrade>=3.22.0,<4",
+    "ruff>=0.17.1,<0.18",
 ]
 
 [tool.ruff]
 line-length = 88
-target-version = "py313"
+target-version = "py314"
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I", "W"]
@@ -37,3 +37,8 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
+
+[tool.uv]
+exclude-newer = "2026-10-18T20:40:43Z"
+prerelease = "explicit"
+resolution = "highest"
