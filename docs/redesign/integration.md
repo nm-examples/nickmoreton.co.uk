@@ -165,6 +165,34 @@ PyPI metadata has bounded request timeouts, successful-result caching for an hou
 and failure caching for five minutes. A failed request leaves package content and
 resource links available.
 
+### Stack rebase verification — 19 October 2026
+
+PR #81 already contains the latest `main`. Rebased the implementation plan (#83)
+onto #81 and the redesign (#84) onto the refreshed plan. The runtime and dependency
+upgrades from #86 are retained, including Python 3.14.8, Django 6.0.9, Wagtail
+7.4.3 LTS, and Node 24.22.0. The redesign still removes Pico and declares Beautiful
+Soup directly. The CI workflow retains locked installs, PostgreSQL tests, and
+frontend build/static collection before rendering tests.
+
+Updated the inherited upgrade tests to submit the new homepage-order field,
+isolate cached PyPI results, assert bounded request timeouts, and model HTTP errors
+while checking that fallback resource links remain available.
+
+Fresh checks after the rebase:
+
+- All 48 Django tests pass against PostgreSQL in both development and production
+  settings, using isolated test databases.
+- Both Docker image builds, the local frontend production build, and Biome pass.
+- Lockfile validation, static collection, Django system checks, migration drift
+  checks, and applicable pre-commit checks pass.
+- The plan document, redesign application code, and source assets are unchanged
+  from their previous branch heads; the only application-tree changes are the
+  inherited upgrade tests and their compatibility corrections.
+
+The warning-enabled test runs report Wagtail image-rendition `ResourceWarning`s
+for unclosed temporary files. Browser interactions and visual layouts were not
+rechecked for this rebase; the screenshots and visual checks above are historical.
+
 ## Screenshots
 
 Homepage and index images show the full page. Detail, chapter, search, and error

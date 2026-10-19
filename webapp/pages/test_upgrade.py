@@ -5,7 +5,9 @@ from io import BytesIO
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
+import requests
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.core.files.images import ImageFile
 from django.db import connection
 from django.template import RequestContext, Template
@@ -65,6 +67,9 @@ class UpgradeRegressionTests(TestCase):
             username="upgrade-editor", email="editor@example.com", password="test-only"
         )
 
+    def setUp(self):
+        cache.clear()
+
     def test_home_and_index_only_list_live_articles(self):
         for url in ["/", self.index.url]:
             with self.subTest(url=url):
@@ -103,6 +108,7 @@ class UpgradeRegressionTests(TestCase):
                 "title": "Published through editor",
                 "slug": self.draft.slug,
                 "date": "2026-02-01",
+                "homepage_order": self.draft.homepage_order,
                 "body-count": "0",
                 "action-publish": "Publish",
             },
@@ -214,9 +220,19 @@ class UpgradeRegressionTests(TestCase):
         response = self.client.get(package.url)
         self.assertContains(response, "1.2.3")
         self.assertContains(response, "02 Jan 2026")
-        get.assert_called_with("https://pypi.org/pypi/regression/json")
+        get.assert_called_once_with(
+            "https://pypi.org/pypi/regression/json", timeout=(2, 3)
+        )
 
     @patch("webapp.pages.templatetags.pypi_tags.requests.get")
     def test_pypi_tag_handles_unavailable_package(self, get):
         get.return_value.status_code = 404
-        self.assertEqual(pypi_info("missing-package"), {"release": None})
+        get.return_value.raise_for_status.side_effect = requests.HTTPError
+        self.assertEqual(
+            pypi_info("missing-package"),
+            {
+                "release": None,
+                "pypi_url": "https://pypi.org/project/missing-package/",
+                "repository_url": "",
+            },
+        )

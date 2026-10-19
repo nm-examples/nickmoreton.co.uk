@@ -6,11 +6,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
-### Changed
-
-- Upgrade to Python 3.14.8, Django 6.0.9, Wagtail 7.4.3 LTS, and Node 24.22.0.
-- Refresh dependencies, pin Debian Trixie builds, and standardize locked installs.
-
 ### Added
 
 - Add PostgreSQL regression tests and frontend CI checks.
@@ -25,6 +20,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 - Add redesign integration and rollout guidance with desktop and mobile review screenshots.
 
 ### Changed
+
+- Upgrade to Python 3.14.8, Django 6.0.9, Wagtail 7.4.3 LTS, and Node 24.22.0.
+- Refresh dependencies, pin Debian Trixie builds, and standardize locked installs.
 - Consolidate theme colours into a shared 25-colour palette for text, surfaces, accents, borders, and derived shadows while retaining the contrast fixes.
 - Randomly select a portfolio project for the homepage hero on each request, keeping its screenshot, title, and record link together.
 - Increase article, chapter, and package body text to 17px on desktop and mobile, and sidebar text by 1px, and darken body and sidebar text for easier reading.
@@ -43,6 +41,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Fixed
 
+- Align upgrade regression tests with the redesigned editor fields and cached PyPI metadata.
 - Clean generated assets before starting frontend watchers and stop watchers on build failures.
 - Enlarge the homepage YAML links to touch targets at least 44px high, with vertically aligned labels.
 - Improve contrast of homepage article numbers, topic labels, and the closing section label, keeping the label above decorative artwork.
