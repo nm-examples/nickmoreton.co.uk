@@ -1,0 +1,87 @@
+/* Inner-page headings, breadcrumbs, introductions, and author metadata. */
+
+.page-hero {
+    padding: 36px 0 40px;
+    background: linear-gradient(120deg, var(--soft), var(--violet-light));
+    border-bottom: 1px solid var(--line);
+}
+
+.package-page .page-hero {
+    background: linear-gradient(120deg, var(--peach), var(--peach));
+}
+
+.breadcrumb {
+    font: 11px var(--mono);
+    color: var(--muted);
+    margin-bottom: 34px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.page-hero h1 {
+    font-size: 60px;
+    line-height: 1.08;
+    letter-spacing: -2.8px;
+    max-width: 900px;
+    margin: 14px 0 19px;
+}
+
+.page-lead {
+    font-size: 18px;
+    max-width: 770px;
+    line-height: 1.6;
+    margin: 0 0 24px;
+}
+
+.byline {
+    font: 11px var(--mono);
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    color: var(--muted);
+}
+
+.page-hero .hero-actions {
+    margin-top: 20px;
+}
+
+.section-num {
+    line-height: 1.6;
+}
+
+.article-page .page-lead {
+    max-width: 680px;
+}
+
+@media (max-width: 1100px) {
+    .page-hero h1 {
+        font-size: 53px;
+    }
+}
+
+@media (max-width: 760px) {
+    .page-hero {
+        padding: 27px 0 32px;
+    }
+    .breadcrumb {
+        font-size: 10px;
+        margin-bottom: 25px;
+        gap: 8px;
+    }
+    .page-hero h1 {
+        font-size: 43px;
+        letter-spacing: -1.8px;
+    }
+    .page-lead {
+        font-size: 16px;
+    }
+    .byline {
+        font-size: 10px;
+        gap: 11px;
+    }
+}

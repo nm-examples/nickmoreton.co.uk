@@ -132,6 +132,8 @@ For step-by-step commands and troubleshooting, see
 
 ## Focused Docs
 
+- [Redesign integration and review](./docs/redesign/integration.md): content editing, migrations, population commands, checks, and screenshots.
+
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
 - [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.
 

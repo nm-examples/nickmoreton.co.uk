@@ -1,26 +1,7 @@
-{% extends "base.html" %}
-{% load wagtailcore_tags pypi_tags %}
-
-{% block header %}
-<header class="short">
-    <div class="container">
-        <h1>{{ page.title }}</h1>
-    </div>
-</header>
-{% endblock header %}
-
+{% extends "base.html" %}{% load pypi_tags %}
+{% block body_class %}package-page{% endblock %}
 {% block content %}
-<!-- <div class="container-grid"> -->
-    <div class="grid-layout">
-    <article>
-        {% for block in page.body %}
-            {% include_block block %}
-        {% endfor %}
-    </article>
-    <aside>
-        <!-- Package data -->
-        {% pypi_info page.pypi_package_name %}
-    </aside>
-    </div>
-<!-- </div> -->
-{% endblock content %}
+    {% include "pages/includes/page_header.html" with section_label=page.category|default:'PACKAGE / WAGTAIL' %}
+    <div class="wrap detail-layout"><article class="prose">{{ rendered_body }}</article><aside class="sidebar" aria-label="Package navigation">{% include "pages/includes/toc.html" %}{% pypi_info page.pypi_package_name page.repository_url %}</aside></div>
+    {% include "pages/includes/related.html" with related_pages=latest_packages related_title="More packages" %}
+{% endblock %}

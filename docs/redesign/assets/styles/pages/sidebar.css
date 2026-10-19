@@ -1,0 +1,91 @@
+/* Detail-page table of contents and resource links. */
+
+.sidebar {
+    position: sticky;
+    top: 115px;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.sidebar-label {
+    font: 11px var(--mono);
+    letter-spacing: 1px;
+    color: var(--muted);
+    margin: 0 0 16px;
+}
+
+.toc {
+    border-left: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0 0 29px;
+}
+
+.toc a {
+    padding: 8px 0 8px 16px;
+    line-height: 1.6;
+    color: var(--text);
+    font-size: 13px;
+}
+
+.toc a:hover {
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    margin-left: -1px;
+}
+
+.resource-box {
+    padding: 20px;
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--soft);
+}
+
+.resource-box p {
+    font-size: 13px;
+    margin: 8px 0 15px;
+}
+
+.resource-box a {
+    display: block;
+    font-size: 13px;
+    margin: 11px 0;
+    color: var(--accent-hover);
+}
+
+.resource-box h3 {
+    font-size: 16px;
+    margin: 0;
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+    }
+    .toc {
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-left: 0;
+        gap: 6px;
+        margin-bottom: 0;
+    }
+    .toc a {
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+    .toc a:hover {
+        margin-left: 0;
+        border: 1px solid var(--line-strong);
+    }
+    .resource-box {
+        display: none;
+    }
+    .sidebar-label {
+        margin-bottom: 12px;
+    }
+}

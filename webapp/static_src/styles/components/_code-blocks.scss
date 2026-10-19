@@ -1,0 +1,83 @@
+/* Code examples, copy buttons, and expandable snippets. */
+
+.code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    color: var(--code-text);
+    border-radius: 9px;
+    overflow: hidden;
+    margin: 25px 0;
+}
+
+.code-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 17px;
+    background: var(--code-bar);
+    color: var(--code-muted);
+    font: 10px var(--mono);
+    border-bottom: 1px solid var(--code-border);
+}
+
+.code-copy {
+    font: 10px var(--mono);
+    border: 1px solid var(--code-border);
+    background: transparent;
+    color: var(--code-text);
+    border-radius: 4px;
+    padding: 6px 9px;
+}
+
+.code-copy:hover {
+    background: var(--code-bar);
+}
+
+.prose pre {
+    margin: 0;
+    padding: 23px;
+    overflow: auto;
+    max-width: 100%;
+    font: 12px/1.85 var(--mono);
+    tab-size: 4;
+    white-space: pre;
+}
+
+.prose code {
+    font-family: var(--mono);
+}
+
+.prose p code {
+    background: var(--soft);
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.code-expand {
+    border: 1px solid var(--code-border);
+    border-radius: 8px;
+    margin: 24px 0;
+    overflow: hidden;
+}
+
+.code-expand summary {
+    padding: 17px 20px;
+    font-size: 13px;
+    font-weight: 550;
+    cursor: pointer;
+    background: var(--soft);
+}
+
+.code-expand .code-block {
+    margin: 0;
+    border-radius: 0;
+    border: 0;
+}
+
+@media (max-width: 760px) {
+    .prose pre {
+        font-size: 11px;
+        padding: 18px;
+    }
+}

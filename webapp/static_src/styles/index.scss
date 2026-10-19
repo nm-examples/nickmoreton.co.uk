@@ -1,53 +1,22 @@
-@use "../../../node_modules/@picocss/pico/scss/pico.scss" as *;
-@use "../../../node_modules/@picocss/pico/scss/colors/index" as *;
-
-@import "./vars";
-
-@import "./components/nav";
-@import "./components/header";
-@import "./components/code_blocks";
-@import "./components/callout";
-@import "./components/image-aligned";
-@import "./components/panels";
-@import "./components/footer";
-@import "./components/aside";
-
-@import "layout";
-
-@import "../../../node_modules/highlight.js/scss/night-owl.scss";
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: $special-font-family;
-}
-
-h2 {
-    font-size: 1.4rem;
-}
-
-.button {
-    display: inline-flex;
-    justify-content: space-between;
-    background-color: $primary-color;
-    padding: .25rem 1rem;
-    color: white;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    .icon-arrow {
-        transform: translateY(-0.1em);
-    }
-    &.next {
-        .icon-arrow {
-            margin-left: .5rem;
-        }
-    }
-    &.prev {
-        .icon-arrow {
-            margin-right: .5rem;
-        }
-    }
-}
+@use "foundations/tokens";
+@use "foundations/base";
+@use "components/navigation";
+@use "components/actions";
+@use "components/sections";
+@use "components/search";
+@use "components/terminal";
+@use "home/hero";
+@use "home/portfolio";
+@use "components/packages";
+@use "home/articles";
+@use "home/about";
+@use "home/contact";
+@use "components/footer";
+@use "pages/header";
+@use "pages/archive";
+@use "pages/prose";
+@use "components/code-blocks";
+@use "pages/sidebar";
+@use "pages/related";
+@use "../../../node_modules/highlight.js/scss/night-owl";
+@use "components/integration";

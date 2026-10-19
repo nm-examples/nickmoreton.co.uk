@@ -1,48 +1,17 @@
-{% extends "base.html" %}
-{% load wagtailcore_tags %}
-
-{% block body_class %}template-articles{% endblock %}
-
-{% block header %}
-<header>
-    <div class="container">
-        <h1>{{ page.title }}</h1>
-    </div>
-</header>
-{% endblock %}
-
+{% extends "base.html" %}{% load wagtailcore_tags %}
+{% block body_class %}archive-page{% endblock %}
 {% block content %}
-
-    {% for block in page.body %}
-    {% include_block block %}
-    {% endfor %}
-    
-    <div id="grid-panels" class="articles">
-
-            <div class="grid-panels">
+    {% include "pages/includes/page_header.html" with section_label="ARTICLES / NOTES & TOOLS" lead="Notes, tools, and things learned along the way." %}
+    <section class="archive wrap" data-filter>
+        {% if page.body %}<div class="prose">{% include "pages/includes/body.html" with body=page.body %}</div>{% endif %}
+        <div class="archive-toolbar"><p>{{ articles|length }} article{{ articles|length|pluralize }}</p>{% include "core/includes/filter.html" with filter_id="archive-search" filter_label="Search articles" placeholder="Find articles…" %}</div>
+        <div class="archive-articles">
             {% for article in articles %}
-
-                <a href="{{ article.url }}">
-                    <article>
-                        <span class="title">{{ article.title }}</span>
-                        <span class="excerpt">{{ article.excerpt }}</span>
-                        <span class="arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 32 32">
-                                <title>arrow right</title>
-                                <g stroke-linecap="square" stroke-width="2" fill="none" stroke="#ffffff" stroke-linejoin="miter"
-                                    class="nc-icon-wrapper" stroke-miterlimit="10">
-                                    <line data-cap="butt" x1="2" y1="16" x2="30" y2="16" stroke-linecap="butt" stroke="#ffffff">
-                                    </line>
-                                    <polyline points="21,7 30,16 21,25 "></polyline>
-                                </g>
-                            </svg>
-                        </span>
-                    </article>
-                </a>
-
-            {% endfor %}
+            <article class="archive-article" data-search-item data-search-text="{{ article.title }} {{ article.topic }}">
+                <span class="archive-category">{{ article.topic|default:'Wagtail'|upper }}</span><a href="{% pageurl article %}"><h2>{{ article.title }}</h2></a>{% if article.excerpt %}<p>{{ article.excerpt }}</p>{% endif %}<a class="text-link" href="{% pageurl article %}">Read article <span aria-hidden="true">↗</span></a>
+            </article>
+            {% empty %}<p>No articles have been published yet.</p>{% endfor %}
         </div>
-
-    </div>
-
+        <p class="archive-empty" data-filter-empty hidden>No matching articles. Try another search or clear the filter.</p>
+    </section>
 {% endblock %}

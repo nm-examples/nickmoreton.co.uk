@@ -1,0 +1,36 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<section class="hero wrap" aria-labelledby="hero-title">
+    <div class="eyebrow"><span class="dot"></span>{{ page.profile_name }} / {{ page.role }}</div>
+    <div class="hero-grid">
+        <div>
+            <h1 id="hero-title">{% for line in page.hero_title.splitlines %}{{ line }}{% if not forloop.last %} <br>{% endif %}{% endfor %}<span class="light">{% for line in page.hero_highlight.splitlines %}{{ line }}{% if not forloop.last %} <br>{% endif %}{% endfor %}</span></h1>
+            <div class="intro"><strong class="original-headline">{{ page.headline }}</strong>{{ page.introduction|richtext }}</div>
+            <div class="hero-actions"><a class="button" href="#work">Explore past work <span aria-hidden="true">↗</span></a><a class="text-link" href="#articles">Read my articles <span aria-hidden="true">→</span></a></div>
+        </div>
+        <div class="hero-visual">
+            {% with project=page.hero_project %}{% if project %}
+            <div class="visual-orbit" aria-hidden="true"></div>
+            <a class="hero-browser" href="{{ project.record_url }}" aria-label="View {{ project.title }} portfolio record">
+                <div class="browser-chrome"><span aria-hidden="true">● ● ●</span><span>{{ project.title }}</span><span aria-hidden="true">↗</span></div>
+                {% image project.image width-1046 format-webp alt=project.image_description %}
+            </a>
+            <div class="visual-label">Websites with Wagtail <span aria-hidden="true">✳</span></div>
+            {% endif %}{% endwith %}
+            <div class="terminal-surround">
+                <div class="terminal" data-copy-container>
+                    <div class="terminal-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="file">who_am_i.yaml</span><button class="copy" type="button" data-copy aria-label="Copy introduction YAML" hidden>Copy ⧉</button></div>
+                    <div class="code" aria-label="Profile in YAML format">
+                        <div class="code-line"><span class="ln" aria-hidden="true">01</span><span class="key">who_am_i</span>:</div>
+                        <div class="code-line"><span class="ln" aria-hidden="true">02</span>  <span class="key">name</span>: <span class="str">{{ page.yaml_name }}</span></div>
+                        <div class="code-line"><span class="ln" aria-hidden="true">03</span>  <span class="key">works_at</span>: <a class="url" href="{{ page.employer_url }}">{{ page.employer_url }}</a></div>
+                        <div class="code-line"><span class="ln" aria-hidden="true">04</span>  <span class="key">preferred_cms</span>: <a class="url" href="{{ page.cms_url }}">{{ page.cms_url }}</a></div>
+                        <div class="code-line" aria-hidden="true"><span class="ln">05</span>  <span class="cursor"></span></div>
+                    </div>
+                    <textarea hidden readonly data-code-source>{{ page.profile_yaml }}</textarea>
+                    <div class="terminal-footer"><span>↳ a little introduction</span><span>YAML</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-bottom"><div class="tech"><span>Python</span><span>Wagtail CMS</span><span>Open source</span><span>AI-assisted engineering</span></div><span class="mono">Code. Share. Repeat.</span></div>
+</section>

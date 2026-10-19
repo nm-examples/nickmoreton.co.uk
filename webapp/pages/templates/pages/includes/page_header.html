@@ -1,0 +1,10 @@
+{% load wagtailcore_tags %}{% wagtail_site as current_site %}
+<section class="page-hero">
+    <div class="wrap">
+        <div class="breadcrumb" role="navigation" aria-label="Breadcrumb"><a href="{% pageurl current_site.root_page %}">Home</a><span aria-hidden="true">/</span>{% for ancestor in page.get_ancestors %}{% if ancestor.depth > current_site.root_page.depth %}<a href="{% pageurl ancestor %}">{{ ancestor.title }}</a><span aria-hidden="true">/</span>{% endif %}{% endfor %}<span aria-current="page">{{ page.title }}</span></div>
+        <span class="section-num">{{ section_label }}</span><h1>{{ page.title }}</h1>
+        {% if page.excerpt %}<p class="page-lead">{{ page.excerpt }}</p>{% elif lead %}<p class="page-lead">{{ lead }}</p>{% endif %}
+        {% if page.date %}<div class="byline"><span>Nick Moreton</span><time datetime="{{ page.date|date:'Y-m-d' }}">{{ page.date|date:'j F Y' }}</time></div>{% endif %}
+        {% if page.repository_url or page.pypi_package_name %}<div class="hero-actions">{% if page.repository_url %}<a class="button" href="{{ page.repository_url }}">View on GitHub <span aria-hidden="true">↗</span></a>{% endif %}{% if page.pypi_package_name %}<a class="text-link" href="https://pypi.org/project/{{ page.pypi_package_name|urlencode }}/">View on PyPI ↗</a>{% endif %}</div>{% endif %}
+    </div>
+</section>

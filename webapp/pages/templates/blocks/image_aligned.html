@@ -1,14 +1,5 @@
 {% load wagtailimages_tags %}
-
 <div class="image-aligned {{ value.alignment }}">
-    <figure>
-        {% image value.image width-800 %}
-        <figcaption>{{ value.caption }}</figcaption>
-    </figure>
-    {% if value.content %}
-    <div class="content">
-        {{ value.content }}
-    </div>
-    {% endif %}
-    <div class="border"></div>
+    <figure>{% image value.image width-800 loading="lazy" %}{% if value.image.title %}<figcaption>{{ value.image.title }}</figcaption>{% endif %}</figure>
+    {% if value.content %}<div class="content">{{ value.content }}</div>{% endif %}
 </div>

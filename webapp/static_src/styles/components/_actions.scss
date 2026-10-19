@@ -1,0 +1,53 @@
+/* Shared buttons and text links. */
+
+.text-link:hover {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}
+
+.button {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 15px 21px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 26px;
+    font-weight: 550;
+    transition:
+        background 0.2s,
+        transform 0.2s;
+}
+
+.button:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+}
+
+.text-link {
+    font-size: 14px;
+    display: inline-flex;
+    gap: 14px;
+    align-items: center;
+}
+
+@media (max-width: 480px) {
+    .button {
+        gap: 18px;
+        padding: 14px 17px;
+    }
+}
+
+.button {
+    background: var(--accent);
+    border-radius: 7px;
+    padding: 16px 19px;
+    font-size: 13px;
+    gap: 22px;
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--ink) 18%, transparent);
+}
+
+.button:hover {
+    background: var(--accent-hover);
+}
