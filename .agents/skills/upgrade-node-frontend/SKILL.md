@@ -1,6 +1,6 @@
 ---
 name: upgrade-node-frontend
-description: "Upgrade the Node runtime and frontend dependencies in nickmoreton.co.uk with recorded version selections, npm lockfile reproducibility, a pinned latest-stable Debian Node image, and local Docker verification. Use for this repository's Node, npm, frontend build-library, or Biome upgrades; keep Python image and backend upgrades separate."
+description: "Upgrade the Node runtime and frontend dependencies in nickmoreton.co.uk with locked installs, a pinned stable Debian Node image, Docker verification, and concise maintenance notes. Use for this repository's Node, npm, frontend build-library, or Biome upgrades; keep Python image and backend upgrades separate."
 ---
 
 # Upgrade this repository's Node frontend
@@ -8,8 +8,8 @@ description: "Upgrade the Node runtime and frontend dependencies in nickmoreton.
 Use only in `nickmoreton.co.uk` (`package.json` name `nickmoreton`, with the
 Django/Wagtail app under `webapp/`). Read root `AGENTS.md` and the
 [companion-file checklist](references/companion-files.md). Read
-`docs/node-upgrade.md` if it exists; otherwise create it as the dated selection
-and verification record when beginning an upgrade.
+`docs/node-upgrade.md` if it exists; maintain it as a short, current maintenance
+note, creating it when needed.
 Treat earlier version selections and verification results as history, not future
 targets. Preserve the user's current scope and review checkpoint.
 
@@ -44,7 +44,7 @@ Capture baseline compiler warnings and audit findings.
 
 ## Record selections before resolving
 
-Append a dated section to `docs/node-upgrade.md` with:
+Save detailed selection evidence in ignored scratch files or outside the checkout:
 
 - Base commit, starting worktree state, baseline lock SHA-256, and full UTC
   selection timestamp; identify the registry without credentials.
@@ -65,6 +65,15 @@ Append a dated section to `docs/node-upgrade.md` with:
   flags such as `legacy-peer-deps` or `install-links`, preserve the same options
   for `npm ci` through non-secret project configuration rather than CLI-only
   flags that local, CI, Docker or Heroku installs will omit.
+
+In `docs/node-upgrade.md`, summarize only supported runtime/tool versions,
+notable compatibility decisions, dated verification results and limitations,
+and deployment/rollback requirements. Keep it roughly one page. Git, the
+manifest/lock and Dockerfile preserve exact configuration; do not duplicate
+package inventories, hashes, image digests, raw logs or per-file checklists in
+the note. Replace superseded run details rather than append an audit report for
+every upgrade. Link existing operational docs instead of copying procedures.
+Add detail only for an actual compatibility issue or a requested audit report.
 
 Use current official release notes, Node's distribution index/release schedule,
 Debian's release information, npm registry artifacts, and Heroku support docs.
@@ -126,9 +135,11 @@ database migrations of their own; inspect any backend migration plan before
 using `make prod-run` on data with pending migrations and follow the documented
 backup/rehearsal workflow if needed.
 
-Record all actual commands/results, baseline versus new warnings, native/image
+Keep detailed actual commands/results, baseline versus new warnings, native/image
 checks, browser coverage and gaps, remote checks not run, companion dispositions,
-and the final lock hash. Capture a final inventory and compare by package path,
+and the final lock hash in scratch. Summarize consequential results and limits
+in the maintenance note; distinguish historical checks from newly executed ones.
+Capture a final inventory and compare by package path,
 including optional platform variants and source fingerprints. Update
 `CHANGELOG.md` under `Unreleased` and present the diff for review. Rebuild assets
 and images for rollback using the previous manifest/lock/runtime pins together;

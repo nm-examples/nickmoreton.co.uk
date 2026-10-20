@@ -1,8 +1,8 @@
 # Companion files in nickmoreton.co.uk
 
-Read for a Node upgrade and record a disposition for each row in the dated
-`docs/node-upgrade.md` entry: updated, checked unchanged, or not applicable,
-with a reason. Discover additional configuration with `rg --hidden`, excluding
+Read for a Node upgrade and keep per-file dispositions in ignored scratch
+files. Mention only consequential exceptions in `docs/node-upgrade.md`.
+Discover additional configuration with `rg --hidden`, excluding
 `.git`, virtualenvs, `node_modules`, compiled/static assets, media, and backups.
 Do not read `.env` or dump npm authentication settings to locate version pins.
 
@@ -19,7 +19,7 @@ Do not read `.env` or dump npm authentication settings to locate version pins.
 | `Makefile` | Frontend targets use `npm ci`; preserve Docker/data commands. Avoid the destructive project-wide `make clean`. |
 | `app.json` | Keep Heroku Node-before-Python buildpack order and check how selected Node/npm engines and build scripts are used. A local check does not verify a remote Heroku build. |
 | `README.md`, `AGENTS.md` | Runtime/install instructions, supported workflow, Node-only Debian policy and review rules agree with the actual setup. |
-| `CHANGELOG.md`, `docs/node-upgrade.md` | Notable changes under Unreleased; dated selections, complete lock changes, companion dispositions, checks, warnings, limits and rollback. Preserve historical results. |
+| `CHANGELOG.md`, `docs/node-upgrade.md` | Notable changes under Unreleased; short current maintenance note covering supported versions, important decisions, dated verification/limits and deployment/rollback. Git retains historical details; keep inventories and logs in scratch. |
 | `scripts/images.js` | Sharp loads native library; source SVG/bitmap processing completes with errors reflected in exit status; expected dimensions/formats and favicon copying still work. |
 | `webapp/static_src/scripts/` | esbuild entry point; Highlight.js core/language imports, tagline, copy button and mobile navigation behavior. |
 | `webapp/static_src/styles/` | Pico/theme imports, CSS output and Sass deprecations. Compare baseline warnings; avoid masking them or adding an unrelated Sass module migration. |
@@ -29,7 +29,7 @@ Do not read `.env` or dump npm authentication settings to locate version pins.
 
 ## Selection and lock record
 
-Use the existing `docs/node-upgrade.md` structure without copying its old targets:
+Save detailed evidence in ignored scratch files or outside the checkout:
 
 - Selection timestamp, branch/base commit, dirty-worktree baseline and lock hash;
   registry identity, prerelease policy and any actual resolver constraints.
@@ -41,6 +41,10 @@ Use the existing `docs/node-upgrade.md` structure without copying its old target
   integrity and metadata changes even when versions stay equal.
 - Companion dispositions, commands/results, warnings, final lock hash, browser
   and remote-check limits, deployment/static requirements and rollback.
+
+Keep the maintained note roughly one page. Summarize only useful decisions,
+actual verification and operational requirements. Do not copy these tables,
+hashes, raw logs or the companion checklist into `docs/node-upgrade.md`.
 
 The helper's source fingerprints avoid printing private registry locations.
 Investigate changed fingerprints locally without copying credentials into notes.
@@ -66,8 +70,8 @@ npm outdated --json
 
 1. Check output CSS, JS, maps, source SVG favicon and the generated 32x32 and
    180x180 PNG icons. Check raster image dimensions and actual format with
-   Sharp, not just the extension: the existing image task emits WebP bytes under
-   the source `.jpg` filename. Compare changed images by decoded pixels when
+   Sharp, checking that the output extension matches the encoded format.
+   Compare changed images by decoded pixels when
    encoder bytes differ; do not require identical compression across upgrades.
 2. Start `npm start` as a temporary managed process. Verify cleanup precedes
    builders, outputs are recreated, and Sass and esbuild emit changed output
