@@ -6,6 +6,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Changed
+
+- Simplify Python maintenance notes and keep future upgrade inventories and logs in scratch files.
+- Apply Wagtail 7.4.4 LTS security fixes, refresh compatible Python dependencies, and align uv 0.13.4 across Docker, CI, and hooks; see [verification and rollback notes](docs/python-upgrade.md).
+
 ### Added
 
 - Add PostgreSQL regression tests and frontend CI checks.
