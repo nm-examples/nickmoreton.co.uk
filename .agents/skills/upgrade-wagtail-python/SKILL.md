@@ -66,6 +66,25 @@ index metadata/yanks recreates the same graph. Do not claim the entire Docker
 build is deterministic from a Python lock and base digest alone; apt repositories
 and native builds are separate inputs.
 
+## Handle breaking changes
+
+Review upstream release notes and migration guides between installed and target
+versions for changed direct dependencies and relevant transitives, including
+minor/patch releases. Map removed APIs, changed defaults/configuration, runtime
+requirements and data changes to actual repository usage.
+
+Implement necessary compatibility fixes within the authorized upgrade scope.
+Verify affected behaviour directly; add focused regression coverage where the
+existing suite misses it. A successful install or broad test pass alone does
+not establish compatibility.
+
+Flag unresolved incompatibilities and decisions outside scope to the developer
+when identified. Give the package/version transition, upstream evidence,
+affected code or workflow, impact and recommended options. Pause only work that
+depends on that decision; continue independent work. Do not silently bypass
+checks or force unsupported versions. Summarize resolved fixes, intentional
+behaviour changes and remaining risks in the handoff and short maintenance note.
+
 ## Resolve and validate in stages
 
 Before the first resolution, persist the recorded cutoff and prerelease policy
