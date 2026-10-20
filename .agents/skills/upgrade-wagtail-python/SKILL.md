@@ -1,15 +1,15 @@
 ---
 name: upgrade-wagtail-python
-description: "Upgrade the Python backend in nickmoreton.co.uk with recorded package selections, uv lockfile reproducibility, companion-file alignment, and Docker/PostgreSQL verification. Use for this repository's Python, Django, Wagtail, or Python tooling upgrades."
+description: "Upgrade the Python backend in nickmoreton.co.uk with locked dependencies, aligned companion files, Docker/PostgreSQL verification, and concise maintenance notes. Use for this repository's Python, Django, Wagtail, or Python tooling upgrades."
 ---
 
 # Upgrade this repository's Python backend
 
 Use only in `nickmoreton.co.uk` (`[project].name = "nickmoreton"`). Read the root
 `AGENTS.md` and [the companion-file checklist](references/companion-files.md).
-Read `docs/python-upgrade.md` if it exists; create it as the dated upgrade record
-when beginning an upgrade if it does not. Treat existing notes'
-versions and results as historical evidence, not future targets. Respect the
+Read `docs/python-upgrade.md` if it exists; maintain it as a short, current
+maintenance note. Treat previous versions and results as historical evidence,
+not future targets. Respect the
 user's base branch and any Python/Node review checkpoint. Leave Node packages
 and frontend sources for the Node phase unless included in the user's scope.
 
@@ -32,7 +32,7 @@ requests in tests. Retain baseline warnings for comparison.
 
 ## Freeze version-selection inputs
 
-Before resolving, add a dated selection record to `docs/python-upgrade.md`:
+Before resolving, save detailed selection inputs in ignored scratch files:
 
 - Base commit and baseline `uv.lock` SHA-256.
 - One full RFC 3339 UTC release cutoff timestamp for this upgrade.
@@ -44,6 +44,12 @@ Before resolving, add a dated selection record to `docs/python-upgrade.md`:
 - Exact Python Docker patch tag, Debian codename, and verified multi-platform
   index digest. Use the approved current Debian stable base, pinned by readable
   patch tag plus digest. Check the registry and native-library compatibility.
+
+In `docs/python-upgrade.md`, summarize only the chosen runtime/framework/tool
+versions and meaningful compatibility decisions. Link to authoritative release
+notes when useful. Keep package tables, inventories, hashes, raw logs and
+per-file checklists in scratch; Git and the manifest/lock/Dockerfile already
+preserve the exact configuration. Do not duplicate them in the document.
 
 Use official Python/Django/Wagtail release notes and compatibility tables, actual
 package-index artifacts, and deployment support. Choose the newest non-yanked
@@ -112,8 +118,8 @@ resolution just to verify it. `--frozen` alone does not check manifest/lock cons
 
 ## Align indirect files
 
-Review every row in [companion-files.md](references/companion-files.md). Record
-`updated`, `checked unchanged`, or `not applicable`, with a reason for each.
+Review every row in [companion-files.md](references/companion-files.md). Keep
+per-file dispositions in scratch; document only consequential exceptions.
 Search tracked and hidden configuration for additional version declarations;
 the helper's inventory is not a completeness guarantee. Run Ruff, pyupgrade,
 and django-upgrade with the selected Python/Django targets, including new
@@ -127,8 +133,8 @@ for each build and container recreation to finish before dependent checks;
 an old container may still answer during recreation.
 
 1. Run `make build`, then `make up`; verify Python/uv inside `app`. Run the
-   baseline/verification commands in the companion checklist and record them in
-   `docs/python-upgrade.md`.
+   baseline/verification commands in the companion checklist. Keep detailed
+   output in scratch and summarize actual results in `docs/python-upgrade.md`.
 2. Before migrating existing local data, make ignored backups and rehearse on a
    disposable PostgreSQL copy following `docs/data-and-media.md`. Record
    `migrate --plan`; distinguish dependency migrations from project migrations.
@@ -145,11 +151,18 @@ an old container may still answer during recreation.
 
 ## Hand off for review
 
-Capture final inventory and lockfile SHA-256; compare the accepted versions with
-the selection record. Update badges, repository guidance, upgrade notes, and
-`CHANGELOG.md` under `Unreleased`. Include commands/results, baseline warnings,
-migration/reindex/static-file requirements, companion-file dispositions, and
-database-aware rollback steps. Do not report historical tests as newly executed.
+Capture final inventory and lockfile SHA-256 in scratch; compare accepted
+versions with the selection inputs. Update badges, repository guidance and
+`CHANGELOG.md` under `Unreleased`.
+
+Keep `docs/python-upgrade.md` to a short current summary (roughly one page):
+supported versions and reasons for notable choices, dated verification results
+and limitations, required migration/reindex/static steps, and any unusual
+database-aware rollback requirements. Replace superseded run details instead
+of appending an audit report for every upgrade; Git retains earlier records.
+Link to existing operational docs rather than copying their procedures. Do not
+report historical tests as newly executed. Add detail only when a real migration
+or compatibility issue requires it, or the user requests an audit report.
 
 Present the reviewable diff. Follow `AGENTS.md` for commit, push, PR, release-date,
 and deployment authorization. Package-upgrade approval does not imply commit or

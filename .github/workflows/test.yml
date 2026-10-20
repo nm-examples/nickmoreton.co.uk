@@ -63,7 +63,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           # Keep Docker and .pre-commit-config.yaml aligned.
-          version: "0.13.1"
+          version: "0.13.4"
 
       - name: Set up Python
         uses: actions/setup-python@v5

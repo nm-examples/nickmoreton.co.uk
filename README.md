@@ -1,6 +1,6 @@
 # Nick Moreton's Wagtail-Powered Website
 
-[![Wagtail](https://img.shields.io/badge/wagtail-7.4.3-olive.svg)](https://wagtail.org/)
+[![Wagtail](https://img.shields.io/badge/wagtail-7.4.4-olive.svg)](https://wagtail.org/)
 [![Django](https://img.shields.io/badge/django-6.0.9-green.svg)](https://www.djangoproject.com/)
 [![Python](https://img.shields.io/badge/python-3.14.8-blue.svg)](https://www.python.org/)
 
@@ -21,7 +21,7 @@ Source code for [www.nickmoreton.co.uk](https://www.nickmoreton.co.uk), a Django
 
 - Docker Compose
 - Node.js 24.22.0 LTS and its bundled npm 11.19.1 (see `.nvmrc`)
-- Python 3.14 (Docker pins 3.14.8) and uv 0.13.1 are installed inside the app container
+- Python 3.14 (Docker pins 3.14.8) and uv 0.13.4 are installed inside the app container
 - Django 6.0 and Wagtail 7.4 LTS are the supported framework lines
 
 Copy the example environment file before running the normal development or
@@ -139,7 +139,7 @@ For step-by-step commands and troubleshooting, see
 
 ## Python Dependency Maintenance
 
-Docker, CI, and pre-commit use uv 0.13.1. The accepted `uv.lock` includes artifact
+Docker, CI, and pre-commit use uv 0.13.4. The accepted `uv.lock` includes artifact
 hashes; Docker and CI install it with `uv sync --locked` and validate it with
 `uv lock --check`. The release cutoff and explicit prerelease policy in
 `pyproject.toml` are part of the resolution inputs. Advance them deliberately
