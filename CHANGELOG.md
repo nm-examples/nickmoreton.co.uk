@@ -8,7 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 
-- Simplify Python maintenance notes and keep future upgrade inventories and logs in scratch files.
+- Simplify Python and Node maintenance notes and keep future upgrade inventories and logs in scratch files.
 - Apply Wagtail 7.4.4 LTS security fixes, refresh compatible Python dependencies, and align uv 0.13.4 across Docker, CI, and hooks; see [verification and rollback notes](docs/python-upgrade.md).
 
 ## 2026-10-19
