@@ -6,6 +6,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+## 2026-10-20
+
 ### Changed
 
 - Make Python and Node upgrade skills verify compatibility fixes and flag unresolved breaking changes or decisions to the developer.
