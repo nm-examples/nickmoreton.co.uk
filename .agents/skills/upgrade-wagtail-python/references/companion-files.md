@@ -1,7 +1,8 @@
 # Companion files in nickmoreton.co.uk
 
-Read during inventory and revisit before handoff. Record a disposition for every
-row in the dated upgrade notes; do not mechanically change unaffected files.
+Read during inventory and revisit before handoff. Keep per-file dispositions in
+ignored scratch files; mention only consequential exceptions in the short
+maintenance note. Do not mechanically change unaffected files.
 
 | File | What to check or align |
 | --- | --- |
@@ -14,7 +15,7 @@ row in the dated upgrade notes; do not mechanically change unaffected files.
 | `AGENTS.md` | Supported Python/Django/Wagtail targets and test-file pointers; preserve review/commit and data-handling rules. |
 | `README.md` | Version badges, requirements, uv pin, locked installation, and operational links. |
 | `CHANGELOG.md` | Notable changes under `Unreleased`; date releases according to repository instructions when preparing PR/deployment. |
-| `docs/python-upgrade.md` | Dated selection table/inputs, lock hashes, companion-file dispositions, stage results, migrations, reindex/static requirements, warnings, rollback. Preserve earlier results as history. |
+| `docs/python-upgrade.md` | Short current summary of supported versions, notable decisions, dated verification/limitations, deployment requirements and unusual rollback steps. Git preserves earlier records; keep detailed evidence in scratch. |
 | `docs/local.production.md` | Production-mode commands, URLs, and assumptions remain valid. |
 | `docs/data-and-media.md` | Backup/rehearsal/restore commands match the database/storage. Do not pull production data just to obtain test fixtures. |
 | `docker-compose.yaml` | `app` runtime/env/volume assumptions and database compatibility; source bind mount versus image-installed virtualenv. |
@@ -32,9 +33,9 @@ Use `rg --hidden` for discovery, excluding `.git`, virtualenvs, `node_modules`,
 generated static/media, and backups. Inspect new CI/deployment configuration
 added since this skill was written. Do not read `.env` to locate version pins.
 
-## Selection record
+## Selection evidence
 
-Write a dated section in `docs/python-upgrade.md` with:
+Save detailed evidence in ignored scratch files or outside the checkout:
 
 - Base commit; baseline lock hash; full UTC cutoff; exact Python/uv; compatibility
   lines; index identity and resolver policies.
@@ -43,8 +44,11 @@ Write a dated section in `docs/python-upgrade.md` with:
   runtime/dev packages and retained prereleases.
 - Complete transitive change list, preserving marker-specific variants.
 - Docker Python patch tag and verified multi-platform digest.
-- Companion-file dispositions, staged commands/results, final lock hash,
-  migration/deployment implications, and rollback notes.
+- Companion-file dispositions, staged commands/results and final lock hash.
+
+Summarize only notable choices, actual verification, deployment requirements and
+unusual rollback steps in `docs/python-upgrade.md`. Do not copy package tables,
+hashes, raw logs or the full companion checklist into the maintained note.
 
 Do not reuse October 2026 versions as future targets. Select and record each
 run's explicit targets, then preserve the accepted lockfile.
