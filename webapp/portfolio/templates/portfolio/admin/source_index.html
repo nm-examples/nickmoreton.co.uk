@@ -1,0 +1,12 @@
+{% extends "wagtailadmin/generic/index.html" %}
+{% load wagtailadmin_tags %}
+
+{% block listing %}
+    <div class="nice-padding w-mt-6 w-mb-6">
+        {% include "wagtailadmin/shared/help_block.html" with status="info" children="Fetch data from Made with Wagtail, then review records individually to create or update project drafts." only %}
+        {% if perms.portfolio.refresh_portfoliosource %}
+            <form id="portfolio-source-refresh" action="{% url 'portfolio_sources:refresh' %}" method="post">{% csrf_token %}</form>
+        {% endif %}
+    </div>
+    {{ block.super }}
+{% endblock %}

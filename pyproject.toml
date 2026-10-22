@@ -12,6 +12,7 @@ dependencies = [
     "django-storages[s3]>=1.14.6,<2",
     "gunicorn>=26.2.0,<27",
     "psycopg2>=2.9.13,<3",
+    "pyyaml>=6.0.3,<7",
     "requests>=2.34.2,<3",
     "wagtail>=7.4.4,<7.5",
     "wagtail-unveil==0.1.0a7",

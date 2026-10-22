@@ -1,0 +1,26 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load wagtailimages_tags %}
+{% block titletag %}Review {{ record.title }}{% endblock %}
+{% block main_content %}
+    <div class="w-mt-6 w-mb-6">
+        <p><a href="{% url 'portfolio_sources:index' %}">Back to source records</a>{% if project %} · <a href="{{ project_edit_url }}">Edit project snippet</a>{% endif %}</p>
+        <p>{{ record.status }} · Fetched {{ record.fetched_at }}. {% if project %}Current values include any existing draft edits.{% endif %}</p>
+        <p><a href="https://github.com/wagtail/madewithwagtail/blob/{{ record.commit_sha }}/{{ record.source_path }}">View the fetched record on GitHub</a></p>
+    </div>
+        {% if record.missing_upstream %}<p>This record is missing upstream. Its snippet is preserved; refresh the source before importing.</p>{% endif %}
+        <table class="listing">
+            <thead><tr><th>Field</th><th>Last reviewed source</th><th>Current snippet</th><th>Incoming source</th></tr></thead>
+            <tbody>{% for row in rows %}<tr><th>{{ row.label }}</th><td>{{ row.previous|linebreaksbr }}</td><td>{{ row.current|linebreaksbr }}</td><td>{{ row.incoming|linebreaksbr }}</td></tr>{% endfor %}</tbody>
+        </table>
+        <p>Select the fields to apply below. You can adjust the incoming values before saving. Unselected fields, Show in hero, and homepage selections are preserved.</p>
+        {% if project.image %}{% image project.image max-300x240 alt="Current project screenshot" %}{% endif %}
+        <p>The screenshot is imported only if you select its import checkbox. <a href="{{ record.data.image_url }}">View source screenshot</a>.</p>
+        <form method="post">{% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for hidden in form.hidden_fields %}{{ hidden }}{{ hidden.errors }}{% endfor %}
+            {% for field in form.visible_fields %}{% include "wagtailadmin/shared/field.html" with field=field %}{% endfor %}
+            <p>Saving creates a draft; publish it from the project editor when ready. “Up to date” means this source version has been reviewed, including any fields you chose to keep locally.</p>
+            <button class="button" type="submit"{% if record.missing_upstream %} disabled{% endif %}>Save project draft</button>
+        </form>
+        <details><summary>Raw source record</summary><pre>{{ record.raw_markdown }}</pre></details>
+{% endblock %}
