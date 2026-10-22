@@ -1,0 +1,4 @@
+{% load wagtailadmin_tags %}
+<button class="{{ button.classname }}" {{ button.base_attrs_string }}>
+    {% icon name=button.icon_name %}{{ button.label }}
+</button>

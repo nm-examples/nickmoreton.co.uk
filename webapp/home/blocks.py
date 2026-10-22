@@ -1,3 +1,5 @@
+"""Legacy portfolio blocks retained for historical migration definitions."""
+
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 

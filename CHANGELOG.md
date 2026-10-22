@@ -6,6 +6,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+## 2026-10-22
+
+### Added
+
+- Manage portfolio projects as reusable Wagtail snippets, with independent hero selection and an admin workflow to fetch, review, and selectively import Made with Wagtail records into drafts; see [portfolio management](docs/portfolio.md).
+
 ## 2026-10-20
 
 ### Changed

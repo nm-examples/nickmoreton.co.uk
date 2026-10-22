@@ -132,6 +132,8 @@ For step-by-step commands and troubleshooting, see
 
 ## Focused Docs
 
+- [Portfolio management](./docs/portfolio.md): project snippets, homepage and hero selection, and reviewing GitHub source records in Wagtail.
+
 - [Redesign integration and review](./docs/redesign/integration.md): content editing, migrations, population commands, checks, and screenshots.
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.

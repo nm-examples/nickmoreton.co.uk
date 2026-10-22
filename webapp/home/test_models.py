@@ -1,6 +1,4 @@
 from datetime import date
-from types import SimpleNamespace
-from unittest.mock import patch
 
 from django.test import TestCase
 from wagtail.models import Page, PageViewRestriction
@@ -61,16 +59,3 @@ class HomePageTests(TestCase):
 
     def test_hero_project_is_optional(self):
         self.assertIsNone(self.home.hero_project)
-
-    def test_hero_can_select_each_project_regardless_of_featured_flag(self):
-        projects = [
-            {"title": "First project", "featured": True},
-            {"title": "Second project", "featured": False},
-        ]
-        page = SimpleNamespace(
-            projects=[SimpleNamespace(value=project) for project in projects]
-        )
-        with patch("webapp.home.models.random.choice", side_effect=projects) as choose:
-            for project in projects:
-                self.assertIs(HomePage.hero_project.fget(page), project)
-                choose.assert_called_with(projects)
