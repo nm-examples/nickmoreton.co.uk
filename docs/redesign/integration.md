@@ -23,13 +23,14 @@ is retained in the editor for reference; the redesigned homepage renders the new
 structured fields instead. The existing legacy homepage content was the YAML
 introduction, which now has editable values shared by the display and copy action.
 
-Portfolio projects are ordered blocks with a title, category, optional description,
-Wagtail image, image description, external portfolio-record URL, and a featured
-checkbox retained from the initial design. The hero randomly selects from all
-portfolio projects on each page request, keeping the image, title, description,
-and record link together. The featured checkbox no longer controls the hero.
-Random selection can repeat a project on consecutive requests. An empty portfolio
-has a link to the external portfolio archive.
+Portfolio projects are reusable snippets managed under **Portfolio → Projects**.
+The homepage holds an ordered selection of references to published projects.
+The hero independently selects a random published project with **Show in hero**
+enabled and a screenshot attached. Random selection can repeat a project on
+consecutive requests. An empty portfolio has a link to the external portfolio
+archive; an empty hero pool omits its project image. See
+[Portfolio management](../portfolio.md) for the source-record review workflow and
+the migration of existing live, draft, and historical homepage selections.
 
 Article pages have optional topic and repository fields. Package pages have
 category, repository, icon, and featured-card fields. Both types have a homepage
@@ -114,6 +115,9 @@ Use `--home-id PAGE_ID` if a specific homepage needs to be selected. The command
 - Skips pages with unpublished changes and does not publish draft-only pages.
 - Creates and publishes revisions for changed live pages.
 - Can be repeated without duplicating projects, images, or navigation entries.
+
+The setup command now creates project snippets and homepage references. For
+ongoing portfolio maintenance, use the Portfolio admin workflow described above.
 
 Review warnings for missing pages or skipped drafts. Pages that were skipped can
 be updated in the editor or populated after their pending changes are resolved.
