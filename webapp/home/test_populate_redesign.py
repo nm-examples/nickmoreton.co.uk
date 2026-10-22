@@ -32,7 +32,7 @@ class PopulateRedesignTests(TestCase):
         output = self.run_command()
         self.home.refresh_from_db()
         self.assertIn("Dry run", output)
-        self.assertEqual(len(self.home.projects), 0)
+        self.assertEqual(self.home.portfolio_items.count(), 0)
         self.assertEqual(get_image_model().objects.count(), 0)
         self.assertEqual(Navigation.objects.count(), 0)
 
@@ -42,10 +42,10 @@ class PopulateRedesignTests(TestCase):
         body = self.home.body.get_prep_value()
         self.run_command(apply=True)
         self.home.refresh_from_db()
-        self.assertEqual(len(self.home.projects), 4)
+        self.assertEqual(self.home.portfolio_items.count(), 4)
         self.assertEqual(self.home.body.get_prep_value(), body)
         self.assertEqual(
-            self.home.projects[0].value["title"], "Alcott Farm Bed & Breakfast"
+            self.home.selected_projects[0].title, "Alcott Farm Bed & Breakfast"
         )
         response = self.client.get(self.home.url)
         self.assertEqual(response.status_code, 200)
@@ -64,7 +64,7 @@ class PopulateRedesignTests(TestCase):
         self.run_command(apply=True)
         self.home.refresh_from_db()
         self.assertTrue(self.home.has_unpublished_changes)
-        self.assertEqual(len(self.home.projects), 0)
+        self.assertEqual(self.home.portfolio_items.count(), 0)
         self.assertEqual(
             self.home.get_latest_revision_as_object().headline, "Draft headline"
         )

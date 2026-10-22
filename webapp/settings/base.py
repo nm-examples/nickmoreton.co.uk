@@ -42,6 +42,7 @@ else:
 
 INSTALLED_APPS = [
     "webapp.home",
+    "webapp.portfolio",
     "webapp.search",
     "webapp.pages",
     "webapp.core",

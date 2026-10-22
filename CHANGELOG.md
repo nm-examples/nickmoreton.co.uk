@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Added
+
+- Manage portfolio projects as reusable Wagtail snippets, preserving homepage revisions and adding ordered homepage selection and independent hero eligibility.
+
 ## 2026-10-20
 
 ### Changed

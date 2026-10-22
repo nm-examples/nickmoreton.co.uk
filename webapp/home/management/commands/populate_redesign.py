@@ -9,8 +9,9 @@ from wagtail.images import get_image_model
 from wagtail.models import Site
 
 from webapp.core.models import Navigation
-from webapp.home.models import HomePage
+from webapp.home.models import HomePage, HomePagePortfolioProject
 from webapp.pages.models import ArticlePage, PackagePage
+from webapp.portfolio.models import PortfolioProject
 
 
 class Command(BaseCommand):
@@ -31,7 +32,7 @@ class Command(BaseCommand):
             (Path(__file__).parents[2] / "data/redesign.json").read_text()
         )
         source = Path(settings.PROJECT_DIR) / "static_src/img"
-        if not home.projects:
+        if not home.portfolio_items.exists():
             for project in data["projects"]:
                 if not (source / project["image"]).is_file():
                     raise CommandError(f"Missing portfolio image: {project['image']}")
@@ -55,14 +56,13 @@ class Command(BaseCommand):
         )
 
     def populate_home(self, home, data, source):
-        if home.projects:
+        if home.portfolio_items.exists():
             return
         if home.has_unpublished_changes or not home.live:
             self.stdout.write(
                 self.style.WARNING("Skipped homepage: unpublished changes or not live.")
             )
             return
-        projects = []
         image_model = get_image_model()
         for index, project in enumerate(data["projects"]):
             values = dict(project)
@@ -77,9 +77,18 @@ class Command(BaseCommand):
                     )
                     image.save()
             values["image"] = image
-            values["featured"] = index == 0
-            projects.append(("project", values))
-        home.projects = projects
+            # Preserve the previous random-hero behaviour for supplied projects.
+            snippet = PortfolioProject.objects.filter(
+                record_url=values["record_url"]
+            ).first()
+            if snippet is None:
+                snippet = PortfolioProject(**values, show_in_hero=True, live=False)
+                snippet.save()
+                snippet.save_revision().publish()
+                snippet.refresh_from_db()
+            home.portfolio_items.add(
+                HomePagePortfolioProject(project=snippet, sort_order=index)
+            )
         home.save_revision().publish()
         self.stdout.write("Added four portfolio projects to the homepage.")
 

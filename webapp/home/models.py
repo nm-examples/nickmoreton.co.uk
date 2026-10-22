@@ -2,11 +2,11 @@ import json
 import random
 
 from django.db import models
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from modelcluster.fields import ParentalKey
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, MultipleChooserPanel
 from wagtail.fields import RichTextField, StreamField
-from wagtail.models import Page
+from wagtail.models import Orderable, Page
 
-from webapp.home.blocks import PortfolioProjectBlock
 from webapp.pages.blocks import BaseBlocks
 from webapp.pages.models import (
     ArticleIndexPage,
@@ -14,6 +14,7 @@ from webapp.pages.models import (
     PackageIndexPage,
     PackagePage,
 )
+from webapp.portfolio.models import PortfolioProject
 
 
 class HomePage(Page):
@@ -48,7 +49,6 @@ class HomePage(Page):
     portfolio_url = models.URLField(
         default="https://madewithwagtail.org/developers/nick-moreton/"
     )
-    projects = StreamField([("project", PortfolioProjectBlock())], blank=True)
     about_heading = models.TextField(
         default="Support engineering.\nBuilding tools with AI."
     )
@@ -83,7 +83,12 @@ class HomePage(Page):
             heading="Introduction",
         ),
         MultiFieldPanel(
-            [FieldPanel("projects"), FieldPanel("portfolio_url")],
+            [
+                MultipleChooserPanel(
+                    "portfolio_items", chooser_field_name="project", label="Projects"
+                ),
+                FieldPanel("portfolio_url"),
+            ],
             heading="Past website projects",
         ),
         MultiFieldPanel(
@@ -119,8 +124,20 @@ class HomePage(Page):
 
     @property
     def hero_project(self):
-        projects = [block.value for block in self.projects]
+        projects = list(
+            PortfolioProject.objects.filter(
+                live=True, show_in_hero=True, image__isnull=False
+            ).select_related("image")
+        )
         return random.choice(projects) if projects else None
+
+    @property
+    def selected_projects(self):
+        return [
+            item.project
+            for item in self.portfolio_items.select_related("project__image")
+            if item.project.live
+        ]
 
     def all_articles(self):
         return (
@@ -153,3 +170,21 @@ class HomePage(Page):
             .first(),
         )
         return context
+
+
+class HomePagePortfolioProject(Orderable):
+    page = ParentalKey(
+        HomePage, on_delete=models.CASCADE, related_name="portfolio_items"
+    )
+    project = models.ForeignKey(
+        PortfolioProject, on_delete=models.PROTECT, related_name="homepage_selections"
+    )
+
+    panels = [FieldPanel("project")]
+
+    class Meta(Orderable.Meta):
+        constraints = [
+            models.UniqueConstraint(
+                fields=["page", "project"], name="unique_homepage_project"
+            )
+        ]
