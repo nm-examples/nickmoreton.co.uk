@@ -24,11 +24,12 @@ records all locked packages, including transitives/variants, and companion-file
 hashes. Run it again after the upgrade to produce a reviewable comparison.
 
 Record Python/uv versions inside `app`; host versions can differ. Run Django
-checks, migration checks, and tests on the original lockfile. Add focused missing
-regression coverage for rendering, live/draft content, PostgreSQL search, custom
-tags/blocks, image renditions, and editor workflows where needed. Preview's
-error page can return HTTP 200: assert the rendered draft title/body. Mock PyPI
-requests in tests. Retain baseline warnings for comparison.
+checks, migration checks, and existing tests on the original lockfile. Follow
+the testing scope in `docs/testing.md`: add coverage only for a missing custom rule
+affected by the upgrade, using a focused function, method, or component test.
+Do not add framework, end-to-end, admin workflow, generic rendering, rendition,
+or legacy-removal tests to establish an upgrade baseline. Mock external
+requests in custom integration code. Retain baseline warnings for comparison.
 
 ## Freeze version-selection inputs
 
@@ -74,9 +75,11 @@ minor/patch releases. Map removed APIs, changed defaults/configuration, runtime
 requirements and data changes to actual repository usage.
 
 Implement necessary compatibility fixes within the authorized upgrade scope.
-Verify affected behaviour directly; add focused regression coverage where the
-existing suite misses it. A successful install or broad test pass alone does
-not establish compatibility.
+Verify affected behaviour directly. Add a focused regression test only when a
+custom rule lacks coverage, following `docs/testing.md`; do not test upstream methods
+or add end-to-end workflows. Use configuration, migration, build, and manual
+checks for the relevant operational verification. A successful install or broad
+test pass alone does not establish compatibility.
 
 Flag unresolved incompatibilities and decisions outside scope to the developer
 when identified. Give the package/version transition, upstream evidence,
@@ -163,7 +166,8 @@ an old container may still answer during recreation.
    `prod-app`. Reindex in `prod-app`; confirm actual versions and `DEBUG=False`.
    Smoke-test OrbStack HTTPS, home/search, Wagtail login, hashed CSS/JS/favicons,
    and an existing media rendition through nginx.
-5. Use isolated regression content for editor publishing, not live content.
+5. If a manual editor check is needed for an upgrade compatibility issue, use
+   isolated content, not live content; do not add an automated editor journey.
    Record the limits of S3/Unveil/live Heroku checks requiring configured access.
 6. Remove the disposable database. Keep ignored backups for the agreed review/
    rollback window and remove them after use; never commit dumps.
@@ -183,6 +187,6 @@ Link to existing operational docs rather than copying their procedures. Do not
 report historical tests as newly executed. Add detail only when a real migration
 or compatibility issue requires it, or the user requests an audit report.
 
-Present the reviewable diff. Follow `AGENTS.md` for commit, push, PR, release-date,
+Present the reviewable diff. Follow `docs/contributing.md` for commit, push, PR, release-date,
 and deployment authorization. Package-upgrade approval does not imply commit or
 deployment approval. Honor the agreed review checkpoint before the Node phase.

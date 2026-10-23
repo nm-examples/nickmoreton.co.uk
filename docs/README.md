@@ -1,0 +1,32 @@
+# Developer documentation
+
+This directory contains project-wide reference material that would otherwise
+make the root `AGENTS.md` difficult to scan.
+
+| Document | Purpose |
+| --- | --- |
+| [`architecture.md`](architecture.md) | Defines the project's Django and Wagtail code-placement boundaries. |
+| [`documentation.md`](documentation.md) | Defines source-documentation standards and the app README template. |
+| [`testing.md`](testing.md) | Defines the scope of application tests and required code/build verification. |
+| [`contributing.md`](contributing.md) | Defines branch, review, commit, changelog, and pull-request rules. |
+| [`data-and-media.md`](data-and-media.md) | Covers local and production-mode data/media sync and backup handling. |
+| [`local.production.md`](local.production.md) | Describes local verification with Gunicorn, nginx, and `DEBUG = False`. |
+| [`python-upgrade.md`](python-upgrade.md) | Records Python backend versions, verification, deployment, and rollback. |
+| [`node-upgrade.md`](node-upgrade.md) | Records Node frontend versions, verification, and rollback. |
+| [`redesign/integration.md`](redesign/integration.md) | Covers content editing, population commands, and visual review of the redesign. |
+
+Feature-specific design and extension guidance belongs in the relevant
+app-level `README.md` under `webapp/`. Add these when working on the relevant
+app, following the documentation standards; app READMEs have not yet been added.
+
+There are currently no application test files. `make test` runs Django test
+discovery, but an empty run does not provide application coverage. Follow the
+[testing scope](testing.md) for future tests.
+
+## Source
+
+The architecture guidance, documentation standards, and this index were adapted
+from [agentic-wagtail-docs](https://github.com/nm-examples/agentic-wagtail-docs/tree/6ec46c12e720fbe90441eb3164caac720e838b48).
+Paths and commands reflect this repository's `webapp/` layout and Docker workflow.
+This project's runtime, testing, and commit-review requirements are maintained in
+the focused documents linked above; the root `AGENTS.md` routes agents to them.

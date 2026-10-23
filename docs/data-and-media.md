@@ -2,6 +2,10 @@
 
 These workflows are for intentional local verification operations. They can replace local data, copy production-derived content, and create temporary files. Do not run them against production unless that is explicitly the goal.
 
+Never commit real secrets or production dumps. Data/media sync commands are
+local-only operations that depend on `.env` values and external tooling. Clean
+up generated backups after their intended use and any agreed rollback window.
+
 ## Requirements
 
 Copy the example environment file before using normal development or

@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Changed
+
+- Tailor architecture and documentation guidance to this site, keep AGENTS.md concise, and require docs/guidance updates alongside affected code changes and removals; see the [developer documentation index](docs/README.md).
+- Limit agent-created tests to custom functionality, align upgrade guidance, and remove six framework/admin/rendering smoke tests; require review of proposed test removals before committing.
+
+### Removed
+
+- Remove all application test modules and their shared test helper.
+
 ## 2026-10-20
 
 ### Changed
