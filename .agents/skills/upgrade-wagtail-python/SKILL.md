@@ -25,7 +25,7 @@ hashes. Run it again after the upgrade to produce a reviewable comparison.
 
 Record Python/uv versions inside `app`; host versions can differ. Run Django
 checks, migration checks, and existing tests on the original lockfile. Follow
-the testing scope in `AGENTS.md`: add coverage only for a missing custom rule
+the testing scope in `docs/testing.md`: add coverage only for a missing custom rule
 affected by the upgrade, using a focused function, method, or component test.
 Do not add framework, end-to-end, admin workflow, generic rendering, rendition,
 or legacy-removal tests to establish an upgrade baseline. Mock external
@@ -76,7 +76,7 @@ requirements and data changes to actual repository usage.
 
 Implement necessary compatibility fixes within the authorized upgrade scope.
 Verify affected behaviour directly. Add a focused regression test only when a
-custom rule lacks coverage, following `AGENTS.md`; do not test upstream methods
+custom rule lacks coverage, following `docs/testing.md`; do not test upstream methods
 or add end-to-end workflows. Use configuration, migration, build, and manual
 checks for the relevant operational verification. A successful install or broad
 test pass alone does not establish compatibility.
@@ -187,6 +187,6 @@ Link to existing operational docs rather than copying their procedures. Do not
 report historical tests as newly executed. Add detail only when a real migration
 or compatibility issue requires it, or the user requests an audit report.
 
-Present the reviewable diff. Follow `AGENTS.md` for commit, push, PR, release-date,
+Present the reviewable diff. Follow `docs/contributing.md` for commit, push, PR, release-date,
 and deployment authorization. Package-upgrade approval does not imply commit or
 deployment approval. Honor the agreed review checkpoint before the Node phase.

@@ -126,12 +126,13 @@ For step-by-step commands and troubleshooting, see
 | `make prod-quickstart` | First production-mode boot: build/start, migrations, static files, superuser prompt. |
 | `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
 | `make prod-destroy` | Stop production-mode containers and remove their Docker volumes. |
-| `make test` | Run the Django test suite inside the app container. |
+| `make test` | Run Django test discovery inside the app container; currently there are no application test files. |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |
 
 ## Focused Docs
 
+- [Developer documentation index](./docs/README.md): architecture, documentation standards, testing scope, contributor workflow, and operational references.
 - [Redesign integration and review](./docs/redesign/integration.md): content editing, migrations, population commands, checks, and screenshots.
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.

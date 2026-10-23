@@ -25,6 +25,14 @@ validate with `uv lock --check`. Advance the cutoff only for a deliberate refres
 Docker, CI and pre-commit must use the same uv version. Keep detailed inventories
 and logs in ignored scratch files; Git preserves previous upgrade records.
 
+## Upgrade workflow
+
+For Python, Django, Wagtail, or Python tooling upgrades, use the repository's
+[Python upgrade skill](../.agents/skills/upgrade-wagtail-python/SKILL.md) to record
+exact version selections, align companion files, and verify the Docker stacks.
+Follow [the testing scope](testing.md) for application coverage, and keep Node
+runtime and frontend dependency changes in their separate upgrade phase.
+
 ## Verified on 20 October 2026
 
 - Baseline and upgraded development stacks: all 48 PostgreSQL tests passed,

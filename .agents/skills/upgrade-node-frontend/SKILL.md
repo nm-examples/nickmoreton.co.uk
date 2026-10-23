@@ -15,7 +15,7 @@ targets. Preserve the user's current scope and review checkpoint.
 
 ## Scope and baseline
 
-Keep changes local unless the user authorizes otherwise. Follow `AGENTS.md` for
+Keep changes local unless the user authorizes otherwise. Follow `docs/contributing.md` for
 branch selection and developer review before commits, pushes, or PRs. Do not
 discard existing work to obtain a clean diff; record it separately from this
 upgrade's changes. Stash only when useful, preserving the user's untracked work
@@ -97,7 +97,7 @@ minor/patch releases. Map removed APIs, changed defaults/configuration, runtime
 requirements and asset/browser behaviour changes to actual repository usage.
 
 Implement necessary compatibility fixes within the authorized upgrade scope.
-Verify affected behaviour directly. Follow the testing scope in `AGENTS.md`:
+Verify affected behaviour directly. Follow the testing scope in `docs/testing.md`:
 add a focused test only for a missing custom rule affected by the upgrade, not
 for upstream library behavior, end-to-end workflows, generic page rendering,
 or legacy removal. Keep build, watcher, and manual browser verification separate
