@@ -16,12 +16,12 @@ make the root `AGENTS.md` difficult to scan.
 | [`redesign/integration.md`](redesign/integration.md) | Covers content editing, population commands, and visual review of the redesign. |
 
 Feature-specific design and extension guidance belongs in the relevant
-app-level `README.md` under `webapp/`. Add these when working on the relevant
-app, following the documentation standards; app READMEs have not yet been added.
+app-level `README.md` under `webapp/`. The [pages app](../webapp/pages/README.md)
+documents content rendering and its focused tests. Add guidance for other apps when
+working on them, following the documentation standards.
 
-There are currently no application test files. `make test` runs Django test
-discovery, but an empty run does not provide application coverage. Follow the
-[testing scope](testing.md) for future tests.
+`make test` runs Django application tests. See [testing and verification](testing.md)
+for current coverage and the scope of future tests.
 
 ## Source
 

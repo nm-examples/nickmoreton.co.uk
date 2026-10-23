@@ -126,7 +126,7 @@ For step-by-step commands and troubleshooting, see
 | `make prod-quickstart` | First production-mode boot: build/start, migrations, static files, superuser prompt. |
 | `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
 | `make prod-destroy` | Stop production-mode containers and remove their Docker volumes. |
-| `make test` | Run Django test discovery inside the app container; currently there are no application test files. |
+| `make test` | Run Django application tests inside the app container; see [current coverage](docs/testing.md). |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |
 

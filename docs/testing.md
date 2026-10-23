@@ -2,11 +2,10 @@
 
 ## Application tests
 
-There are currently no application test files. If tests are added, use Django’s built-in
-test runner (`python manage.py test` via `make test`). Keep tests near the custom
-functionality they cover, using names such as `test_models.py` or `test_content.py` and
-methods named `test_<behavior>`. An empty test run does not establish application
-coverage.
+Use Django’s built-in test runner (`python manage.py test` via `make test`). Keep tests
+near the custom functionality they cover, using names such as `test_models.py` or
+`test_content.py` and methods named `test_<behavior>`. An empty test run does not
+establish application coverage.
 
 Before adding a test, identify the project-specific rule or decision it protects and
 check whether existing tests already cover it. Add focused tests only for custom
@@ -39,6 +38,20 @@ Run the existing checks relevant to the change. Before committing test removals,
 the developer the file and test names, why each is being removed, and which custom
 behavior remains covered. Do not remove an entire test module just because some tests in
 it are out of scope.
+
+### Current coverage
+
+[`webapp/pages/test_content.py`](../webapp/pages/test_content.py) covers heading
+selection, contents entries, existing-ID preservation, anchor collisions, and bodies
+without contents headings. It uses synthetic StreamField rich-text bodies rendered
+through the real body template. These are database-free helper tests; they do not
+establish coverage of existing site content or other application behaviour.
+
+Run this file with the development app container running:
+
+```sh
+docker compose exec -T app python manage.py test webapp.pages.test_content --noinput
+```
 
 ## Code and build checks
 

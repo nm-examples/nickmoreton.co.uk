@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Added
+
+- Add focused heading-anchor and table-of-contents tests using synthetic content; document their scope and verification commands in the [testing guidance](docs/testing.md).
+
 ### Changed
 
 - Tailor architecture and documentation guidance to this site, keep AGENTS.md concise, and require docs/guidance updates alongside affected code changes and removals; see the [developer documentation index](docs/README.md).

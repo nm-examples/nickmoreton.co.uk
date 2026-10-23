@@ -83,8 +83,7 @@ Apply the template as follows:
 - In **Editor experience**, explain where editors manage the feature and how
   their choices affect the frontend.
 - In **Verification**, state the actual coverage and relevant verification commands.
-  There are currently no application test files; do not describe an empty test
-  run as coverage. If focused tests are added, use
+  Do not describe an empty test run as coverage. For focused application tests, use
   `docker compose exec -T app python manage.py test webapp.<app>` and follow the
   [custom-behavior scope](testing.md). Record manual browser or
   production-mode verification separately from automated application tests.
