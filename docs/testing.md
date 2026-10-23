@@ -44,13 +44,21 @@ it are out of scope.
 [`webapp/pages/test_content.py`](../webapp/pages/test_content.py) covers heading
 selection, contents entries, existing-ID preservation, anchor collisions, and bodies
 without contents headings. It uses synthetic StreamField rich-text bodies rendered
-through the real body template. These are database-free helper tests; they do not
-establish coverage of existing site content or other application behaviour.
+through the real body template.
 
-Run this file with the development app container running:
+[`webapp/pages/test_blocks.py`](../webapp/pages/test_blocks.py) covers code-expansion
+boundaries and preservation of literal code in the display and copy source, including
+HTML examples. It renders synthetic examples through the real code-block template.
+Browser clipboard behaviour is not covered.
+
+Both files contain database-free tests; they do not establish coverage of existing
+site content or other application behaviour.
+
+Run either file with the development app container running:
 
 ```sh
 docker compose exec -T app python manage.py test webapp.pages.test_content --noinput
+docker compose exec -T app python manage.py test webapp.pages.test_blocks --noinput
 ```
 
 ## Code and build checks
