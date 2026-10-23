@@ -1,19 +1,13 @@
-"""Regression coverage for the site's framework and native-library upgrades."""
+"""Coverage for custom page content, navigation, search, and PyPI integration."""
 
 from datetime import date
-from io import BytesIO
-from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 import requests
-from django.contrib.auth import get_user_model
 from django.core.cache import cache
-from django.core.files.images import ImageFile
 from django.db import connection
 from django.template import RequestContext, Template
 from django.test import RequestFactory, TestCase, override_settings
-from PIL import Image as PillowImage
-from wagtail.images import get_image_model
 from wagtail.models import Site
 from wagtail.search.backends import get_search_backend
 
@@ -63,9 +57,6 @@ class UpgradeRegressionTests(TestCase):
             )
         )
         cls.draft.save_revision()
-        cls.user = get_user_model().objects.create_superuser(
-            username="upgrade-editor", email="editor@example.com", password="test-only"
-        )
 
     def setUp(self):
         cache.clear()
@@ -85,38 +76,6 @@ class UpgradeRegressionTests(TestCase):
         self.assertContains(response, "language-python")
         self.assertContains(response, "&lt;hello&gt;")
         self.assertContains(response, "Copy code")
-
-    def test_saved_draft_preview_renders_draft_without_changing_live_content(self):
-        self.article.title = "Preview regression title"
-        self.article.body = [("rich_text", "<p>Preview regression body</p>")]
-        self.article.save_revision()
-        self.client.force_login(self.user)
-        response = self.client.get(f"/admin/pages/{self.article.pk}/view_draft/")
-        self.assertContains(response, "Preview regression title")
-        self.assertContains(response, "Preview regression body")
-        live = self.client.get(self.article.url)
-        self.assertContains(live, "Published regression body")
-        self.assertNotContains(live, "Preview regression body")
-
-    def test_editor_can_edit_and_publish_an_isolated_draft(self):
-        self.client.force_login(self.user)
-        edit_url = f"/admin/pages/{self.draft.pk}/edit/"
-        self.assertContains(self.client.get(edit_url), self.draft.title)
-        response = self.client.post(
-            edit_url,
-            {
-                "title": "Published through editor",
-                "slug": self.draft.slug,
-                "date": "2026-02-01",
-                "homepage_order": self.draft.homepage_order,
-                "body-count": "0",
-                "action-publish": "Publish",
-            },
-        )
-        self.assertEqual(response.status_code, 302)
-        self.draft.refresh_from_db()
-        self.assertTrue(self.draft.live)
-        self.assertContains(self.client.get(self.draft.url), "Published through editor")
 
     def test_chapter_navigation_skips_unpublished_chapters(self):
         first = self.article.add_child(
@@ -164,35 +123,6 @@ class UpgradeRegressionTests(TestCase):
         )
         self.assertIn("Regression menu", rendered)
         self.assertIn(self.index.url, rendered)
-
-    def test_image_block_generates_jpeg_and_webp_renditions(self):
-        with TemporaryDirectory() as media_root:
-            with override_settings(MEDIA_ROOT=media_root):
-                source = BytesIO()
-                PillowImage.new("RGB", (1000, 500), "blue").save(source, "JPEG")
-                source.seek(0)
-                image = get_image_model().objects.create(
-                    title="Regression image",
-                    file=ImageFile(source, name="regression.jpg"),
-                )
-                self.article.body = [
-                    (
-                        "image_aligned_block",
-                        {"image": image, "alignment": "left", "content": "Image text"},
-                    )
-                ]
-                self.article.save_revision().publish()
-                response = self.client.get(self.article.url)
-                self.assertContains(response, "Regression image")
-                self.assertContains(response, "Image text")
-                for spec in ["width-800", "width-200|format-webp"]:
-                    rendition = image.get_rendition(spec)
-                    self.assertTrue(rendition.file.storage.exists(rendition.file.name))
-                    with rendition.file.open("rb") as file:
-                        result = PillowImage.open(file)
-                        self.assertEqual(
-                            result.width, 800 if spec == "width-800" else 200
-                        )
 
     @patch("webapp.pages.templatetags.pypi_tags.requests.get")
     def test_package_page_renders_mocked_pypi_metadata(self, get):

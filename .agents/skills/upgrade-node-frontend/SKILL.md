@@ -97,9 +97,12 @@ minor/patch releases. Map removed APIs, changed defaults/configuration, runtime
 requirements and asset/browser behaviour changes to actual repository usage.
 
 Implement necessary compatibility fixes within the authorized upgrade scope.
-Verify affected behaviour directly; add focused regression coverage where the
-existing checks miss it. A successful install or build alone does not establish
-compatibility.
+Verify affected behaviour directly. Follow the testing scope in `AGENTS.md`:
+add a focused test only for a missing custom rule affected by the upgrade, not
+for upstream library behavior, end-to-end workflows, generic page rendering,
+or legacy removal. Keep build, watcher, and manual browser verification separate
+from automated application tests. A successful install or build alone does not
+establish compatibility.
 
 Flag unresolved incompatibilities and decisions outside scope to the developer
 when identified. Give the package/version transition, upstream evidence,

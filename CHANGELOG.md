@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Changed
+
+- Limit agent-created tests to custom functionality, align upgrade guidance, and remove six framework/admin/rendering smoke tests; require review of proposed test removals before committing.
+
 ## 2026-10-20
 
 ### Changed

@@ -35,7 +35,20 @@ For Python backend upgrades, use the repository-local skill in `.agents/skills/u
 
 For Node and frontend dependency upgrades, use the repository-local skill in `.agents/skills/upgrade-node-frontend/SKILL.md` to record version selections, align npm/Biome/runtime pins, and verify builds, watchers, and Docker. Keep Python image changes in the separate Python upgrade phase.
 
-Tests currently use Django’s built-in test runner (`python manage.py test` via `make test`). Add tests near the app they cover; the regression suite is `webapp/pages/test_upgrade.py`, but prefer names like `test_models.py` or `test_views.py` as coverage grows. Name test methods `test_<behavior>` and cover page models, template rendering, and custom template tags when you change them.
+Tests use Django’s built-in test runner (`python manage.py test` via `make test`). Keep tests near the custom functionality they cover, using names such as `test_models.py` or `test_content.py` and methods named `test_<behavior>`.
+
+Before adding a test, identify the project-specific rule or decision it protects and check whether existing tests already cover it. Add focused tests only for custom functionality: for example, editorial ordering, chapter selection, table-of-contents anchor generation, YAML escaping, navigation assembly, or PyPI response handling. Prefer direct calls to the relevant function, method, rendering helper, or template tag. Use the database when the custom behavior needs it and mock external services.
+
+Do not add:
+
+- Tests that only prove legacy fields, content, links, files, or code have been removed. Remove obsolete tests alongside the deleted functionality; use code searches and normal checks to verify cleanup.
+- End-to-end journeys, browser automation, broad page-rendering or HTTP-status smoke tests, or admin edit/preview/publish workflows.
+- Tests of built-in Django or Wagtail behavior, such as ORM persistence, standard field validation, routing, authentication, revision publishing, or image rendition generation. Calling framework methods to arrange fixtures is fine; the assertions must exercise our custom behavior.
+- Duplicate coverage, assertions that merely mirror implementation details, or tests added solely because a file changed or a dependency was upgraded.
+
+Focused tests of custom template output or view decisions are appropriate when they exercise project-specific behavior. A custom queryset test may use Wagtail filters while checking our ordering or scoping rule; it must not merely retest the filters themselves. Keep deployment/build checks and manual visual verification separate from the automated application test suite.
+
+Run the existing checks relevant to the change. Before committing test removals, show the developer the file and test names, why each is being removed, and which custom behavior remains covered. Do not remove an entire test module just because some tests in it are out of scope.
 
 ## Commit, Changelog & Pull Request Guidelines
 Recent history uses short, imperative commit subjects such as `Mirror data into production-mode Docker`. Keep subjects specific and under roughly 72 characters.

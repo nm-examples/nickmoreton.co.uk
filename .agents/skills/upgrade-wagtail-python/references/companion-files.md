@@ -27,7 +27,7 @@ maintenance note. Do not mechanically change unaffected files.
 | `webapp/urls.py` | Framework and third-party imports/integration routes. |
 | `webapp/{home,pages,core}/models.py`, `webapp/pages/blocks.py` | Deprecations, panels, StreamField changes, required project migrations; read intervening Wagtail upgrade considerations. |
 | App migrations, templates, template tags | Custom rendering/admin APIs and image/search compatibility. Do not copy dependency migrations into this project. |
-| `webapp/pages/test_*.py`, other app tests | Live/draft rendering, actual draft preview and publishing, PostgreSQL search, image renditions, custom tags/blocks, mocked PyPI calls. |
+| App tests | Follow `AGENTS.md`: focused coverage for custom queries, content processing, navigation, tags/blocks, and mocked external API handling. Do not add framework, end-to-end, generic rendering, editor workflow, image rendition, or legacy-removal tests. Show proposed test removals and retained custom coverage before committing. |
 
 Use `rg --hidden` for discovery, excluding `.git`, virtualenvs, `node_modules`,
 generated static/media, and backups. Inspect new CI/deployment configuration
