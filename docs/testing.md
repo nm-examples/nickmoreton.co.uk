@@ -51,14 +51,21 @@ boundaries and preservation of literal code in the display and copy source, incl
 HTML examples. It renders synthetic examples through the real code-block template.
 Browser clipboard behaviour is not covered.
 
-Both files contain database-free tests; they do not establish coverage of existing
+[`webapp/pages/test_pypi_tags.py`](../webapp/pages/test_pypi_tags.py) covers package-name
+validation, date extraction, normalized cache reuse, request timeouts, cache lifetimes,
+failure handling, and fallback resource links. HTTP responses are synthetic and mocked;
+an isolated in-memory cache checks reuse. Lifetime checks inspect the timeout passed
+to the cache rather than waiting for expiry.
+
+These files contain database-free tests; they do not establish coverage of existing
 site content or other application behaviour.
 
-Run either file with the development app container running:
+Run an individual file with the development app container running:
 
 ```sh
 docker compose exec -T app python manage.py test webapp.pages.test_content --noinput
 docker compose exec -T app python manage.py test webapp.pages.test_blocks --noinput
+docker compose exec -T app python manage.py test webapp.pages.test_pypi_tags --noinput
 ```
 
 ## Code and build checks

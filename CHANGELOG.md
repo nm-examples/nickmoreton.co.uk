@@ -10,6 +10,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 - Add focused heading-anchor and table-of-contents tests using synthetic content; document their scope and verification commands in the [testing guidance](docs/testing.md).
 - Add focused code-block tests for expansion limits and literal display/copy output.
+- Add focused PyPI metadata tests for validation, caching, request failures, and fallback resource links.
 
 ### Changed
 
