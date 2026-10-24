@@ -20,6 +20,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Removed
 
+- Remove the obsolete kitchen-sink example page, its view and route, and dedicated styles.
 - Remove completed redesign prototypes, screenshots, and planning docs; simplify current guidance and keep migration recovery notes in the data workflows.
 - Remove all application test modules and their shared test helper.
 
