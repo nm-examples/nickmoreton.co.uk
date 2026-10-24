@@ -62,14 +62,6 @@ class ArticlePageBase(BasePage):
         context.update(render_body(self.body, request))
         return context
 
-    def get_chapters(self):
-        chapters = ArticleChapterPage.objects.live().public().child_of(self)
-        return chapters
-
-    def get_first_chapter(self):
-        chapters = self.get_chapters()
-        return chapters.first()
-
     base_panels_top = [
         FieldPanel("excerpt"),
     ]
@@ -107,8 +99,11 @@ class ArticlePage(ArticlePageBase):
 
     def get_context(self, request):
         context = super().get_context(request)
-        context["chapters"] = self.get_chapters()
-        context["first_chapter"] = self.get_first_chapter()
+        chapters = list(
+            ArticleChapterPage.objects.live().public().child_of(self).order_by("path")
+        )
+        context["chapters"] = chapters
+        context["first_chapter"] = chapters[0] if chapters else None
         return context
 
 
@@ -119,27 +114,26 @@ class ArticleChapterPage(ArticlePageBase):
 
     content_panels = Page.content_panels + panels_bottom
 
-    def get_chapters(self):
-        chapters = (
-            ArticleChapterPage.objects.live().public().child_of(self.get_parent())
-        )
-        return chapters
-
-    def get_next_chapter(self):
-        chapters = self.get_chapters()
-        return chapters.filter(path__gt=self.path).first()
-
-    def get_previous_chapter(self):
-        chapters = self.get_chapters()
-        return chapters.filter(path__lt=self.path).last()
-
     def get_context(self, request):
         context = super().get_context(request)
-        context["article"] = self.get_parent().specific
-        context["chapters"] = self.get_chapters()
+        article = self.get_parent().specific
+        chapters = list(
+            ArticleChapterPage.objects.live()
+            .public()
+            .child_of(article)
+            .order_by("path")
+        )
+        context["article"] = article
+        context["chapters"] = chapters
         context["current_chapter"] = self
-        context["next_chapter"] = self.get_next_chapter()
-        context["previous_chapter"] = self.get_previous_chapter()
+        # A draft preview may be absent from the visible chapters; compare tree paths.
+        context["next_chapter"] = next(
+            (chapter for chapter in chapters if chapter.path > self.path), None
+        )
+        context["previous_chapter"] = next(
+            (chapter for chapter in reversed(chapters) if chapter.path < self.path),
+            None,
+        )
         return context
 
 

@@ -12,6 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 
+- Reuse one visible chapter list for article and chapter navigation, preserving tree order and draft-preview links.
 - Simplify sidebar contents generation while preserving current heading anchors.
 - Preserve PyPI versions when optional upload data is malformed, read release dates from current-release files, and let PyPI validate package names while encoding them safely in URLs.
 - Reserve data imports, database restores, and media syncs for developer execution; agents may explain the steps and verify with missing local content.

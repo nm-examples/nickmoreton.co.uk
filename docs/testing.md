@@ -36,6 +36,8 @@ normalization, lookup failures, and release dates, including retaining versions 
 optional data is unusable.
 [Body contents tests](../webapp/pages/test_content.py) cover heading anchors and their
 matching sidebar entries.
+[Chapter navigation tests](../webapp/pages/test_chapters.py) cover visible chapter
+selection, tree ordering, draft neighbours, and fetching each chapter list once.
 Other app behaviour is not yet covered; an empty test run provides no application
 coverage.
 
