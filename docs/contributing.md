@@ -10,8 +10,8 @@ user requests a prefix.
 
 ## Commits and approval
 
-Before presenting a change for review, check that affected documentation and agent
-guidance have been updated alongside the code, including removals. Follow the
+Before presenting a change for review, check documentation and agent guidance for
+inaccuracies introduced by the change and correct them alongside the code. Follow the
 [documentation maintenance rules](documentation.md#keeping-docs-and-guidance-aligned).
 
 Recent history uses short, imperative commit subjects such as `Mirror data into

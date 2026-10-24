@@ -8,13 +8,16 @@ register = template.Library()
 
 @register.inclusion_tag("core/tags/navigation.html", takes_context=True)
 def get_navigation(context: template.Context) -> dict:
-    """Build site links, omitting the work section when no projects are selected."""
+    """Keep configured order, falling back to root menu pages and section links.
+
+    Skip unpublished/restricted targets and links to an empty work section. Homepage
+    previews use their draft project selection; other pages use the live site root.
+    """
     request = context["request"]
     navigation = Navigation.for_request(request)
     site = Site.find_for_request(request)
     root = site.root_page.specific if site else None
     current_page = context.get("page")
-    # Homepage previews must use their draft selection instead of the live root.
     homepage = (
         current_page if current_page and root and current_page.pk == root.pk else root
     )

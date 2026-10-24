@@ -6,7 +6,7 @@ make the root `AGENTS.md` difficult to scan.
 | Document | Purpose |
 | --- | --- |
 | [`architecture.md`](architecture.md) | Defines the project's Django and Wagtail code-placement boundaries. |
-| [`documentation.md`](documentation.md) | Defines source-documentation standards and the app README template. |
+| [`documentation.md`](documentation.md) | Defines concise documentation ownership and maintenance rules. |
 | [`testing.md`](testing.md) | Defines the scope of application tests and required code/build verification. |
 | [`contributing.md`](contributing.md) | Defines branch, review, commit, changelog, and pull-request rules. |
 | [`data-and-media.md`](data-and-media.md) | Covers local and production-mode data/media sync and backup handling. |
@@ -14,16 +14,10 @@ make the root `AGENTS.md` difficult to scan.
 | [`python-upgrade.md`](python-upgrade.md) | Records Python backend versions, verification, deployment, and rollback. |
 | [`node-upgrade.md`](node-upgrade.md) | Records Node frontend versions, verification, and rollback. |
 
-Feature-specific design and extension guidance belongs in the relevant
-app-level `README.md` under `webapp/`. The [pages app](../webapp/pages/README.md)
-documents content rendering; the [home app](../webapp/home/README.md)
-documents homepage editing. The [core app](../webapp/core/README.md)
-documents per-site navigation. Add guidance for other apps when working on them,
-following the documentation standards.
-
-`make test` runs Django application tests; `make coverage` measures Python line and
-branch execution and generates reports. See [testing and verification](testing.md)
-for current coverage, interpretation, and the scope of future tests.
+App READMEs provide orientation and editor workflows:
+[home](../webapp/home/README.md), [pages](../webapp/pages/README.md), and
+[core](../webapp/core/README.md). Implementation reasoning lives beside the code;
+link to it rather than repeating it here.
 
 ## Source
 

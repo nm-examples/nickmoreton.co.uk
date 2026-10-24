@@ -8,6 +8,11 @@ SHARED_TEMPLATE_IDS = {"main", "navigation"}
 
 
 def render_body(body, request):
+    """Render body HTML and matching h2/h3 contents links with unique anchors.
+
+    Preserve authored IDs where possible. Reserve later headings' authored IDs before
+    generating slugs, and avoid collisions with non-heading and shared template IDs.
+    """
     html = render_to_string("pages/includes/body.html", {"body": body}, request=request)
     soup = BeautifulSoup(html, "html.parser")
     headings = soup.find_all(["h2", "h3"])

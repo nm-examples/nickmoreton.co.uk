@@ -46,6 +46,7 @@ class ArticlePageBase(BasePage):
         abstract = True
 
     def get_latest_articles(self):
+        """A chapter shares its parent article's related list, not sibling chapters."""
         article = self.get_parent() if isinstance(self, ArticleChapterPage) else self
         return (
             ArticlePage.objects.live()

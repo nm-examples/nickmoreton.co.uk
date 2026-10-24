@@ -1,111 +1,48 @@
 # Architecture
 
-## Project layout
+## Layout and ownership
 
-The Django/Wagtail project lives under `webapp/`. Core settings are in
-`webapp/settings/`, reusable app code is split across `webapp/home/`, `webapp/pages/`,
-`webapp/core/`, and `webapp/search/`, and templates live alongside each app plus
-`webapp/templates/` for shared pages. Frontend source files are in `webapp/static_src/`
-with compiled output written to `webapp/static_compiled/`. Container and deployment
-support lives in `docker/`, `docker-compose.yaml`, and `docs/`.
+This is a Wagtail content site. Page models own CMS fields, relationships, simple
+queries, and `get_context()` hooks; Wagtail handles routing and rendering. Search is
+a Django view because it spans page types.
 
-## Coding conventions
-
-Target Python `3.14`, Django `6.0`, and Wagtail `7.4` LTS. Follow PEP 8 with 4-space
-indentation. Keep Django modules and template directories lowercase with underscores;
-use `PascalCase` for model and test class names, and `snake_case` for functions and
-methods. Frontend entry points belong in `webapp/static_src/scripts/` and Sass partials
-in `webapp/static_src/styles/`.
-
-See [testing and verification](testing.md) for required code checks and [Python
-maintenance](python-upgrade.md) and [Node maintenance](node-upgrade.md) for exact
-runtime and tool pins.
-
-## Framework model
-
-This is a content site built around Wagtail pages. Page models own CMS fields,
-relationships, small queries, and `get_context()` hooks. Wagtail handles page routing
-and rendering; keep that flow when changing the homepage, articles, chapters, or
-packages.
-
-The search endpoint is a Django view because it searches across page types. Shared
-content processing and template tags provide the other custom rendering behavior.
-
-## Code placement
-
-| Responsibility | Existing location |
+| Responsibility | Location |
 | --- | --- |
-| Homepage copy, portfolio snippets and selection, and editorial lists | [`home/models.py`](../webapp/home/models.py) |
-| Articles, chapters, packages, related content, and chapter navigation | [`pages/models.py`](../webapp/pages/models.py) |
-| Shared StreamField blocks and code-expansion decisions | [`pages/blocks.py`](../webapp/pages/blocks.py) |
-| Body rendering, heading anchors, and table of contents | [`pages/content.py`](../webapp/pages/content.py) |
-| Per-site navigation settings and menu assembly | [`core/models.py`](../webapp/core/models.py) and [`core/templatetags/navigation_tags.py`](../webapp/core/templatetags/navigation_tags.py) |
-| Cached PyPI metadata and package information | [`pages/templatetags/pypi_tags.py`](../webapp/pages/templatetags/pypi_tags.py) |
-| Search scoping, query handling, and pagination | [`search/views.py`](../webapp/search/views.py) |
-| Page and component HTML | App-level `templates/` directories and `webapp/templates/` |
-| Syntax highlighting, navigation, archive filtering, and code copying | `webapp/static_src/scripts/` |
+| Homepage and portfolio snippets | [`home/models.py`](../webapp/home/models.py) |
+| Articles, chapters, packages, and related lists | [`pages/models.py`](../webapp/pages/models.py) |
+| StreamField blocks and body rendering | [`pages/blocks.py`](../webapp/pages/blocks.py), [`pages/content.py`](../webapp/pages/content.py) |
+| Per-site navigation | [`core/models.py`](../webapp/core/models.py), [`navigation_tags.py`](../webapp/core/templatetags/navigation_tags.py) |
+| PyPI integration | [`pypi_tags.py`](../webapp/pages/templatetags/pypi_tags.py) |
+| Search | [`search/views.py`](../webapp/search/views.py) |
+| HTML | App `templates/` directories and shared `webapp/templates/` |
+| Frontend source | `webapp/static_src/`; build output goes to `webapp/static_compiled/` |
+| Configuration and deployment | `webapp/settings/`, `docker/`, and `docker-compose.yaml` |
 
-Keep changes with the owning app or helper. This site has no selector or service
-modules; extract one only when an actual query or operation becomes complex or reused
-enough to benefit. Keep simple page queries in model methods and context hooks.
+Keep changes with the owning app. Extract a service or query helper only when an
+operation becomes complex or reused enough to justify it. Detailed behaviour belongs
+beside the implementation; app READMEs cover editor workflows.
 
-## Content and rendering rules
+## Conventions and boundaries
 
-- Homepage lists use editorial order, then newest date and primary key. Article and
-  package indexes and related-content lists use newest date and primary key; related
-  lists exclude the current article/package and are limited to three items.
-  Homepage package/article sections are hidden independently when their live, public
-  lists are empty; the hero article link and closing article call to action are
-  hidden with the article list.
-- Preserve the existing live/public filters and homepage, index, or sibling scoping
-  when changing queries. Chapter navigation follows tree order and skips unpublished
-  and private chapters. Search is scoped to the current site's root when available.
-- Article, chapter, and package contexts call `render_body()`. It renders StreamField
-  HTML, assigns unique `h2`/`h3` anchors, and returns the matching table of contents.
-  Preserve existing heading IDs where possible and avoid collisions with body IDs and
-  the shared `main` and `navigation` IDs.
-- Navigation is a per-site Wagtail setting. Its tag combines page links, anchors, and
-  external URLs, excludes unpublished or restricted linked pages, and builds a
-  homepage/child-page fallback when no usable configured items remain.
-  Configured and fallback links to the homepage's `#work` section are hidden when
-  its project selection is empty; homepage previews use the draft selection.
+Target Python 3.14, Django 6.0, and Wagtail 7.4 LTS. Use PEP 8, lowercase module and
+template directories, PascalCase classes, and snake_case functions. Runtime pins and
+checks are in [Python maintenance](python-upgrade.md), [Node maintenance](node-upgrade.md),
+and [testing](testing.md).
 
-## External data and content operations
+Preserve live/public filtering, site or page-tree scoping, and deterministic ordering
+when changing content queries. Shared body rendering stays in `pages/content.py` so
+article, chapter, and package contents links stay consistent.
 
-PyPI metadata is fetched during rendering through the existing template-tag helper.
-Keep its name validation, normalized cache keys, explicit request timeouts, and
-unavailable-data fallback. The site has no configured background worker; a background
-fetching workflow would be a separate design change.
+Manage content in Wagtail. Keep transactions around complete multi-step writes and
+follow [data and media workflows](data-and-media.md) for local copies and recovery.
+External HTTP integration currently runs during rendering; there is no background
+worker.
 
-Manage CMS content in Wagtail. Use the [data and media workflows](data-and-media.md)
-for local copies and recovery. Keep transactions around complete multi-step writes
-in the code that owns them.
+Configure editors through model panels, StreamField blocks, and registered settings.
+If custom admin views are needed, use the owning app's `wagtail_hooks.py` for
+registration and `viewsets.py` for definitions; preserve permissions and stable URLs.
 
-## Frontend assets and theme
-
-The frontend build writes CSS/JavaScript bundles and images to `webapp/static_compiled/`.
-It copies WebP/SVG files, converts raster images to WebP, and generates PNG favicons
-from the SVG favicon. CMS images use Wagtail's media storage and renditions.
-
-The shared colour and font tokens live in
-`webapp/static_src/styles/foundations/_tokens.scss`. Reuse these tokens in components;
-use `color-mix()` for translucent surfaces and shadows. Rebuild and recheck contrast
-after palette changes. SVG artwork and the syntax-highlighting theme contain their
-own embedded colours.
-
-## Editor configuration
-
-Homepage editing is limited to introduction, About body, and an ordered selection of
-portfolio snippets, alongside standard Wagtail page fields. Project details are
-managed under Snippets → Portfolio projects; saving snippet edits updates selected
-content immediately. The grid and random hero use only the chosen snippets and skip
-deleted references. An empty selection hides the projects section and hero's past-work
-link as well as the Websites navigation link. Headings, fixed identity, employment details,
-and profile links are hardcoded in templates. The displayed and copyable profile YAML
-is hardcoded in the hero template.
-
-Page editing is configured through panels on the page models and through StreamField
-blocks. Navigation uses a registered Wagtail site setting. There are currently no
-custom hook or admin viewset modules. If an admin extension is needed, keep its
-registration in the owning app's `wagtail_hooks.py` and viewset definitions in
-`viewsets.py`, preserving permissions and stable admin URLs.
+Frontend scripts and Sass live in `webapp/static_src/scripts/` and `styles/`. Reuse
+colour and font tokens from `styles/foundations/_tokens.scss`; recheck contrast after
+palette changes. CMS images use Wagtail media storage and renditions, independently
+of compiled frontend assets.

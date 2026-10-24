@@ -12,6 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 
+- Shorten app and architecture docs, place implementation reasoning beside code, and require agents to avoid duplicated or unnecessary documentation.
 - Hide empty homepage packages/articles sections and article calls to action until published, public content is available.
 - Manage portfolio projects as Wagtail snippets and choose their display order on the homepage; replace the former inline field with an empty selection for manually added snippets, and hide the projects section and its links when none are selected.
 - Simplify homepage editing to introduction, About copy, and projects; hardcode headings, profile details, and YAML in templates, and remove the unused legacy body and featured checkbox.

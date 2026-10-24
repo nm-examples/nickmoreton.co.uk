@@ -78,6 +78,7 @@ class HomePage(Page):
 
     @property
     def hero_project(self) -> PortfolioProject | None:
+        """Use the grid's selection; consecutive requests may show the same project."""
         return random.choice(self.selected_projects) if self.selected_projects else None
 
     def all_articles(self):

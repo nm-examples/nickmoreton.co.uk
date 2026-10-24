@@ -9,6 +9,11 @@ register = template.Library()
 
 
 def package_metadata(package_name):
+    """Fetch the current release during rendering, caching equivalent names together.
+
+    Invalid names and unavailable data return {"release": None}. Bounded timeouts
+    limit rendering delays; briefly caching failures avoids retrying on every request.
+    """
     if not package_name or not re.fullmatch(
         r"[A-Za-z0-9][A-Za-z0-9._-]{0,254}", package_name
     ):
@@ -51,6 +56,7 @@ def package_metadata(package_name):
 
 @register.inclusion_tag("pages/tags/pypi_info.html")
 def pypi_info(package_name, repository_url=""):
+    """Keep valid resource links available even when release metadata is unavailable."""
     metadata = package_metadata(package_name)
     valid_name = package_name and re.fullmatch(
         r"[A-Za-z0-9][A-Za-z0-9._-]{0,254}", package_name
