@@ -13,5 +13,4 @@ saving a snippet updates its content immediately wherever it is displayed.
 Headings, profile details, and profile links are maintained in the templates.
 Empty content sections are hidden until content is available.
 
-See [testing](../../docs/testing.md) for verification and
-[data and media workflows](../../docs/data-and-media.md) for imports and recovery.
+See [testing](../../docs/testing.md) for verification.

@@ -49,7 +49,7 @@ approvals were added. The production build completed without Sass deprecations.
 
 After an upgrade, rebuild frontend/app images and collect matching hashed static
 assets. Use `make build` and `make up` for development, or `make prod-run` for
-production-mode verification. See [local production checks](local.production.md).
+production-mode verification.
 Node-only changes require no database migration, reindex or database restore;
 [backend upgrade requirements](python-upgrade.md) apply separately.
 

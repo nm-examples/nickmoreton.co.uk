@@ -33,8 +33,7 @@ Preserve live/public filtering, site or page-tree scoping, and deterministic ord
 when changing content queries. Shared body rendering stays in `pages/content.py` so
 article, chapter, and package contents links stay consistent.
 
-Manage content in Wagtail. Keep transactions around complete multi-step writes and
-follow [data and media workflows](data-and-media.md) for local copies and recovery.
+Manage content in Wagtail. Keep transactions around complete multi-step writes.
 External HTTP integration currently runs during rendering; there is no background
 worker.
 

@@ -71,6 +71,6 @@ inside the app container.
 For frontend JavaScript/JSON, run `npm run biome:check` and `npm run build`. Keep
 Biome pins aligned as described in [Node maintenance](node-upgrade.md).
 
-See the [README](../README.md) for local setup and [production-mode checks](local.production.md)
-for deployment preparation. Dependency upgrades follow the relevant
+See the [README](../README.md) for local setup and production-mode commands.
+Dependency upgrades follow the relevant
 [Python](python-upgrade.md) or [Node](node-upgrade.md) maintenance skill.

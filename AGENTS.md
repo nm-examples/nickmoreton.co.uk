@@ -16,13 +16,16 @@ field inventories, readable logic, or method descriptions across documents. Foll
 | Application code, models, page hooks, queries, integrations, or admin extensions | [Architecture and conventions](docs/architecture.md), [testing and verification](docs/testing.md), and the relevant app's `README.md` when present. |
 | Source documentation or app READMEs | [Documentation standards](docs/documentation.md). Use source comments for implementation reasoning, app READMEs for orientation/editor workflows, and project docs for shared decisions and operations. |
 | Local setup, commands, or frontend watching | [README](README.md). |
-| Production-like local verification or deployment preparation | [Production-mode checks](docs/local.production.md). |
 | Python, Django, Wagtail, or Python tooling upgrades | [Python maintenance](docs/python-upgrade.md) and the [Python upgrade skill](.agents/skills/upgrade-wagtail-python/SKILL.md). |
 | Node, npm, frontend dependency, or Biome upgrades | [Node maintenance](docs/node-upgrade.md) and the [Node upgrade skill](.agents/skills/upgrade-node-frontend/SKILL.md). Keep Python image changes separate. |
-| Data, media, backups, or environment configuration | [Data and media workflows](docs/data-and-media.md). Never commit real secrets or production dumps. |
 
 Only commit after developer review and approval. Pushes and pull requests require
 the developer's instruction. Preserve existing work and follow the developer's
 branch choice.
+
+Data imports, database restores, and data/media syncs between environments are
+developer-run actions. Agents may explain the steps but must not execute them,
+including through Make targets or scripts. Missing content is acceptable for local checks.
+Never commit real secrets or production dumps.
 
 Use [the documentation index](docs/README.md) to find other project references.

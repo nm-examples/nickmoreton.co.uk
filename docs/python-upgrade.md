@@ -60,7 +60,6 @@ remains a separate action.
 For local verification, use `make build`, `make up`, `make migrate`,
 `make collectstatic`, then `docker compose exec -T app python manage.py update_index`.
 For production mode, use `make prod-run`, then run `update_index` in `prod-app`.
-See [production-mode checks](local.production.md) and [data/media workflows](data-and-media.md).
 
 For a dependency rollback, rebuild with the earlier code, lockfile and image
 pins. This patch adds no database changes requiring reversal. If reverting across

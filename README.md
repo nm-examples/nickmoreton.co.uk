@@ -33,7 +33,7 @@ cp .env.example .env
 
 For basic local development, the placeholder values are enough. Production-mode
 local checks can run without `.env`. Heroku and S3 values are only needed for
-data and media sync; see [Data and media](./docs/data-and-media.md).
+developer-run data and media sync.
 
 ## First Run
 
@@ -111,9 +111,6 @@ The stack also exposes a localhost fallback at <http://localhost:8001>. If port
 `8001` is already in use, set `PROD_PORT`, for example
 `PROD_PORT=8002 make prod-run`; the OrbStack HTTPS URL remains the same.
 
-For step-by-step commands and troubleshooting, see
-[Production-mode local checks](./docs/local.production.md).
-
 ## Common Commands
 
 | Command | Purpose |
@@ -137,8 +134,6 @@ For step-by-step commands and troubleshooting, see
 - [Home app](./webapp/home/README.md): portfolio snippets, homepage selection, and editorial lists.
 - [Pages app](./webapp/pages/README.md): article/package editing and content rendering.
 - [Core app](./webapp/core/README.md): per-site navigation settings.
-- [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
-- [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.
 
 ## Python Dependency Maintenance
 

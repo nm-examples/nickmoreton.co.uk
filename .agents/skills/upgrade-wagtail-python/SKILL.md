@@ -157,10 +157,10 @@ an old container may still answer during recreation.
 1. Run `make build`, then `make up`; verify Python/uv inside `app`. Run the
    baseline/verification commands in the companion checklist. Keep detailed
    output in scratch and summarize actual results in `docs/python-upgrade.md`.
-2. Before migrating existing local data, make ignored backups and rehearse on a
-   disposable PostgreSQL copy following `docs/data-and-media.md`. Record
-   `migrate --plan`; distinguish dependency migrations from project migrations.
-3. After a successful rehearsal, migrate locally, run `make collectstatic`, and
+2. Record `migrate --plan`; distinguish dependency migrations from project migrations.
+   Follow `AGENTS.md`: developers handle imports/restores and any content-based
+   rehearsal. Agents can verify migrations on an empty disposable PostgreSQL database.
+3. After successful verification, migrate locally, run `make collectstatic`, and
    run `python manage.py update_index` inside `app`.
 4. Run `make prod-run`; it builds, migrates, collects static files, and recreates
    `prod-app`. Reindex in `prod-app`; confirm actual versions and `DEBUG=False`.
@@ -169,8 +169,7 @@ an old container may still answer during recreation.
 5. If a manual editor check is needed for an upgrade compatibility issue, use
    isolated content, not live content; do not add an automated editor journey.
    Record the limits of S3/Unveil/live Heroku checks requiring configured access.
-6. Remove the disposable database. Keep ignored backups for the agreed review/
-   rollback window and remove them after use; never commit dumps.
+6. Remove only disposable databases created for your verification; never commit dumps.
 
 ## Hand off for review
 

@@ -25,7 +25,7 @@ Do not read `.env` or dump npm authentication settings to locate version pins.
 | `webapp/static_src/styles/` | Pico/theme imports, CSS output and Sass deprecations. Compare baseline warnings; avoid masking them or adding an unrelated Sass module migration. |
 | Templates, `webapp/static_compiled/` | Template asset references match generated CSS/JS/icons. Compiled assets remain generated/ignored. Inspect changed appearance when libraries or compiler output change. |
 | `scripts/server.js` | Legacy browser-sync helper is not used by current npm scripts; do not treat its missing package as an upgrade blocker. Re-evaluate if the pipeline changes. |
-| Compose files, `docs/local.production.md`, `docs/data-and-media.md` | Existing shared Dockerfile/build mounts, collected static files, nginx URLs and data preservation still apply. Do not upgrade service images or sync data as part of Node maintenance. |
+| Compose files | Existing shared Dockerfile/build mounts, collected static files, nginx URLs and data preservation still apply. Do not upgrade service images or sync data as part of Node maintenance. |
 
 ## Selection and lock record
 
