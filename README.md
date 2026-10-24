@@ -33,7 +33,7 @@ cp .env.example .env
 
 For basic local development, the placeholder values are enough. Production-mode
 local checks can run without `.env`. Heroku and S3 values are only needed for
-data and media sync; see [Data and media](./docs/data-and-media.md).
+developer-run data and media sync.
 
 ## First Run
 
@@ -111,9 +111,6 @@ The stack also exposes a localhost fallback at <http://localhost:8001>. If port
 `8001` is already in use, set `PROD_PORT`, for example
 `PROD_PORT=8002 make prod-run`; the OrbStack HTTPS URL remains the same.
 
-For step-by-step commands and troubleshooting, see
-[Production-mode local checks](./docs/local.production.md).
-
 ## Common Commands
 
 | Command | Purpose |
@@ -126,16 +123,17 @@ For step-by-step commands and troubleshooting, see
 | `make prod-quickstart` | First production-mode boot: build/start, migrations, static files, superuser prompt. |
 | `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
 | `make prod-destroy` | Stop production-mode containers and remove their Docker volumes. |
-| `make test` | Run the Django test suite inside the app container. |
+| `make test` | Run Django application tests inside the app container; see [current coverage](docs/testing.md). |
+| `make coverage` | Run tests with Python line/branch coverage; print missing lines and generate `htmlcov/index.html` and `coverage.xml`. See [coverage guidance](docs/testing.md#coverage-measurement). |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |
 
 ## Focused Docs
 
-- [Redesign integration and review](./docs/redesign/integration.md): content editing, migrations, population commands, checks, and screenshots.
-
-- [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
-- [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.
+- [Developer documentation index](./docs/README.md): architecture, documentation standards, testing scope, contributor workflow, and operational references.
+- [Home app](./webapp/home/README.md): portfolio snippets, homepage selection, and editorial lists.
+- [Pages app](./webapp/pages/README.md): article/package editing and content rendering.
+- [Core app](./webapp/core/README.md): per-site navigation settings.
 
 ## Python Dependency Maintenance
 

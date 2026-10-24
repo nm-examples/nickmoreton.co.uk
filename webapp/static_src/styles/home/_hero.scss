@@ -192,17 +192,19 @@ h1 {
     color: var(--accent);
 }
 
-.original-headline {
-    display: block;
-    color: var(--ink);
-    font-size: 15px;
-    margin-bottom: 9px;
-    font-weight: 650;
-}
-
 .intro {
     font-size: 15px;
     max-width: 430px;
+
+    p + p {
+        margin-top: 9px;
+    }
+
+    b,
+    strong {
+        color: var(--ink);
+        font-weight: 650;
+    }
 }
 
 .hero-actions {

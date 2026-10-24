@@ -34,10 +34,6 @@ textarea:focus-visible, select:focus-visible, summary:focus-visible { outline: 3
 .site-search { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .site-search .search { margin: 0; min-width: 0; }
 .site-search .button { cursor: pointer; }
-.kitchen-sink-content { padding-top: 45px; padding-bottom: 60px; }
-.kitchen-sink-content input, .kitchen-sink-content textarea, .kitchen-sink-content select { max-width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); font: inherit; }
-.kitchen-sink-content label { display: block; margin: 12px 0 6px; }
-.kitchen-sink-content fieldset { border: 1px solid var(--line); margin: 24px 0; }
 @media (max-width: 760px) {
     .site-header:not(.is-enhanced) .header-inner { height: auto; min-height: 73px; flex-wrap: wrap; padding-top: 18px; gap: 12px; }
     .site-header:not(.is-enhanced) .site-nav { display: flex; position: static; padding: 12px 0 20px; border: 0; width: 100%; }

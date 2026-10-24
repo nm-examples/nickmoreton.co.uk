@@ -17,6 +17,18 @@ Select the project runtime with `nvm use`, then use `npm ci` for routine install
 Regenerate the lockfile only for deliberate dependency updates. Keep detailed
 inventories and logs in ignored scratch files; Git preserves earlier records.
 
+## Upgrade workflow
+
+For Node, npm, frontend dependency, or Biome upgrades, use the repository's
+[Node upgrade skill](../.agents/skills/upgrade-node-frontend/SKILL.md) to record
+version selections, align runtime/npm/Biome pins, and verify builds, watchers,
+and Docker. Keep Python image changes in the separate Python upgrade phase.
+
+Check the latest Debian stable release and use its supported Node image variant.
+Pin the exact Node patch tag, Debian codename, and verified multi-platform index
+digest; verify native dependencies and local Docker workflows. Match Biome's
+package pin to both the pre-commit hook revision and its additional dependency.
+
 ## Verified on 20 October 2026
 
 - Node/npm and all six direct packages were already current; no dependency
@@ -37,7 +49,7 @@ approvals were added. The production build completed without Sass deprecations.
 
 After an upgrade, rebuild frontend/app images and collect matching hashed static
 assets. Use `make build` and `make up` for development, or `make prod-run` for
-production-mode verification. See [local production checks](local.production.md).
+production-mode verification.
 Node-only changes require no database migration, reindex or database restore;
 [backend upgrade requirements](python-upgrade.md) apply separately.
 

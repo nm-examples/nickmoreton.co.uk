@@ -30,6 +30,7 @@ help:
 	@echo "sh             Execute a command in a running container"
 	@echo "superuser      Create a superuser"
 	@echo "test           Run tests"
+	@echo "coverage       Run tests with Python line/branch coverage and generate reports"
 	@echo ""
 	@echo "Miscellaneous targets"
 	@echo "====================="
@@ -127,6 +128,15 @@ collectstatic:
 .PHONY: test
 test:
 	@$(DC) exec $(DC_APP) $(MANAGE) test
+
+# Measure a fresh test run; generated reports are ignored by Git.
+.PHONY: coverage
+coverage:
+	@$(DC) exec -T $(DC_APP) uv run --locked coverage erase
+	@$(DC) exec -T $(DC_APP) uv run --locked coverage run manage.py test --noinput $(TEST_ARGS)
+	@$(DC) exec -T $(DC_APP) uv run --locked coverage report
+	@$(DC) exec -T $(DC_APP) uv run --locked coverage html
+	@$(DC) exec -T $(DC_APP) uv run --locked coverage xml
 
 # Quickstart blank project
 .PHONY: quickstart

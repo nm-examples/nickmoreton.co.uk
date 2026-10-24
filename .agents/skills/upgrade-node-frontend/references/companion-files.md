@@ -18,14 +18,14 @@ Do not read `.env` or dump npm authentication settings to locate version pins.
 | `biome.json` | Configuration schema/migration and actual file coverage. The normal check does not cover every file in this repository. |
 | `Makefile` | Frontend targets use `npm ci`; preserve Docker/data commands. Avoid the destructive project-wide `make clean`. |
 | `app.json` | Keep Heroku Node-before-Python buildpack order and check how selected Node/npm engines and build scripts are used. A local check does not verify a remote Heroku build. |
-| `README.md`, `AGENTS.md` | Runtime/install instructions, supported workflow, Node-only Debian policy and review rules agree with the actual setup. |
+| `README.md`, `AGENTS.md`, `docs/{node-upgrade,testing,contributing}.md` | Agent routing, runtime/install instructions, supported workflow, Node-only Debian policy, testing scope, and review rules agree with the actual setup. |
 | `CHANGELOG.md`, `docs/node-upgrade.md` | Notable changes under Unreleased; short current maintenance note covering supported versions, important decisions, dated verification/limits and deployment/rollback. Git retains historical details; keep inventories and logs in scratch. |
 | `scripts/images.js` | Sharp loads native library; source SVG/bitmap processing completes with errors reflected in exit status; expected dimensions/formats and favicon copying still work. |
 | `webapp/static_src/scripts/` | esbuild entry point; Highlight.js core/language imports, tagline, copy button and mobile navigation behavior. |
 | `webapp/static_src/styles/` | Pico/theme imports, CSS output and Sass deprecations. Compare baseline warnings; avoid masking them or adding an unrelated Sass module migration. |
 | Templates, `webapp/static_compiled/` | Template asset references match generated CSS/JS/icons. Compiled assets remain generated/ignored. Inspect changed appearance when libraries or compiler output change. |
 | `scripts/server.js` | Legacy browser-sync helper is not used by current npm scripts; do not treat its missing package as an upgrade blocker. Re-evaluate if the pipeline changes. |
-| Compose files, `docs/local.production.md`, `docs/data-and-media.md` | Existing shared Dockerfile/build mounts, collected static files, nginx URLs and data preservation still apply. Do not upgrade service images or sync data as part of Node maintenance. |
+| Compose files | Existing shared Dockerfile/build mounts, collected static files, nginx URLs and data preservation still apply. Do not upgrade service images or sync data as part of Node maintenance. |
 
 ## Selection and lock record
 

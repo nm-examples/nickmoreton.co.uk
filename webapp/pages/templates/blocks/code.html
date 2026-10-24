@@ -1,4 +1,5 @@
 {% if expand_code %}<details class="code-expand"><summary>View the full code example</summary>{% endif %}
+{# Keep display and copy sources literal so HTML examples and whitespace survive. #}
 <div class="code-block" data-copy-container>
     <div class="code-heading"><span>{{ value.language }}</span><button class="code-copy" type="button" data-copy aria-label="Copy {{ value.language }} code" hidden>Copy code</button></div>
     <pre><code class="language-{{ value.language }}">{{ value.code }}</code></pre>

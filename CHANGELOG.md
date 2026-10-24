@@ -6,6 +6,32 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Added
+
+- Add focused tests for content selection, related lists, search, navigation, PyPI caching, and code expansion.
+- Add Python line and branch coverage reports locally and in CI to guide minimal tests of the site's custom behaviour.
+
+### Changed
+
+- Reuse one visible chapter list for article and chapter navigation, preserving tree order and draft-preview links.
+- Simplify sidebar contents generation while preserving current heading anchors.
+- Preserve PyPI versions when optional upload data is malformed, read release dates from current-release files, and let PyPI validate package names while encoding them safely in URLs.
+- Reserve data imports, database restores, and media syncs for developer execution; agents may explain the steps and verify with missing local content.
+- Shorten app and architecture docs, place implementation reasoning beside code, and require agents to avoid duplicated or unnecessary documentation.
+- Hide empty homepage packages/articles sections and article calls to action until published, public content is available.
+- Manage portfolio projects as Wagtail snippets and choose their display order on the homepage; replace the former inline field with an empty selection for manually added snippets, and hide the projects section and its links when none are selected.
+- Simplify homepage editing to introduction, About copy, and projects; hardcode headings, profile details, and YAML in templates, and remove the unused legacy body and featured checkbox.
+- Remove the one-off redesign population command and homepage content defaults; discard obsolete homepage revisions while preserving live/latest, scheduled, and complete revisions.
+- Tailor architecture and documentation guidance to this site, keep AGENTS.md concise, and require docs/guidance updates alongside affected code changes and removals; see the [developer documentation index](docs/README.md).
+- Limit agent-created tests to custom functionality, align upgrade guidance, and remove six framework/admin/rendering smoke tests; require review of proposed test removals before committing.
+
+### Removed
+
+- Remove the data/media and production-mode guide documents and their references from documentation, agent guidance, and maintenance tooling.
+- Remove the obsolete kitchen-sink example page, its view and route, and dedicated styles.
+- Remove completed redesign prototypes, screenshots, and planning docs; simplify current guidance.
+- Remove all application tests and their shared test helper; reset coverage documentation for future minimal tests of the site's behaviour.
+
 ## 2026-10-20
 
 ### Changed

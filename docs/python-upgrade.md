@@ -25,6 +25,14 @@ validate with `uv lock --check`. Advance the cutoff only for a deliberate refres
 Docker, CI and pre-commit must use the same uv version. Keep detailed inventories
 and logs in ignored scratch files; Git preserves previous upgrade records.
 
+## Upgrade workflow
+
+For Python, Django, Wagtail, or Python tooling upgrades, use the repository's
+[Python upgrade skill](../.agents/skills/upgrade-wagtail-python/SKILL.md) to record
+exact version selections, align companion files, and verify the Docker stacks.
+Follow [the testing scope](testing.md) for application coverage, and keep Node
+runtime and frontend dependency changes in their separate upgrade phase.
+
 ## Verified on 20 October 2026
 
 - Baseline and upgraded development stacks: all 48 PostgreSQL tests passed,
@@ -45,8 +53,6 @@ live Heroku deployment, S3 and external Unveil submission were not exercised.
 
 ## Deployment and rollback
 
-This refresh introduces no migrations. Existing local data still needed four
-previous redesign migrations; these were rehearsed and applied successfully.
 Deployments must apply all pending migrations, collect matching static assets
 and rebuild the search index. Heroku's release phase runs migrations; reindexing
 remains a separate action.
@@ -54,12 +60,9 @@ remains a separate action.
 For local verification, use `make build`, `make up`, `make migrate`,
 `make collectstatic`, then `docker compose exec -T app python manage.py update_index`.
 For production mode, use `make prod-run`, then run `update_index` in `prod-app`.
-See [production-mode checks](local.production.md) and [data/media workflows](data-and-media.md).
 
 For a dependency rollback, rebuild with the earlier code, lockfile and image
 pins. This patch adds no database changes requiring reversal. If reverting across
 schema changes, stop writers and restore a compatible database/media snapshot;
-do not rely on untested reverse migrations. Local pre-refresh dumps are ignored
-at `db_backups/python-20261020-{dev,prod}.dump`; retain through review, then remove.
-They are local snapshots, not Heroku recovery backups. A live rollback needs its
-own matching release, database and media recovery points and authorization.
+do not rely on untested reverse migrations. A live rollback needs its own matching
+release, database and media recovery points and authorization.

@@ -58,8 +58,6 @@ try {
     "AGENTS.md",
     "CHANGELOG.md",
     "docs/node-upgrade.md",
-    "docs/local.production.md",
-    "docs/data-and-media.md",
     "docker-compose.yaml",
     "docker-compose.production.yaml",
     ...filesUnder(".github/workflows"),

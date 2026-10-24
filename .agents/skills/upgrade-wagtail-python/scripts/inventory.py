@@ -19,8 +19,6 @@ COMPANION_FILES = (
     "README.md",
     "CHANGELOG.md",
     "docs/python-upgrade.md",
-    "docs/local.production.md",
-    "docs/data-and-media.md",
     "docker-compose.yaml",
     "docker-compose.production.yaml",
     "gunicorn.conf.py",
