@@ -29,17 +29,17 @@ separate from the application test suite.
 
 ### Current coverage
 
-[Homepage tests](../webapp/home/test_projects.py) cover project selection and hero
-candidates. [Navigation tests](../webapp/core/test_navigation.py) cover project-dependent
-links and draft previews. [PyPI tests](../webapp/pages/test_pypi.py) cover name
-normalization, lookup failures, and release dates, including retaining versions when
-optional data is unusable.
-[Body contents tests](../webapp/pages/test_content.py) cover heading anchors and their
-matching sidebar entries.
-[Chapter navigation tests](../webapp/pages/test_chapters.py) cover visible chapter
-selection, tree ordering, draft neighbours, and fetching each chapter list once.
-Other app behaviour is not yet covered; an empty test run provides no application
-coverage.
+Tests cover the site's custom decisions:
+
+- Home: [project selection](../webapp/home/test_projects.py) and
+  [content listings and archive links](../webapp/home/test_listings.py).
+- Pages: [index and related lists](../webapp/pages/test_queries.py),
+  [chapter navigation](../webapp/pages/test_chapters.py),
+  [contents anchors](../webapp/pages/test_content.py), and
+  [code expansion](../webapp/pages/test_blocks.py).
+- Core: [configured/fallback navigation and homepage previews](../webapp/core/test_navigation.py).
+- PyPI: [metadata parsing, resource links, and caching](../webapp/pages/test_pypi.py).
+- Search: [visibility, site scoping, query input, and pagination](../webapp/search/test_search.py).
 
 With development containers running:
 

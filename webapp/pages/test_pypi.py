@@ -12,6 +12,37 @@ from webapp.pages.templatetags.pypi_tags import (
 
 
 class PyPIMetadataTests(SimpleTestCase):
+    def test_cached_successes_and_failures_skip_http(self):
+        for cached in ({"release": "1.2.3"}, {"release": None}):
+            with self.subTest(cached=cached):
+                with (
+                    patch("webapp.pages.templatetags.pypi_tags.cache") as cache,
+                    patch("webapp.pages.templatetags.pypi_tags.requests.get") as get,
+                ):
+                    cache.get.return_value = cached
+                    self.assertEqual(package_metadata("Demo_Package"), cached)
+                    cache.get.assert_called_once_with("pypi-metadata:demo-package")
+                    get.assert_not_called()
+                    cache.set.assert_not_called()
+
+    def test_missing_or_invalid_versions_use_failure_cache_lifetime(self):
+        for info in ({}, {"version": ""}, {"version": None}, {"version": 123}):
+            with self.subTest(info=info):
+                response = Mock()
+                response.json.return_value = {"info": info}
+                with (
+                    patch(
+                        "webapp.pages.templatetags.pypi_tags.requests.get",
+                        return_value=response,
+                    ),
+                    patch("webapp.pages.templatetags.pypi_tags.cache") as cache,
+                ):
+                    cache.get.return_value = None
+                    self.assertEqual(package_metadata("demo"), {"release": None})
+                    cache.set.assert_called_once_with(
+                        "pypi-metadata:demo", {"release": None}, 300
+                    )
+
     def test_normalizes_case_and_separators(self):
         self.assertEqual(_normalize_package_name("Demo..__--Package"), "demo-package")
 

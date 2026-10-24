@@ -8,6 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Added
 
+- Add focused tests for content selection, related lists, search, navigation, PyPI caching, and code expansion.
 - Add Python line and branch coverage reports locally and in CI to guide minimal tests of the site's custom behaviour.
 
 ### Changed
