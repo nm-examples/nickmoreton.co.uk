@@ -53,8 +53,6 @@ live Heroku deployment, S3 and external Unveil submission were not exercised.
 
 ## Deployment and rollback
 
-This refresh introduces no migrations. Existing local data still needed four
-previous redesign migrations; these were rehearsed and applied successfully.
 Deployments must apply all pending migrations, collect matching static assets
 and rebuild the search index. Heroku's release phase runs migrations; reindexing
 remains a separate action.
@@ -67,7 +65,5 @@ See [production-mode checks](local.production.md) and [data/media workflows](dat
 For a dependency rollback, rebuild with the earlier code, lockfile and image
 pins. This patch adds no database changes requiring reversal. If reverting across
 schema changes, stop writers and restore a compatible database/media snapshot;
-do not rely on untested reverse migrations. Local pre-refresh dumps are ignored
-at `db_backups/python-20261020-{dev,prod}.dump`; retain through review, then remove.
-They are local snapshots, not Heroku recovery backups. A live rollback needs its
-own matching release, database and media recovery points and authorization.
+do not rely on untested reverse migrations. A live rollback needs its own matching
+release, database and media recovery points and authorization.

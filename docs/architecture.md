@@ -72,11 +72,21 @@ Keep its name validation, normalized cache keys, explicit request timeouts, and
 unavailable-data fallback. The site has no configured background worker; a background
 fetching workflow would be a separate design change.
 
-Homepage copy and portfolio values are saved CMS content, with no runtime content
-defaults or population command. Manage them in Wagtail or restore production data.
-Article/package ordering, featured-state, and icon defaults remain editing defaults.
-See [redesign integration](redesign/integration.md) for migration and revision-cleanup
-details. Keep transactions around complete multi-step writes in the code that owns them.
+Manage CMS content in Wagtail. Use the [data and media workflows](data-and-media.md)
+for local copies and recovery. Keep transactions around complete multi-step writes
+in the code that owns them.
+
+## Frontend assets and theme
+
+The frontend build writes CSS/JavaScript bundles and images to `webapp/static_compiled/`.
+It copies WebP/SVG files, converts raster images to WebP, and generates PNG favicons
+from the SVG favicon. CMS images use Wagtail's media storage and renditions.
+
+The shared colour and font tokens live in
+`webapp/static_src/styles/foundations/_tokens.scss`. Reuse these tokens in components;
+use `color-mix()` for translucent surfaces and shadows. Rebuild and recheck contrast
+after palette changes. SVG artwork and the syntax-highlighting theme contain their
+own embedded colours.
 
 ## Editor configuration
 

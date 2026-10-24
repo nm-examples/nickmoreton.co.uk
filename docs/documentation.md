@@ -17,8 +17,12 @@ Update affected documentation and guidance as part of the same change, before
 presenting it for review or committing it. This includes root and app READMEs,
 architecture and operational docs, verification instructions, `AGENTS.md`, repository
 skills and their references, and source comments/docstrings. Remove obsolete
-instructions and links when code is removed; preserve dated historical records as
-history rather than presenting their results as current behavior or coverage.
+instructions and links when code is removed.
+
+Keep guidance focused on current behaviour and maintenance. Use Git and the changelog
+for completed-project history. Retain dated records only when they support an ongoing
+compatibility, operational, or recovery requirement; do not present them as current
+behaviour or coverage.
 
 ## Source documentation
 

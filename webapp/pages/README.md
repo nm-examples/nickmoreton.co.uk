@@ -16,6 +16,17 @@ Owns articles, chapters, packages, and their shared content rendering.
 | `test_blocks.py` | Code-expansion boundaries and literal display/copy output. |
 | `test_pypi_tags.py` | Metadata validation, caching, request failures, and fallback links. |
 
+## Editor experience
+
+Articles have optional topic and repository fields. Packages have category,
+repository, icon, and featured-card fields. The featured flag changes package-card
+presentation; it does not control inclusion in the homepage list.
+
+Both page types have a homepage-order field: lower values appear first, with newest
+date and primary key breaking ties. Archive lists use newest date and primary key.
+Listings exclude unpublished and restricted pages and stay within their owning
+homepage or index.
+
 ## Rendering flow
 
 Article, chapter, and package contexts call `render_body()`. It renders the body's

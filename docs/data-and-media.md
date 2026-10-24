@@ -49,7 +49,8 @@ This command:
 - Restores the backup into the local database.
 - Removes `db_backups/latest.dump` after import.
 
-The local database is replaced by this workflow.
+The local database is replaced by this workflow. Run `make migrate` afterward to
+apply pending migrations; see [migration recovery](#migration-recovery).
 
 ## Pull Production Media Locally
 
@@ -165,6 +166,16 @@ This command:
 
 This replaces only production-mode media. It does not modify normal local
 development media or S3.
+
+## Migration recovery
+
+After importing data, run `make migrate` for development or `make prod-migrate`
+for production mode. Back up the database before deploying data migrations.
+
+The [homepage revision cleanup](../webapp/home/migrations/0007_remove_homepage_seed_defaults.py)
+preserves live/latest, scheduled, and complete revisions. Reversing it does not restore
+deleted history; recovery requires a pre-migration database backup. The migration
+source defines its exact deletion criteria.
 
 ## Generated Files and Cleanup
 

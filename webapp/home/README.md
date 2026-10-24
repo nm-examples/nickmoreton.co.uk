@@ -10,37 +10,40 @@ Owns editable homepage copy, portfolio projects, and editorial article/package l
 | --- | --- |
 | `models.py` | Homepage fields, YAML output, hero selection, and scoped editorial lists. |
 | `blocks.py` | Portfolio project fields. |
-| `migrations/0007_remove_homepage_seed_defaults.py` | Removes content defaults and obsolete homepage snapshots that relied on them. |
 
 ## Content and rendering
 
-Homepage copy and URLs are required CMS fields without content defaults. Existing
-values remain stored in the database and revisions. Restore production data for
-the populated site or manage content in Wagtail; there is no population command.
-Historical migration files retain their original defaults.
+Homepage copy, URLs, and portfolio projects are managed in Wagtail.
 
 `HomePage.get_context()` supplies live, public articles/packages and indexes below
 the homepage. Lists use editorial order, then newest date and primary key. The hero
-selects from all portfolio projects; the retained featured checkbox does not control
-selection. The legacy body remains available to editors.
+selects from all portfolio projects; the featured checkbox does not control
+selection. Selection can repeat on consecutive requests. An empty portfolio links to
+the external portfolio archive.
 
-## Migrations and verification
+## Editor experience
 
-Migration `0007` removes non-current, unscheduled homepage revisions missing any of
-the 14 seeded content fields. Live/latest, scheduled, and complete revisions are
-preserved, along with revisions belonging to other page types. Reversing the field
-changes restores defaults but does not recover deleted revisions; recovery requires
-a database backup.
+Edit the homepage in Wagtail to manage its introduction, role, hero headings,
+profile/YAML values, About copy, and profile links. Profile values are shared by the
+visible YAML display and its copy action. The homepage renders these structured
+fields; its `body` field is available in the editor but is not rendered.
+
+Portfolio projects are ordered blocks containing a title, category, optional
+description, Wagtail image, image description, and external portfolio-record URL.
+The image description supplies alternative text. Manage screenshots through Wagtail
+images or restore them with production data/media.
+
+## Verification
 
 The current application tests cover shared rendering and PyPI behaviour in the
 pages app; there are no homepage-specific test files. See
 [testing and verification](../../docs/testing.md).
-Run `make migrate` after updating or restoring an older production backup. Review
-homepage output separately from automated application tests.
+Review homepage output separately from automated application tests. See the
+[data workflows](../../docs/data-and-media.md) for restoring local content and
+migration recovery.
 
 ## Extending the app
 
 Keep simple homepage queries and context assembly in `models.py`. Preserve authored
-content and active revisions during future data migrations. Ordering, featured-state,
-and icon defaults on article/package models remain useful editing defaults; see
-the [architecture guidance](../../docs/architecture.md).
+content and active revisions during data migrations. Follow the
+[architecture guidance](../../docs/architecture.md) for query and rendering rules.
