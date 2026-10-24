@@ -3,7 +3,7 @@
 {% block body_class %}template-homepage{% endblock %}
 {% block content %}
     {% include "home/includes/hero.html" %}
-    {% include "home/includes/portfolio.html" %}
+    {% if page.selected_projects %}{% include "home/includes/portfolio.html" %}{% endif %}
     <section class="section wrap" id="packages" aria-labelledby="packages-title">
         <div class="section-head">
             <div><span class="section-num">OPEN SOURCE</span><h2 id="packages-title">A little code.<br>A lot to explore.</h2><p>Explore the tools, read the docs, make them your own.</p></div>

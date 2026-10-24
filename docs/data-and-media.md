@@ -182,6 +182,23 @@ removes the fixed-content fields and unused legacy body. Edit the introduction
 manually in Wagtail to include any wording from the former headline. Full rollback
 requires rolling back the code and restoring the pre-migration database backup.
 
+The [portfolio snippet migration](../webapp/home/migrations/0009_portfolio_project_snippets.py)
+creates the snippet model, removes the former inline `projects` field, and adds an
+empty `project_selection` chooser field. It contains only schema operations and does
+not rewrite saved revisions. Old revision project values are ignored because that
+field no longer exists. Other homepage content and Wagtail images are retained.
+Add projects manually under Snippets → Portfolio projects, then choose
+which to display on the homepage. After migrating, run
+`docker compose exec -T app python manage.py rebuild_references_index` (or the
+equivalent command in the deployment environment) to refresh Wagtail's usage records.
+Existing editor groups need the appropriate Portfolio project snippet permissions
+to manage project details; superusers already have access.
+
+Reversing migration `0009` removes the selection field and snippet table and recreates
+an empty inline-project field. Restoring the former current project content requires
+a pre-migration database backup. Roll back the code with the schema and rebuild the
+reference index after rollback as well.
+
 ## Generated Files and Cleanup
 
 These workflows may create or replace:

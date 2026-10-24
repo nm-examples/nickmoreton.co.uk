@@ -1,10 +1,13 @@
 import random
 
+from django.db import models
+from django.utils.functional import cached_property
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
+from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtail.snippets.models import register_snippet
 
-from webapp.home.blocks import PortfolioProjectBlock
 from webapp.pages.models import (
     ArticleIndexPage,
     ArticlePage,
@@ -13,12 +16,46 @@ from webapp.pages.models import (
 )
 
 
+@register_snippet
+class PortfolioProject(models.Model):
+    title = models.CharField(max_length=255)
+    category = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    image_description = models.CharField(max_length=255)
+    record_url = models.URLField(max_length=2000)
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("category"),
+        FieldPanel("description"),
+        FieldPanel("image"),
+        FieldPanel("image_description"),
+        FieldPanel("record_url"),
+    ]
+
+    class Meta:
+        ordering = ["title", "pk"]
+
+    def __str__(self) -> str:
+        return self.title
+
+
 class HomePage(Page):
     max_count = 1
     introduction = RichTextField(
         features=["bold", "italic", "link"],
     )
-    projects = StreamField([("project", PortfolioProjectBlock())], blank=True)
+    project_selection = StreamField(
+        [("project", SnippetChooserBlock("home.PortfolioProject"))],
+        blank=True,
+        help_text="Choose and order projects managed in Snippets → Portfolio projects.",
+    )
     about_body = RichTextField(
         features=["bold", "italic", "link"],
     )
@@ -27,15 +64,21 @@ class HomePage(Page):
         FieldPanel("introduction"),
         FieldPanel("about_body", heading="About"),
         MultiFieldPanel(
-            [FieldPanel("projects")],
+            [FieldPanel("project_selection")],
             heading="Past website projects",
         ),
     ]
 
+    @cached_property
+    def selected_projects(self) -> list[PortfolioProject]:
+        """Keep the chosen order and omit references to deleted snippets."""
+        return [
+            block.value for block in self.project_selection if block.value is not None
+        ]
+
     @property
-    def hero_project(self):
-        projects = [block.value for block in self.projects]
-        return random.choice(projects) if projects else None
+    def hero_project(self) -> PortfolioProject | None:
+        return random.choice(self.selected_projects) if self.selected_projects else None
 
     def all_articles(self):
         return (

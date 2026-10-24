@@ -21,15 +21,18 @@ without another target uses the current site's root page.
 
 The navigation tag skips unpublished or restricted linked pages. If no usable
 configured links remain, it builds Websites/About section links around live, public
-root-page children marked for menu display.
+root-page children marked for menu display. Configured and fallback links to the
+homepage's `#work` section are omitted when no projects are selected. Homepage
+previews use their draft selection; navigation on other pages uses the live homepage.
 
 The navigation GitHub link is hardcoded in `templates/core/tags/navigation.html`.
 
 ## Verification
 
-There are no core-specific application tests. Review configured links and fallback
-navigation manually; follow the [application testing scope](../../docs/testing.md)
-when adding focused coverage.
+Run `docker compose exec -T app python manage.py test webapp.core --noinput` for
+focused tests of project-dependent configured/fallback links and preview selection.
+Review other configured links and fallback navigation manually; follow the
+[application testing scope](../../docs/testing.md) when adding focused coverage.
 
 ## Extending the app
 

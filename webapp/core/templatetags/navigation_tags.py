@@ -7,36 +7,45 @@ register = template.Library()
 
 
 @register.inclusion_tag("core/tags/navigation.html", takes_context=True)
-def get_navigation(context):
-    navigation = Navigation.for_request(context["request"])
-    site = Site.find_for_request(context["request"])
+def get_navigation(context: template.Context) -> dict:
+    """Build site links, omitting the work section when no projects are selected."""
+    request = context["request"]
+    navigation = Navigation.for_request(request)
+    site = Site.find_for_request(request)
     root = site.root_page.specific if site else None
+    current_page = context.get("page")
+    # Homepage previews must use their draft selection instead of the live root.
+    homepage = (
+        current_page if current_page and root and current_page.pk == root.pk else root
+    )
+    has_projects = bool(getattr(homepage, "selected_projects", []))
+    root_url = (root.get_url(request) if root else None) or "/"
+    work_url = request.build_absolute_uri(root_url + "#work")
     items = []
     for block in navigation.main_menu:
         value = block.value
         page = value.get("page")
         if page and (not page.live or page.get_view_restrictions().exists()):
             continue
-        url = page.get_url(context["request"]) if page else value.get("url")
+        url = page.get_url(request) if page else value.get("url")
         if value.get("anchor"):
-            url = url or (root.get_url(context["request"]) if root else "/")
+            url = url or root_url
             url += "#" + value["anchor"]
         if url:
+            if not has_projects and request.build_absolute_uri(url) == work_url:
+                continue
             items.append({"label": value["label"], "url": url})
     if not items and root:
-        items = [
-            {"label": "Websites", "url": root.get_url(context["request"]) + "#work"}
-        ]
+        if has_projects:
+            items.append({"label": "Websites", "url": root_url + "#work"})
         items += [
-            {"label": page.title, "url": page.get_url(context["request"])}
+            {"label": page.title, "url": page.get_url(request)}
             for page in root.get_children().live().public()
             if page.show_in_menus
         ]
-        items.append(
-            {"label": "About", "url": root.get_url(context["request"]) + "#about"}
-        )
+        items.append({"label": "About", "url": root_url + "#about"})
     ctx = {
-        "request": context["request"],
+        "request": request,
         "main_menu": items,
     }
     return ctx

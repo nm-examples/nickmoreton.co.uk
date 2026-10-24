@@ -12,6 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 
+- Manage portfolio projects as Wagtail snippets and choose their display order on the homepage; replace the former inline field with an empty selection for manually added snippets, and hide the projects section and its links when none are selected.
 - Simplify homepage editing to introduction, About copy, and projects; hardcode headings, profile details, and YAML in templates, and remove the unused legacy body and featured checkbox.
 - Remove the one-off redesign population command and homepage content defaults; discard obsolete homepage revisions while preserving live/latest, scheduled, and complete revisions.
 - Tailor architecture and documentation guidance to this site, keep AGENTS.md concise, and require docs/guidance updates alongside affected code changes and removals; see the [developer documentation index](docs/README.md).

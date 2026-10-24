@@ -35,7 +35,7 @@ content processing and template tags provide the other custom rendering behavior
 
 | Responsibility | Existing location |
 | --- | --- |
-| Homepage copy, portfolio, and editorial lists | [`home/models.py`](../webapp/home/models.py) and [`home/blocks.py`](../webapp/home/blocks.py) |
+| Homepage copy, portfolio snippets and selection, and editorial lists | [`home/models.py`](../webapp/home/models.py) |
 | Articles, chapters, packages, related content, and chapter navigation | [`pages/models.py`](../webapp/pages/models.py) |
 | Shared StreamField blocks and code-expansion decisions | [`pages/blocks.py`](../webapp/pages/blocks.py) |
 | Body rendering, heading anchors, and table of contents | [`pages/content.py`](../webapp/pages/content.py) |
@@ -64,6 +64,8 @@ enough to benefit. Keep simple page queries in model methods and context hooks.
 - Navigation is a per-site Wagtail setting. Its tag combines page links, anchors, and
   external URLs, excludes unpublished or restricted linked pages, and builds a
   homepage/child-page fallback when no usable configured items remain.
+  Configured and fallback links to the homepage's `#work` section are hidden when
+  its project selection is empty; homepage previews use the draft selection.
 
 ## External data and content operations
 
@@ -90,8 +92,12 @@ own embedded colours.
 
 ## Editor configuration
 
-Homepage editing is limited to introduction, About body, and portfolio projects,
-alongside standard Wagtail page fields. Headings, fixed identity, employment details,
+Homepage editing is limited to introduction, About body, and an ordered selection of
+portfolio snippets, alongside standard Wagtail page fields. Project details are
+managed under Snippets → Portfolio projects; saving snippet edits updates selected
+content immediately. The grid and random hero use only the chosen snippets and skip
+deleted references. An empty selection hides the projects section and hero's past-work
+link as well as the Websites navigation link. Headings, fixed identity, employment details,
 and profile links are hardcoded in templates. The displayed and copyable profile YAML
 is hardcoded in the hero template.
 

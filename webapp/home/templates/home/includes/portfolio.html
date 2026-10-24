@@ -5,12 +5,12 @@
         <a class="text-link" href="https://madewithwagtail.org/developers/nick-moreton/">More of my work <span aria-hidden="true">↗</span></a>
     </div>
     <div class="work-grid">
-        {% for block in page.projects %}{% with project=block.value %}
+        {% for project in page.selected_projects %}
         <article class="work-card tone-{% cycle '0' '1' '2' '3' %}">
             <a class="work-image" href="{{ project.record_url }}" aria-label="View {{ project.title }} portfolio record"><span class="work-screen">{% image project.image width-1200 format-webp alt=project.image_description loading="lazy" %}</span><span class="project-open" aria-hidden="true">↗</span></a>
             <div class="work-caption"><span class="work-category">{{ project.category }}</span><h3><a href="{{ project.record_url }}">{{ project.title }}</a></h3>{% if project.description %}<p>{{ project.description }}</p>{% endif %}<a class="text-link" href="{{ project.record_url }}">View portfolio record <span aria-hidden="true">↗</span></a></div>
         </article>
-        {% endwith %}{% empty %}<p>Explore my past projects on <a class="text-link" href="https://madewithwagtail.org/developers/nick-moreton/">Made with Wagtail ↗</a>.</p>{% endfor %}
+        {% endfor %}
     </div>
     <p class="work-note">Project screenshots and records from <a href="https://madewithwagtail.org/developers/nick-moreton/">Made with Wagtail ↗</a>.</p>
 </section>
