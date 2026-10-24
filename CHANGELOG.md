@@ -12,6 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 
+- Simplify homepage editing to introduction, About copy, and projects; hardcode headings, profile details, and YAML in templates, and remove the unused legacy body and featured checkbox.
 - Remove the one-off redesign population command and homepage content defaults; discard obsolete homepage revisions while preserving live/latest, scheduled, and complete revisions.
 - Tailor architecture and documentation guidance to this site, keep AGENTS.md concise, and require docs/guidance updates alongside affected code changes and removals; see the [developer documentation index](docs/README.md).
 - Limit agent-created tests to custom functionality, align upgrade guidance, and remove six framework/admin/rendering smoke tests; require review of proposed test removals before committing.

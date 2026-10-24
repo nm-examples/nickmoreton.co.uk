@@ -35,7 +35,7 @@ content processing and template tags provide the other custom rendering behavior
 
 | Responsibility | Existing location |
 | --- | --- |
-| Homepage profile, portfolio, and editorial lists | [`home/models.py`](../webapp/home/models.py) and [`home/blocks.py`](../webapp/home/blocks.py) |
+| Homepage copy, portfolio, and editorial lists | [`home/models.py`](../webapp/home/models.py) and [`home/blocks.py`](../webapp/home/blocks.py) |
 | Articles, chapters, packages, related content, and chapter navigation | [`pages/models.py`](../webapp/pages/models.py) |
 | Shared StreamField blocks and code-expansion decisions | [`pages/blocks.py`](../webapp/pages/blocks.py) |
 | Body rendering, heading anchors, and table of contents | [`pages/content.py`](../webapp/pages/content.py) |
@@ -89,6 +89,11 @@ after palette changes. SVG artwork and the syntax-highlighting theme contain the
 own embedded colours.
 
 ## Editor configuration
+
+Homepage editing is limited to introduction, About body, and portfolio projects,
+alongside standard Wagtail page fields. Headings, fixed identity, employment details,
+and profile links are hardcoded in templates. The displayed and copyable profile YAML
+is hardcoded in the hero template.
 
 Page editing is configured through panels on the page models and through StreamField
 blocks. Navigation uses a registered Wagtail site setting. There are currently no

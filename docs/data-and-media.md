@@ -177,6 +177,11 @@ preserves live/latest, scheduled, and complete revisions. Reversing it does not 
 deleted history; recovery requires a pre-migration database backup. The migration
 source defines its exact deletion criteria.
 
+The [homepage simplification](../webapp/home/migrations/0008_simplify_homepage.py)
+removes the fixed-content fields and unused legacy body. Edit the introduction
+manually in Wagtail to include any wording from the former headline. Full rollback
+requires rolling back the code and restoring the pre-migration database backup.
+
 ## Generated Files and Cleanup
 
 These workflows may create or replace:

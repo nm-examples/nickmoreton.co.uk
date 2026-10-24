@@ -1,13 +1,10 @@
-import json
 import random
 
-from django.db import models
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 
 from webapp.home.blocks import PortfolioProjectBlock
-from webapp.pages.blocks import BaseBlocks
 from webapp.pages.models import (
     ArticleIndexPage,
     ArticlePage,
@@ -18,82 +15,22 @@ from webapp.pages.models import (
 
 class HomePage(Page):
     max_count = 1
-    body = StreamField(
-        BaseBlocks,
-        blank=True,
-    )
-
-    profile_name = models.CharField(max_length=100)
-    role = models.CharField(max_length=150)
-    hero_title = models.TextField()
-    hero_highlight = models.TextField()
-    headline = models.CharField(max_length=255)
     introduction = RichTextField(
         features=["bold", "italic", "link"],
     )
-    employer_url = models.URLField()
-    cms_url = models.URLField()
-    github_url = models.URLField()
-    linkedin_url = models.URLField()
-    portfolio_url = models.URLField()
     projects = StreamField([("project", PortfolioProjectBlock())], blank=True)
-    about_heading = models.TextField()
-    about_title = models.CharField(max_length=150)
     about_body = RichTextField(
         features=["bold", "italic", "link"],
     )
 
     content_panels = Page.content_panels + [
+        FieldPanel("introduction"),
+        FieldPanel("about_body", heading="About"),
         MultiFieldPanel(
-            [
-                FieldPanel(name)
-                for name in (
-                    "profile_name",
-                    "role",
-                    "hero_title",
-                    "hero_highlight",
-                    "headline",
-                    "introduction",
-                    "employer_url",
-                    "cms_url",
-                )
-            ],
-            heading="Introduction",
-        ),
-        MultiFieldPanel(
-            [FieldPanel("projects"), FieldPanel("portfolio_url")],
+            [FieldPanel("projects")],
             heading="Past website projects",
         ),
-        MultiFieldPanel(
-            [
-                FieldPanel(name)
-                for name in (
-                    "about_title",
-                    "about_heading",
-                    "about_body",
-                    "github_url",
-                    "linkedin_url",
-                )
-            ],
-            heading="About and profiles",
-        ),
-        MultiFieldPanel(
-            [FieldPanel("body")],
-            heading="Legacy homepage content",
-            help_text="Retained for reference; the redesigned homepage uses the fields above.",
-        ),
     ]
-
-    @property
-    def yaml_name(self):
-        return json.dumps(self.profile_name, ensure_ascii=False)
-
-    @property
-    def profile_yaml(self):
-        return (
-            f"who_am_i:\n  name: {self.yaml_name}\n"
-            f"  works_at: {self.employer_url}\n  preferred_cms: {self.cms_url}"
-        )
 
     @property
     def hero_project(self):

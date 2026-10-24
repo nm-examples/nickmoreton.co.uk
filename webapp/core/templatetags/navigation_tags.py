@@ -38,6 +38,5 @@ def get_navigation(context):
     ctx = {
         "request": context["request"],
         "main_menu": items,
-        "profile": root,
     }
     return ctx

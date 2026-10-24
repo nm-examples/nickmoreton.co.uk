@@ -23,6 +23,8 @@ The navigation tag skips unpublished or restricted linked pages. If no usable
 configured links remain, it builds Websites/About section links around live, public
 root-page children marked for menu display.
 
+The navigation GitHub link is hardcoded in `templates/core/tags/navigation.html`.
+
 ## Verification
 
 There are no core-specific application tests. Review configured links and fallback

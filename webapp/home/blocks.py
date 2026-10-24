@@ -9,9 +9,6 @@ class PortfolioProjectBlock(blocks.StructBlock):
     image = ImageChooserBlock()
     image_description = blocks.CharBlock()
     record_url = blocks.URLBlock()
-    featured = blocks.BooleanBlock(
-        required=False, help_text="Use this project in the homepage hero."
-    )
 
     class Meta:
         icon = "image"

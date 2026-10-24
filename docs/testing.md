@@ -10,7 +10,7 @@ establish application coverage.
 Before adding a test, identify the project-specific rule or decision it protects and
 check whether existing tests already cover it. Add focused tests only for custom
 functionality: for example, editorial ordering, chapter selection, table-of-contents
-anchor generation, YAML escaping, navigation assembly, or PyPI response handling. Prefer
+anchor generation, navigation assembly, or PyPI response handling. Prefer
 direct calls to the relevant function, method, rendering helper, or template tag. Use
 the database when the custom behavior needs it and mock external services.
 
@@ -102,7 +102,7 @@ Use the report alongside the documented site rules to prioritize:
 | `core/templatetags/navigation_tags.py` | Configured links retain order and usable targets; unavailable linked pages are skipped and an empty usable menu triggers the site's fallback. |
 | `pages/templatetags/pypi_tags.py` | Mocked success/failure responses yield usable metadata or resource-link fallbacks; equivalent names reuse cached results. |
 | `home/models.py` and `pages/models.py` | Editorial/date tie-breaks, related-list limits and scoping, and chapter neighbours follow the site's rules. Use a synthetic page tree with conflicting order/date values. |
-| `home/models.py` and `pages/blocks.py` | Profile YAML preserves special characters; long code examples collapse at the documented boundaries and display/copy sources preserve literal text. |
+| `pages/blocks.py` | Long code examples collapse at the documented boundaries and display/copy sources preserve literal text. |
 | `search/views.py` | Blank input avoids a search and nonblank queries stay within the current site's root. Test the view's decisions directly, not search ranking or Django's paginator. |
 
 Start with one focused heading/contents contract, review its assertions and report,
