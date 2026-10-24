@@ -34,6 +34,8 @@ candidates. [Navigation tests](../webapp/core/test_navigation.py) cover project-
 links and draft previews. [PyPI tests](../webapp/pages/test_pypi.py) cover name
 normalization, lookup failures, and release dates, including retaining versions when
 optional data is unusable.
+[Body contents tests](../webapp/pages/test_content.py) cover heading anchors and their
+matching sidebar entries.
 Other app behaviour is not yet covered; an empty test run provides no application
 coverage.
 
