@@ -42,7 +42,6 @@ content processing and template tags provide the other custom rendering behavior
 | Per-site navigation settings and menu assembly | [`core/models.py`](../webapp/core/models.py) and [`core/templatetags/navigation_tags.py`](../webapp/core/templatetags/navigation_tags.py) |
 | Cached PyPI metadata and package information | [`pages/templatetags/pypi_tags.py`](../webapp/pages/templatetags/pypi_tags.py) |
 | Search scoping, query handling, and pagination | [`search/views.py`](../webapp/search/views.py) |
-| Redesign content population | [`home/management/commands/populate_redesign.py`](../webapp/home/management/commands/populate_redesign.py) |
 | Page and component HTML | App-level `templates/` directories and `webapp/templates/` |
 | Syntax highlighting, navigation, archive filtering, and code copying | `webapp/static_src/scripts/` |
 
@@ -73,10 +72,11 @@ Keep its name validation, normalized cache keys, explicit request timeouts, and
 unavailable-data fallback. The site has no configured background worker; a background
 fetching workflow would be a separate design change.
 
-Keep transactions around complete multi-step writes in the code that owns them. The
-population command already uses `transaction.atomic()` and defaults to a dry run.
-Preserve its repeatability, existing editorial values, page bodies, and unpublished
-drafts when changing it. See [redesign integration](redesign/integration.md) for usage.
+Homepage copy and portfolio values are saved CMS content, with no runtime content
+defaults or population command. Manage them in Wagtail or restore production data.
+Article/package ordering, featured-state, and icon defaults remain editing defaults.
+See [redesign integration](redesign/integration.md) for migration and revision-cleanup
+details. Keep transactions around complete multi-step writes in the code that owns them.
 
 ## Editor configuration
 

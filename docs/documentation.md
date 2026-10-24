@@ -24,7 +24,7 @@ history rather than presenting their results as current behavior or coverage.
 
 - Add module or function docstrings where responsibility or behavior is not clear
   from the code. Useful examples include heading-ID collision handling, navigation
-  fallback rules, PyPI caching/failure handling, and command preservation rules.
+  fallback rules, PyPI caching/failure handling, and data-migration preservation rules.
 - Document meaningful inputs, outputs, side effects, exceptions, permissions, or
   transaction behavior when callers need that information. Simple field declarations,
   straightforward framework overrides, and obvious helpers do not need docstrings

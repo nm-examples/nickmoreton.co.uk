@@ -23,45 +23,23 @@ class HomePage(Page):
         blank=True,
     )
 
-    profile_name = models.CharField(max_length=100, default="Nick Moreton")
-    role = models.CharField(max_length=150, default="Support Engineer at Torchbox")
-    hero_title = models.TextField(default="Websites.\nCode.")
-    hero_highlight = models.TextField(default="Things I’ve\nbuilt.")
-    headline = models.CharField(
-        max_length=255, default="Support Engineer: loving Wagtail CMS"
-    )
+    profile_name = models.CharField(max_length=100)
+    role = models.CharField(max_length=150)
+    hero_title = models.TextField()
+    hero_highlight = models.TextField()
+    headline = models.CharField(max_length=255)
     introduction = RichTextField(
-        default=(
-            "<p>I’m Nick Moreton, an engineer working in the support team at "
-            '<a href="https://torchbox.com">Torchbox</a>, where we use AI to develop '
-            "tools for day-to-day client site management. Explore my past website "
-            "projects, open-source packages, and technical articles.</p>"
-        ),
         features=["bold", "italic", "link"],
     )
-    employer_url = models.URLField(default="https://torchbox.com")
-    cms_url = models.URLField(default="https://wagtail.org")
-    github_url = models.URLField(default="https://github.com/nickmoreton")
-    linkedin_url = models.URLField(
-        default="https://www.linkedin.com/in/nick-moreton-45b165192/"
-    )
-    portfolio_url = models.URLField(
-        default="https://madewithwagtail.org/developers/nick-moreton/"
-    )
+    employer_url = models.URLField()
+    cms_url = models.URLField()
+    github_url = models.URLField()
+    linkedin_url = models.URLField()
+    portfolio_url = models.URLField()
     projects = StreamField([("project", PortfolioProjectBlock())], blank=True)
-    about_heading = models.TextField(
-        default="Support engineering.\nBuilding tools with AI."
-    )
-    about_title = models.CharField(max_length=150, default="Hello, I’m Nick.")
+    about_heading = models.TextField()
+    about_title = models.CharField(max_length=150)
     about_body = RichTextField(
-        default=(
-            "<p>I’m an engineer working in the support team at "
-            '<a href="https://torchbox.com">Torchbox ↗</a>.</p>'
-            "<p>We use AI to develop tools that help us with day-to-day client site "
-            "management, including upgrades, bug reports, and site outages and "
-            "incidents.</p>"
-            '<p>Preferred CMS: <a href="https://wagtail.org">Wagtail ↗</a></p>'
-        ),
         features=["bold", "italic", "link"],
     )
 

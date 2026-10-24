@@ -1,7 +1,8 @@
 # Wagtail redesign integration and review
 
-The redesign is implemented on `wagtail-redesign` and is ready for local review.
 The original HTML/CSS/JavaScript in this directory remains the visual reference.
+Current editing and migration guidance is below; implementation-time verification
+is retained as history.
 
 ## Preview
 
@@ -9,11 +10,9 @@ The original HTML/CSS/JavaScript in this directory remains the visual reference.
 - Production mode: <https://prod-nginx.nickmoreton-production.orb.local>
 - Production-mode localhost fallback: <http://localhost:8001/>
 
-Development currently contains the existing articles, packages, and chapters.
-The production-mode database used for verification is a separate, fresh local
-database with the supplied portfolio populated. It has not been replaced with a
-production dump or the development database. Content-dependent production tests
-use fixtures in an isolated test database.
+Restore production data and media using the [data workflows](../data-and-media.md)
+for a populated local site. The production data already includes the redesigned
+portfolio, page metadata, and navigation; no population step is required.
 
 ## Content editing
 
@@ -50,9 +49,9 @@ is rendered as the distinct profile action from the homepage settings.
   `webapp/static_compiled/`.
 - The image build copies WebP and SVG source assets and writes converted raster
   images with `.webp` extensions. It still generates the PNG favicons.
-- Editable portfolio screenshots are imported into Wagtail images by the setup
-  command and served as Wagtail renditions. Existing article/package images remain
-  attached to their CMS content.
+- Editable portfolio screenshots are Wagtail images restored with production
+  data/media or selected in the editor, and served as Wagtail renditions. Existing
+  article/package images remain attached to their CMS content.
 - App-owned templates are under each app's `templates/` directory; the document
   shell and error pages remain in `webapp/templates/`.
 - Pico and the unused previous theme partials/scripts have been removed.
@@ -80,65 +79,46 @@ The static reference keeps the same palette in
 The SVG favicon/header artwork and third-party syntax-highlighting theme retain
 their own embedded colours.
 
-## Migrations and content population
+## Migrations and saved content
 
-Four migrations cover the homepage fields, article/package presentation fields,
-optional navigation URL/anchor values, and the Support Engineer title correction.
-The title correction updates matching supplied copy in saved homepage content and
-current live/draft revisions; customised copy, older revisions, and draft status
-are preserved. Existing body fields, page IDs, slugs, and URLs are preserved.
+Homepage copy and URLs are stored CMS values. Their 14 model defaults and the
+one-off redesign population command/manifest have been removed. New homepage
+instances require explicit content; existing saved values remain unchanged.
+Article/package ordering, featured-state, and icon defaults remain in place.
 
-For an existing checkout with the development containers running:
+Migration `home.0007_remove_homepage_seed_defaults` deletes non-current, unscheduled
+homepage revisions missing any of those 14 fields before removing the defaults.
+Live/latest revisions, scheduled revisions, complete homepage revisions, and revisions
+of other page types are preserved. Historical migration files remain unchanged.
+
+With the development containers running:
 
 ```sh
-npm ci
-npm run build
 make migrate
 make collectstatic
-docker compose exec app python manage.py populate_redesign
 ```
 
-The last command is a dry run. Apply the supplied portfolio content and missing or
-default article/package metadata with:
-
-```sh
-docker compose exec app python manage.py populate_redesign --apply
-```
-
-Use `--home-id PAGE_ID` if a specific homepage needs to be selected. The command:
-
-- Imports the four supplied portfolio images if the homepage portfolio is empty.
-- Fills missing/default metadata for known article/package slugs without changing
-  their titles, bodies, or URLs.
-- Adds homepage section links while preserving existing navigation entries.
-- Skips pages with unpublished changes and does not publish draft-only pages.
-- Creates and publishes revisions for changed live pages.
-- Can be repeated without duplicating projects, images, or navigation entries.
-
-Review warnings for missing pages or skipped drafts. Pages that were skipped can
-be updated in the editor or populated after their pending changes are resolved.
-The command preserves non-default editorial values; a value intentionally left at
-its model default is eligible for population.
-
-For the isolated production-mode local stack:
+For production-mode local checks:
 
 ```sh
 make prod-run
-docker compose -f docker-compose.production.yaml exec prod-app python manage.py populate_redesign
-docker compose -f docker-compose.production.yaml exec prod-app python manage.py populate_redesign --apply
 ```
 
-Take the usual database and media backup before applying the migrations and
-population command to the deployed site. Run the same migrations, frontend build,
-and static collection through its existing deployment workflow. This work has
-not deployed to the live site.
+Run migrations after importing an older production backup. Edit future content in
+Wagtail; there is no command to seed the portfolio or metadata. The restored database
+and media already supply the four portfolio projects, article/package metadata, and
+homepage navigation anchors.
 
-A rollback must account for both the code and schema: reverse the new migrations
-with compatible code, or restore the pre-deployment database and media backups.
-Reversing the schema removes the newly edited fields, so preserve any desired
-new content before doing so. The original page bodies remain available.
+Take a database backup before deploying the cleanup migration. Reversing its field
+changes restores model defaults but does not recover deleted historical revisions;
+recovering them requires the pre-migration backup. This cleanup has not been deployed
+to the live site.
 
 ## Verification
+
+See [testing and verification](../testing.md) for the current suite and the
+[home app](../../webapp/home/README.md) for homepage and revision-cleanup guidance.
+The records below describe checks performed during implementation.
 
 Checks performed during implementation:
 

@@ -13,12 +13,13 @@ make the root `AGENTS.md` difficult to scan.
 | [`local.production.md`](local.production.md) | Describes local verification with Gunicorn, nginx, and `DEBUG = False`. |
 | [`python-upgrade.md`](python-upgrade.md) | Records Python backend versions, verification, deployment, and rollback. |
 | [`node-upgrade.md`](node-upgrade.md) | Records Node frontend versions, verification, and rollback. |
-| [`redesign/integration.md`](redesign/integration.md) | Covers content editing, population commands, and visual review of the redesign. |
+| [`redesign/integration.md`](redesign/integration.md) | Covers content editing, migrations, and visual review of the redesign. |
 
 Feature-specific design and extension guidance belongs in the relevant
 app-level `README.md` under `webapp/`. The [pages app](../webapp/pages/README.md)
-documents content rendering and its focused tests. Add guidance for other apps when
-working on them, following the documentation standards.
+documents content rendering and its focused tests; the [home app](../webapp/home/README.md)
+documents homepage behaviour and revision cleanup. Add guidance for other
+apps when working on them, following the documentation standards.
 
 `make test` runs Django application tests. See [testing and verification](testing.md)
 for current coverage and the scope of future tests.

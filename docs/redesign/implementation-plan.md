@@ -1,6 +1,7 @@
 # Wagtail redesign implementation plan
 
-Status: implemented locally; awaiting developer review.
+Status: historical implementation plan. See [integration and review notes](integration.md)
+for current setup; the initial population command has been retired.
 
 Prepared: 17 October 2026.
 
@@ -15,7 +16,7 @@ error pages, the kitchen-sink page, and reusable content blocks so the whole sit
 adopts the theme consistently.
 
 This document records the agreed strategy. See [integration and review notes](integration.md)
-for the implementation, population commands, verification, and screenshots.
+for current operation, migrations, verification, and screenshots.
 
 ## 1. Establish the template and asset structure
 

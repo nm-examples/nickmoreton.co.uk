@@ -133,7 +133,7 @@ For step-by-step commands and troubleshooting, see
 ## Focused Docs
 
 - [Developer documentation index](./docs/README.md): architecture, documentation standards, testing scope, contributor workflow, and operational references.
-- [Redesign integration and review](./docs/redesign/integration.md): content editing, migrations, population commands, checks, and screenshots.
+- [Redesign integration and review](./docs/redesign/integration.md): content editing, migrations, checks, and screenshots.
 
 - [Data and media](./docs/data-and-media.md): Heroku/S3 sync, local database dumps, media copy helpers, and cleanup notes.
 - [Production-mode local checks](./docs/local.production.md): run the site locally with `DEBUG = False`, Gunicorn, Postgres, and nginx.
