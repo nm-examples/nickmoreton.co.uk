@@ -31,8 +31,11 @@ separate from the application test suite.
 
 [Homepage tests](../webapp/home/test_projects.py) cover project selection and hero
 candidates. [Navigation tests](../webapp/core/test_navigation.py) cover project-dependent
-links and draft previews. Other app behaviour is not yet covered; an empty test run
-provides no application coverage.
+links and draft previews. [PyPI tests](../webapp/pages/test_pypi.py) cover name
+normalization, lookup failures, and release dates, including retaining versions when
+optional data is unusable.
+Other app behaviour is not yet covered; an empty test run provides no application
+coverage.
 
 With development containers running:
 

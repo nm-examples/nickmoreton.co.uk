@@ -12,6 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ### Changed
 
+- Preserve PyPI versions when optional upload data is malformed, read release dates from current-release files, and let PyPI validate package names while encoding them safely in URLs.
 - Reserve data imports, database restores, and media syncs for developer execution; agents may explain the steps and verify with missing local content.
 - Shorten app and architecture docs, place implementation reasoning beside code, and require agents to avoid duplicated or unnecessary documentation.
 - Hide empty homepage packages/articles sections and article calls to action until published, public content is available.
