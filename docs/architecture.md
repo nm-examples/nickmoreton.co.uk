@@ -54,6 +54,9 @@ enough to benefit. Keep simple page queries in model methods and context hooks.
 - Homepage lists use editorial order, then newest date and primary key. Article and
   package indexes and related-content lists use newest date and primary key; related
   lists exclude the current article/package and are limited to three items.
+  Homepage package/article sections are hidden independently when their live, public
+  lists are empty; the hero article link and closing article call to action are
+  hidden with the article list.
 - Preserve the existing live/public filters and homepage, index, or sibling scoping
   when changing queries. Chapter navigation follows tree order and skips unpublished
   and private chapters. Search is scoped to the current site's root when available.

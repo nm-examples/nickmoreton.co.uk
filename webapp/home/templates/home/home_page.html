@@ -1,43 +1,21 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
 {% block body_class %}template-homepage{% endblock %}
 {% block content %}
     {% include "home/includes/hero.html" %}
     {% if page.selected_projects %}{% include "home/includes/portfolio.html" %}{% endif %}
-    <section class="section wrap" id="packages" aria-labelledby="packages-title">
-        <div class="section-head">
-            <div><span class="section-num">OPEN SOURCE</span><h2 id="packages-title">A little code.<br>A lot to explore.</h2><p>Explore the tools, read the docs, make them your own.</p></div>
-            <a class="text-link" href="https://github.com/nm-packages">View on GitHub <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="packages">
-            {% for package in all_packages %}{% include "pages/includes/package_card.html" %}{% empty %}<p>Packages will appear here when published.</p>{% endfor %}
-        </div>
-    </section>
-    <section class="articles-section" id="articles" aria-labelledby="articles-title" data-filter>
-        <div class="wrap article-layout">
-            <div class="article-intro">
-                <span class="section-num">ARTICLES</span><h2 id="articles-title">From the<br>developer’s desk.</h2>
-                <p>Wagtail, Python, and the details in between.</p>
-                {% if article_index %}<a class="text-link" href="{% pageurl article_index %}">Visit the article archive <span aria-hidden="true">↗</span></a>{% endif %}
-                {% include "core/includes/filter.html" with filter_id="home-search" filter_label="Search articles" placeholder="Find an article…" %}
-            </div>
-            <div>
-                <ol class="article-list">
-                    {% for article in all_articles %}
-                    <li class="article-item" data-search-item data-search-text="{{ article.title }} {{ article.topic }}">
-                        <a href="{% pageurl article %}"><span class="article-number">{{ forloop.counter|stringformat:'02d' }}</span><div><span class="category">{{ article.topic|default:'Wagtail'|upper }}</span><h3>{{ article.title }}</h3></div><span class="arrow" aria-hidden="true">↗</span></a>
-                    </li>
-                    {% empty %}<li><p>Articles will appear here when published.</p></li>{% endfor %}
-                </ol>
-                <p class="empty" data-filter-empty hidden>No matching articles. Try another search or clear the filter.</p>
-            </div>
-        </div>
-    </section>
+    {% if all_packages %}
+    {% include "home/includes/packages.html" %}
+    {% endif %}
+    {% if all_articles %}
+    {% include "home/includes/articles.html" %}
+    {% endif %}
     {% include "home/includes/about.html" %}
+    {% if all_articles %}
     <section class="contact-section" id="explore" aria-labelledby="explore-title">
         <div class="wrap contact-inner">
             <div><span class="section-num">CODE &amp; CURIOSITY</span><h2 id="explore-title">Always learning.<br>Always building.</h2><p>Explore my technical articles and open-source packages.</p></div>
             <a class="button" href="#articles">Explore the articles <span aria-hidden="true">↗</span></a><span class="contact-flower" aria-hidden="true">✳</span>
         </div>
     </section>
+    {% endif %}
 {% endblock %}

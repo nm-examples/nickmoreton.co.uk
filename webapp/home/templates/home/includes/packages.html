@@ -1,0 +1,9 @@
+<section class="section wrap" id="packages" aria-labelledby="packages-title">
+    <div class="section-head">
+        <div><span class="section-num">OPEN SOURCE</span><h2 id="packages-title">A little code.<br>A lot to explore.</h2><p>Explore the tools, read the docs, make them your own.</p></div>
+        <a class="text-link" href="https://github.com/nm-packages">View on GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="packages">
+        {% for package in all_packages %}{% include "pages/includes/package_card.html" %}{% endfor %}
+    </div>
+</section>

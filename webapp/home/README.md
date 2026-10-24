@@ -10,6 +10,7 @@ article/package lists.
 | Path | Responsibility |
 | --- | --- |
 | `models.py` | Portfolio project snippets, homepage selection, hero selection, and scoped editorial lists. |
+| `templates/home/includes/packages.html` and `articles.html` | Homepage package grid and article list/filter sections; the homepage template controls their visibility. |
 | `test_projects.py` | Project ordering, deleted-reference handling, and hero selection checks. |
 
 ## Content and rendering
@@ -27,6 +28,12 @@ selects randomly from the homepage's selected projects. Selection can repeat on
 consecutive requests. Deleted snippets are skipped in both the grid and hero. An
 empty selection hides the projects section, Websites navigation link, hero screenshot,
 and Explore past work link.
+
+The packages and articles sections each appear only when their live, public list
+contains content. Empty archive index pages alone do not show these sections. The
+hero's Read my articles link and the closing article call to action are also hidden
+until articles are available. Sections return automatically when content is published
+or restored locally.
 
 ## Editor experience
 

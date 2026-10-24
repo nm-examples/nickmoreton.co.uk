@@ -5,7 +5,7 @@
         <div>
             <h1 id="hero-title">Websites. <br>Code.<span class="light">Things I’ve <br>built.</span></h1>
             <div class="intro">{{ page.introduction|richtext }}</div>
-            <div class="hero-actions">{% if page.selected_projects %}<a class="button" href="#work">Explore past work <span aria-hidden="true">↗</span></a>{% endif %}<a class="text-link" href="#articles">Read my articles <span aria-hidden="true">→</span></a></div>
+            {% if page.selected_projects or all_articles %}<div class="hero-actions">{% if page.selected_projects %}<a class="button" href="#work">Explore past work <span aria-hidden="true">↗</span></a>{% endif %}{% if all_articles %}<a class="text-link" href="#articles">Read my articles <span aria-hidden="true">→</span></a>{% endif %}</div>{% endif %}
         </div>
         <div class="hero-visual">
             {% with project=page.hero_project %}{% if project %}
