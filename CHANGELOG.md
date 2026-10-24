@@ -6,6 +6,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
+### Added
+
+- Add Python line and branch coverage reports locally and in CI to guide minimal tests of the site's custom behaviour.
+
 ### Changed
 
 - Remove the one-off redesign population command and homepage content defaults; discard obsolete homepage revisions while preserving live/latest, scheduled, and complete revisions.

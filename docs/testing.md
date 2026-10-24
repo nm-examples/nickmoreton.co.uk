@@ -44,7 +44,7 @@ it are out of scope.
 There are currently no application tests. Future additions should be minimal and
 protect specific behaviour the site provides, following the scope above.
 
-The test runner and CI discovery step remain available. With the development app
+The test runner and CI coverage step remain available. With the development app
 container running:
 
 ```sh
@@ -52,6 +52,62 @@ docker compose exec -T app python manage.py test --noinput
 ```
 
 Until tests are added, this discovers zero tests and provides no application coverage.
+
+### Coverage measurement
+
+[Coverage.py](https://coverage.readthedocs.io/en/7.16.2/) is a locked development
+dependency. With the development containers running, use:
+
+```sh
+make coverage
+```
+
+This erases previous measurements, runs Django's tests, prints missing lines and
+branches, and writes `htmlcov/index.html` and `coverage.xml`. These outputs and the
+`.coverage` data file are ignored by Git. After changing dependencies, rebuild the
+app with `make build` and `make up` before using an existing container.
+
+To measure a particular test module once it exists, pass its Django label:
+
+```sh
+make coverage TEST_ARGS="webapp.pages.test_content"
+```
+
+Configuration lives in `pyproject.toml`. Measurement includes Python code in the
+home, pages, core, and search apps, including files not imported by the test run.
+It omits migrations, tests, package markers, and app registration modules. Settings,
+URL configuration, and process entry points are outside those app directories.
+Model and block declarations remain included; their execution during startup does
+not demonstrate tested behaviour. Python coverage does not measure template HTML,
+browser JavaScript, CSS, or query correctness.
+
+CI uses the same configuration and uploads HTML/XML reports as the
+`python-coverage` artifact, including after a test failure when data is available.
+There is no minimum percentage gate. Use missing lines and branches to find
+unexercised decisions, then choose assertions using the application testing scope
+above. A higher percentage alone does not show that the site's behaviour is correct.
+
+### Choosing the first tests
+
+The initial run discovers zero tests but reports 51.5% combined line/branch
+execution: startup imports execute model/block declarations. All 28 measured
+branches and every custom function/method body remain unexecuted. This is an
+instrumentation baseline, not tested application coverage.
+
+Use the report alongside the documented site rules to prioritize:
+
+| Target | Small behavioural contract to protect |
+| --- | --- |
+| `pages/content.py` | Contents links match unique heading IDs, including collisions with existing and shared IDs. |
+| `core/templatetags/navigation_tags.py` | Configured links retain order and usable targets; unavailable linked pages are skipped and an empty usable menu triggers the site's fallback. |
+| `pages/templatetags/pypi_tags.py` | Mocked success/failure responses yield usable metadata or resource-link fallbacks; equivalent names reuse cached results. |
+| `home/models.py` and `pages/models.py` | Editorial/date tie-breaks, related-list limits and scoping, and chapter neighbours follow the site's rules. Use a synthetic page tree with conflicting order/date values. |
+| `home/models.py` and `pages/blocks.py` | Profile YAML preserves special characters; long code examples collapse at the documented boundaries and display/copy sources preserve literal text. |
+| `search/views.py` | Blank input avoids a search and nonblank queries stay within the current site's root. Test the view's decisions directly, not search ranking or Django's paginator. |
+
+Start with one focused heading/contents contract, review its assertions and report,
+then select the next meaningful gap. Add only the cases needed to protect each
+contract; do not test declarations merely to increase coverage.
 
 ## Code and build checks
 

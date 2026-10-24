@@ -16,13 +16,14 @@ make the root `AGENTS.md` difficult to scan.
 
 Feature-specific design and extension guidance belongs in the relevant
 app-level `README.md` under `webapp/`. The [pages app](../webapp/pages/README.md)
-documents content rendering and its focused tests; the [home app](../webapp/home/README.md)
+documents content rendering; the [home app](../webapp/home/README.md)
 documents homepage editing. The [core app](../webapp/core/README.md)
 documents per-site navigation. Add guidance for other apps when working on them,
 following the documentation standards.
 
-`make test` runs Django application tests. See [testing and verification](testing.md)
-for current coverage and the scope of future tests.
+`make test` runs Django application tests; `make coverage` measures Python line and
+branch execution and generates reports. See [testing and verification](testing.md)
+for current coverage, interpretation, and the scope of future tests.
 
 ## Source
 

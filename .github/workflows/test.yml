@@ -103,5 +103,21 @@ jobs:
           uv run --locked python -Wa manage.py check
           uv run --locked python manage.py makemigrations --check --dry-run
 
-      - name: Run Django test discovery
-        run: uv run --locked python -Wa manage.py test --noinput
+      - name: Run Django tests with coverage
+        run: uv run --locked python -Wa -m coverage run manage.py test --noinput
+
+      - name: Generate coverage reports
+        if: always()
+        run: |
+          uv run --locked coverage report
+          uv run --locked coverage html
+          uv run --locked coverage xml
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-coverage
+          path: |
+            htmlcov/
+            coverage.xml

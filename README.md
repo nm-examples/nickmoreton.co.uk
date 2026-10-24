@@ -127,6 +127,7 @@ For step-by-step commands and troubleshooting, see
 | `make prod-run` | Build and run production mode from source with Gunicorn behind nginx. |
 | `make prod-destroy` | Stop production-mode containers and remove their Docker volumes. |
 | `make test` | Run Django application tests inside the app container; see [current coverage](docs/testing.md). |
+| `make coverage` | Run tests with Python line/branch coverage; print missing lines and generate `htmlcov/index.html` and `coverage.xml`. See [coverage guidance](docs/testing.md#coverage-measurement). |
 | `npm run build` | Build Sass, JavaScript, and images once. |
 | `npm start` | Watch frontend assets during development. |
 
