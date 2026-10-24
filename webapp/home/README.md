@@ -35,10 +35,9 @@ images or restore them with production data/media.
 
 ## Verification
 
-The current application tests cover shared rendering and PyPI behaviour in the
-pages app; there are no homepage-specific test files. See
-[testing and verification](../../docs/testing.md).
-Review homepage output separately from automated application tests. See the
+There are no homepage-specific application tests. Review homepage output manually
+and follow [testing and verification](../../docs/testing.md) when adding minimal
+tests of the site's behaviour. See the
 [data workflows](../../docs/data-and-media.md) for restoring local content and
 migration recovery.
 

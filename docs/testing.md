@@ -41,32 +41,17 @@ it are out of scope.
 
 ### Current coverage
 
-[`webapp/pages/test_content.py`](../webapp/pages/test_content.py) covers heading
-selection, contents entries, existing-ID preservation, anchor collisions, and bodies
-without contents headings. It uses synthetic StreamField rich-text bodies rendered
-through the real body template.
+There are currently no application tests. Future additions should be minimal and
+protect specific behaviour the site provides, following the scope above.
 
-[`webapp/pages/test_blocks.py`](../webapp/pages/test_blocks.py) covers code-expansion
-boundaries and preservation of literal code in the display and copy source, including
-HTML examples. It renders synthetic examples through the real code-block template.
-Browser clipboard behaviour is not covered.
-
-[`webapp/pages/test_pypi_tags.py`](../webapp/pages/test_pypi_tags.py) covers package-name
-validation, date extraction, normalized cache reuse, request timeouts, cache lifetimes,
-failure handling, and fallback resource links. HTTP responses are synthetic and mocked;
-an isolated in-memory cache checks reuse. Lifetime checks inspect the timeout passed
-to the cache rather than waiting for expiry.
-
-These files contain database-free tests; they do not establish coverage of existing
-site content or other application behaviour.
-
-Run an individual file with the development app container running:
+The test runner and CI discovery step remain available. With the development app
+container running:
 
 ```sh
-docker compose exec -T app python manage.py test webapp.pages.test_content --noinput
-docker compose exec -T app python manage.py test webapp.pages.test_blocks --noinput
-docker compose exec -T app python manage.py test webapp.pages.test_pypi_tags --noinput
+docker compose exec -T app python manage.py test --noinput
 ```
+
+Until tests are added, this discovers zero tests and provides no application coverage.
 
 ## Code and build checks
 

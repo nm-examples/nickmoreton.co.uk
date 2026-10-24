@@ -103,5 +103,5 @@ jobs:
           uv run --locked python -Wa manage.py check
           uv run --locked python manage.py makemigrations --check --dry-run
 
-      - name: Run PostgreSQL regression tests
+      - name: Run Django test discovery
         run: uv run --locked python -Wa manage.py test --noinput

@@ -12,9 +12,6 @@ Owns articles, chapters, packages, and their shared content rendering.
 | `blocks.py` | Shared StreamField blocks and code-expansion decisions. |
 | `content.py` | Body rendering, heading anchors, and table-of-contents entries. |
 | `templatetags/pypi_tags.py` | Cached package metadata and unavailable-data fallback. |
-| `test_content.py` | Focused tests of heading anchors and contents entries. |
-| `test_blocks.py` | Code-expansion boundaries and literal display/copy output. |
-| `test_pypi_tags.py` | Metadata validation, caching, request failures, and fallback links. |
 
 ## Editor experience
 
@@ -51,30 +48,10 @@ valid PyPI and repository links available.
 
 ## Verification
 
-`test_content.py` uses small synthetic rich-text bodies and the real body template.
-It covers heading selection and titles, repeated and conflicting IDs, preservation
-of later existing IDs, headings without slug characters, and empty contents.
-`test_blocks.py` renders synthetic code examples through the real block template.
-It checks expansion at and above each limit independently, plus escaped HTML and
-whitespace preservation in displayed code and the copy source. These output tests
-do not exercise browser clipboard behaviour.
-
-`test_pypi_tags.py` uses synthetic metadata, mocked HTTP responses, and an isolated
-in-memory cache. It covers invalid names and versions, date extraction, bounded
-requests, normalized cache reuse, success/failure cache lifetimes, request/HTTP/JSON
-failures, and fallback resource links in the actual inclusion-tag component.
-Cache reuse uses the real cache backend; lifetime assertions check the timeout
-passed to it without waiting for expiry.
-
-All three files use `SimpleTestCase` without database access or external requests.
-Models, chapter navigation, and other blocks are not yet covered.
-
-```sh
-docker compose exec -T app python manage.py test webapp.pages --noinput
-```
-
-Follow the [application testing scope](../../docs/testing.md). Manual visual and
-production-mode checks are separate from these helper tests.
+There are no pages-specific application tests. Review article, chapter, package,
+and shared block output manually. Follow the
+[application testing scope](../../docs/testing.md) when adding minimal tests of
+the site's behaviour; keep manual visual and production-mode checks separate.
 
 ## Extending the app
 

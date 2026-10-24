@@ -6,12 +6,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 ## Unreleased
 
-### Added
-
-- Add focused heading-anchor and table-of-contents tests using synthetic content; document their scope and verification commands in the [testing guidance](docs/testing.md).
-- Add focused code-block tests for expansion limits and literal display/copy output.
-- Add focused PyPI metadata tests for validation, caching, request failures, and fallback resource links.
-
 ### Changed
 
 - Remove the one-off redesign population command and homepage content defaults; discard obsolete homepage revisions while preserving live/latest, scheduled, and complete revisions.
@@ -22,7 +16,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), wit
 
 - Remove the obsolete kitchen-sink example page, its view and route, and dedicated styles.
 - Remove completed redesign prototypes, screenshots, and planning docs; simplify current guidance and keep migration recovery notes in the data workflows.
-- Remove all application test modules and their shared test helper.
+- Remove all application tests and their shared test helper; reset coverage documentation for future minimal tests of the site's behaviour.
 
 ## 2026-10-20
 
